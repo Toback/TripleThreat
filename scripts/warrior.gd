@@ -11,7 +11,7 @@ extends CharacterBody2D
 @export var MAX_AIR_TURN_SPEED := 1200.0
 
 # Jumping (Up / Down) Constants
-@export var JUMP_SPEED := -270.0
+@export var JUMP_SPEED := -250.0
 @export var JUMP_GRAVITY := 400.0
 @export var FALL_GRAVITY := 1200.0
 @export var SPEED_TO_MAX_GRAVITY := 500.0
@@ -29,12 +29,15 @@ extends CharacterBody2D
 # Scrape & Stick Constants
 @export var STICK_TIMER := 0.2
 @export var BUMPS_TO_EZ_HOVER := 3
-@export var TIME_TO_EZ_HOVER := 0.4
+@export var TIME_TO_EZ_HOVER := 1.0
+@export var EZ_HOVER_MAINTAIN_RATE := 0.25 # 4 times a second
 @export var CEILING_FLAP_BOOST_TIMER := 0.2
-@export_range(0.0, 1.0, 0.05) var CEILING_BOUNCINESS: float = 1.0
+@export_range(0.0, 3.0, 0.05) var CEILING_BOUNCINESS: float = 1.1
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var ceilingRayCast: RayCast2D = $RayCast2D
+@onready var ceilingRayCast: RayCast2D = $CeilingRay
+@onready var timer: Timer = %Timer
+@onready var jRayCast: RayCast2D = $JRay
 
 var direction: float
 var maxSpeedChange: float
@@ -47,20 +50,52 @@ var currentGravity: float = JUMP_GRAVITY
 var coyoteTimer: float
 var jumpBufferTimer: float
 var flapHoverTimer: float
+var ezHoverTimer: float
 var stickTimer: float
-var jumpCounter: int = 0
-var scraping: bool = false
+var sticking: bool = false
 var ezHover: bool = false
 var freeVelocity: Vector2 = Vector2.ZERO
-var jumpedOnLatch: bool = false
 var jumping: bool = false
-
+var jumpTimes: Array = []
 
 var scrapeBumps: int = 0
 var scrapeTimer: float = 0.0
 var flapBoostTimer: float = 0.0
 
+var justTouchedCeilingTimer: float = 0
+var justTouchedCeilingBool: bool = false
+var velocityBeforeTouchingCeiling: = 0
+var bufferFlap: bool = false
+
+#func _ready() -> void:
+	#timer.start()
+	#timer.timeout.connect(_on_timer_timeout)
+#
+#func _on_timer_timeout() -> void:
+	##print("TICK at: ", Time.get_ticks_msec() / 1000.0)
+	#var ev := InputEventAction.new()
+	#ev.action = "jump"
+	#ev.pressed = true
+	#Input.parse_input_event(ev)
+#
+	## Optionally also simulate "release" right away (tap behavior):
+	#var ev_release := InputEventAction.new()
+	#ev_release.action = "jump"
+	#ev_release.pressed = false
+	#Input.parse_input_event(ev_release)
+
+func tryingToJ():
+	if jRayCast.is_colliding() and not ceilingRayCast.is_colliding():
+		return true
+	return false
+		
 func gravity() -> float:
+	if justTouchedCeilingTimer > 0.0:
+		if ezHover or sticking:
+			return fallGravity
+		else:
+			return min(-(velocityBeforeTouchingCeiling *10)  /max(scrapeBumps, BUMPS_TO_EZ_HOVER), fallGravity)
+
 	# If we're flapping, lower the gravity. Allows us to hover in mid-air
 	# more easily
 	if flapHoverTimer > 0.0:
@@ -82,21 +117,26 @@ func gravity() -> float:
 	else:
 		currentGravity = fallGravity
 		return currentGravity
-
-func _process(_delta: float) -> void:
-	direction = Input.get_axis("move_left", "move_right")
-
-	# How fast we can go once we we've hit our max speed
-	if is_on_floor():
-		desiredVelocity =  Vector2(direction, 0) * RUN_SPEED
-		if jumping:
-			jumping = false
-	else:
-		#desiredVelocity = Vector2(move_toward(velocity.x, direction * AIR_SPEED, 1), 0)
-		desiredVelocity =  Vector2(direction, 0) * AIR_SPEED
 		
-func Jump() -> void:
+func jumpsPerSecond() -> float:
+	var now = Time.get_ticks_msec()  / 1000.0
+	var window = 1.0  # 1-second rolling window
 	
+	# Remove jumps older than the window
+	jumpTimes = jumpTimes.filter(func(t): return t >= now - window)
+
+	var duration: float
+	if jumpTimes.size() > 0: 
+		duration = max(jumpTimes[-1] - jumpTimes[0], 0.2)
+		if duration <= 0.0:
+			return 0.0  # Prevent division by zero	
+	else: 
+		return 0.0
+	
+	# Jumps per second
+	return float(jumpTimes.size()) / duration
+
+func Jump() -> void:
 	freeVelocity.y = jumpSpeed
 	# zero out timers, otherwise multiple jumps will register
 	jumpBufferTimer = 0
@@ -104,39 +144,164 @@ func Jump() -> void:
 	jumping = true
 
 func Flap() -> void:
-	# If you're scraping but not EZ Hovering then you're currently sticking
+	# If you're sticking but not EZ Hovering then you're currently sticking
 	# Therefore, if you flap while sticking you should come off the ceiling
-	if scraping and not ezHover:
+	if sticking and not ezHover:
 		freeVelocity.y = TERMINAL_DOWN_VELOCITY
 		return
-	
 	
 	# Scale flap strength if character is falling
 	# AKA, the faster you're falling the stronger you'll flap
 	if freeVelocity.y > 0:  
-		# Scale factor based on how close character is to terminal velocity
-		var factor = clamp(freeVelocity.y / TERMINAL_DOWN_VELOCITY, 0.0, 1.0)
-		var extraFlapStrength = lerp(0.0, MAX_FLAP_HEIGHT - FLAP_HEIGHT, factor)
-		freeVelocity.y += FLAP_HEIGHT + extraFlapStrength	
+		# If flapBoostTimer > 0 then we've hit a ceiling recenty. In order to help
+		# establish an EZ HOVER, make it so that the flap strength is stronger
+		if flapBoostTimer > 0:
+			freeVelocity.y += FLAP_HEIGHT * 3.0
+			freeVelocity.y = max(freeVelocity.y, FLAP_HEIGHT*3.0)
+		else:
+			# Scale factor based on how close character is to terminal velocity
+			var factor = clamp(freeVelocity.y / TERMINAL_DOWN_VELOCITY, 0.0, 1.0)
+			var extraFlapStrength = lerp(0.0, MAX_FLAP_HEIGHT - FLAP_HEIGHT, factor)
+			freeVelocity.y += FLAP_HEIGHT + extraFlapStrength	
 	else:
 		freeVelocity.y += FLAP_HEIGHT
 	
-	# If flapBoostTimer > 0 then we've hit a ceiling recenty. In order to help
-	# establish an EZ HOVER, make it so that the flap strength is stronger
-	if flapBoostTimer > 0:
-		#print("assist ", flapBoostTimer)
-		freeVelocity.y += FLAP_HEIGHT * 2.0
-		freeVelocity.y = max(freeVelocity.y, FLAP_HEIGHT*2.0)
+	# Record the jump time
+	var now = Time.get_ticks_msec()  / 1000.0
+	jumpTimes.append(now)
 
-	flapHoverTimer = FLAP_HOVER_TIMER
 	# zero out timers, otherwise multiple jumps will register
+	flapHoverTimer = FLAP_HOVER_TIMER
 	jumpBufferTimer = 0
 	coyoteTimer = 0
 	stickTimer = STICK_TIMER
 	jumping = false
 	
+func BufferFlap() -> void:
+	freeVelocity.y = FLAP_HEIGHT
+	
+	# Record the jump time
+	var now = Time.get_ticks_msec     ()  / 1000.0
+	jumpTimes.append(now)
+
+	# zero out timers, otherwise multiple jumps will register
+	flapHoverTimer = FLAP_HOVER_TIMER
+	jumpBufferTimer = 0
+	coyoteTimer = 0
+	stickTimer = STICK_TIMER
+	jumping = false
+	
+func _process(delta: float) -> void:
+	var now = Time.get_ticks_msec()  / 1000.0
+	direction = Input.get_axis("move_left", "move_right")
+	
+	HandleTimers(delta)
+	
+	if jumping and is_on_floor():
+		jumping = false
+		
+	### Handle jump and flapping
+	# Check if we're allowed to jump by seeing if we're 
+	# on the ground of recently left it
+	if is_on_floor() || coyoteTimer > 0:
+		# Jump if the button was pressed or we registered a jump recently
+		if Input.is_action_just_pressed("jump") || jumpBufferTimer > 0: 
+			Jump()
+	# If we aren't allowed to jump, then fly
+	else:
+		if Input.is_action_just_pressed("jump"):
+			ezHoverTimer = EZ_HOVER_MAINTAIN_RATE
+			if justTouchedCeilingTimer > 0 and not ezHover:
+				bufferFlap = true
+			else:
+				Flap()
+				
+	if bufferFlap and justTouchedCeilingTimer == 0:
+		print("Buffered")
+		bufferFlap = false
+		BufferFlap()	
+	
+	# How fast we can go once we we've hit our max speed
+	if is_on_floor():
+		desiredVelocity =  Vector2(direction, 0) * RUN_SPEED
+	else:
+		desiredVelocity =  Vector2(direction, 0) * AIR_SPEED
+	
+func HandleStickAndEZHover() -> void:
+	### Handle sticking & ez hovering
+	# If you're trying to move upward
+	if freeVelocity.y < 0.0:
+		# Check if we're hitting a downward-facing surface AKA a ceiling
+		if is_on_ceiling():
+			# We hit a ceiling, so reset the timer which allows us to EZ hover
+			# TIME TO EZ HOVER is how long we have to hit a ceiling again in order
+			# to establish our scrape.
+			scrapeTimer = TIME_TO_EZ_HOVER
+			flapBoostTimer = CEILING_FLAP_BOOST_TIMER
+			
+			# We're moving up, hit a ceiling, and haven't tapped in stickTimer seconds
+			# Therefore, allow ourselves to "stick", AKA start sticking on the ceiling
+			if stickTimer == 0.0:
+				sticking = true
+			else:
+				# We must've hit the while tapping too fast to stick. We'll now
+				# Check for EZ Hover stuff
+				#
+				# EZ Hover only happens if you hit the ceiling BUMPS_TO_EZ_HOVER times
+				# where each time you hit the ceiling falls within the TIME_TO_EZ_HOVER window.
+				# So, increment the number of bumps if we do that 
+				if scrapeTimer > 0:
+					scrapeBumps += 1
+				# Then, if we've hit the ceiling BUMPS_TO_EZ_HOVER times, then begin ezhovering
+				# and sticking
+				if scrapeBumps > BUMPS_TO_EZ_HOVER:
+					ezHover = true
+					bufferFlap = false
+
+func HandleTimers(delta) -> void:
+	### Handle timers
+	var onGround = is_on_floor()
+	if onGround:
+		coyoteTimer = COYOTO_TIME
+	else:
+		coyoteTimer = max(coyoteTimer - delta, 0)
+	jumpBufferTimer = max(jumpBufferTimer - delta, 0)
+	flapHoverTimer = max(flapHoverTimer - delta, 0.0)
+	stickTimer = max(stickTimer - delta, 0)
+	scrapeTimer = max(scrapeTimer - delta, 0)
+	flapBoostTimer = max(flapBoostTimer - delta, 0)
+	justTouchedCeilingTimer = max(justTouchedCeilingTimer - delta, 0) 
+	ezHoverTimer = max(ezHoverTimer - delta, 0) 
+	if scrapeTimer == 0:
+		scrapeBumps = 0
+
+func HandleCeilingBounce() -> void:
+	# If we hit the ceiling then, if we're sticking, don't move upward
+	# If we aren't sticking, then bounce off the ceiling with you current
+	# upwards desired velocity multiplied by the CEILING_BOUNCINESS of the
+	# ceiling
+	if is_on_ceiling():
+		if not justTouchedCeilingBool and not (sticking or ezHover) :
+			justTouchedCeilingBool = true
+			justTouchedCeilingTimer = 0.13
+			velocityBeforeTouchingCeiling = velocity.y 
+				
+		if freeVelocity.y > 0:
+			sticking = false
+			ezHover = false
+
+		if sticking or ezHover:
+			velocity.y = 0 
+		else:
+			for i in range(get_slide_collision_count()):
+				var collision = get_slide_collision(i)
+				if collision.get_normal().y > 0 and justTouchedCeilingBool:
+					freeVelocity.y += abs(velocity.y) * CEILING_BOUNCINESS
+					velocity.y = freeVelocity.y
+	else:
+		justTouchedCeilingBool = false
+
 func _physics_process(delta: float) -> void:	
-	#print("HELLO ", velocity.y)
 	var onGround = is_on_floor()
 	
 	### Determine ON GROUND speeds / accelerations based on constants 
@@ -147,33 +312,14 @@ func _physics_process(delta: float) -> void:
 	### Determine ON JUMP speeds / accelerations based on constants
 	# NOTE These don't rely on "onGround" so we can eventually move these to @onready varaibles
 	# Currently done like this to allow us to experiment with different variables in editor   
-	#jumpSpeed   = (( 2.0 * JUMP_HEIGHT) /  JUMP_TIME_TO_PEAK)                            * -1.0
-	#jumpGravity = ((-2.0 * JUMP_HEIGHT) / (JUMP_TIME_TO_PEAK    * JUMP_TIME_TO_PEAK))    * -1.0
-	#fallGravity = ((-2.0 * JUMP_HEIGHT) / (JUMP_TIME_TO_DESCENT * JUMP_TIME_TO_DESCENT)) * -1.0
 	jumpSpeed = JUMP_SPEED
 	jumpGravity = JUMP_GRAVITY
 	fallGravity = FALL_GRAVITY
 	
-	# If we're moving up or down then we're not scraping or ez hovering
-	if freeVelocity.y != 0.0:
-		scraping = false
+	# If we're moving up or down then we're not sticking or ez hovering
+	if velocity.y != 0.0:
+		sticking = false
 		ezHover = false
-	
-	
-	### Handle timers
-	if onGround:
-		coyoteTimer = COYOTO_TIME
-	else:
-		coyoteTimer = max(coyoteTimer - delta, 0)
-	# Always count down following timers. We set this timer whenever we jump
-	# when we're not allowed to.
-	jumpBufferTimer = max(jumpBufferTimer - delta, 0)
-	flapHoverTimer = max(flapHoverTimer - delta, 0.0)
-	stickTimer = max(stickTimer - delta, 0)
-	scrapeTimer = max(scrapeTimer - delta, 0)
-	flapBoostTimer = max(flapBoostTimer - delta, 0) 
-	if scrapeTimer == 0:
-		scrapeBumps = 0
 	
 	# Add the gravity (to free velocity, not actual movement yet)
 	freeVelocity.y += gravity() * delta
@@ -194,6 +340,11 @@ func _physics_process(delta: float) -> void:
 	
 	freeVelocity.x = move_toward(freeVelocity.x, desiredVelocity.x, maxSpeedChange)
 	
+	# Move the character according to gravity and acceleration. The rest
+	# Handles special cases where we're scraping or sticking which sets the velocity.y
+	# to 0
+	velocity = freeVelocity
+	
 	### flip sprite
 	if direction > 0:
 		animated_sprite.flip_h = false
@@ -209,61 +360,12 @@ func _physics_process(delta: float) -> void:
 	else:
 		animated_sprite.play("jump")
 	
-	### Handle Scraping & Sticking
-	# If you're trying to move upward
-	if freeVelocity.y < 0.0:
-		# Check if we're hitting a downward-facing surface AKA a ceiling
-		if is_on_ceiling():
-			# We hit a ceiling, so reset the timer which allows us to EZ hover
-			# TIME TO EZ HOVER is how long we have to hit a ceiling again in order
-			# to establish our scrape.
-			scrapeTimer = TIME_TO_EZ_HOVER
-			flapBoostTimer = CEILING_FLAP_BOOST_TIMER
+	HandleStickAndEZHover()
 			
-			# We're moving up, hit a ceiling, and haven't tapped in stickTimer seconds
-			# Therefore, allow ourselves to "stick", AKA start scraping on the ceiling
-			if stickTimer == 0.0:
-				scraping = true
-			else:
-				# We must've hit the while tapping too fast to stick. We'll now
-				# Check for EZ Hover stuff
-				#
-				# EZ Hover only happens if you hit the ceiling BUMPS_TO_EZ_HOVER times
-				# where each time you hit the ceiling falls within the TIME_TO_EZ_HOVER window.
-				# So, increment the number of bumps if we do that 
-				if scrapeTimer > 0:
-					scrapeBumps += 1
-				# Then, if we've hit the ceiling BUMPS_TO_EZ_HOVER times, then begin ezhovering
-				# and scraping
-				if scrapeBumps > BUMPS_TO_EZ_HOVER:
-					scraping = true
-					ezHover = true
-				
-	### Handle jump and flapping
-	# Check if we're allowed to jump by seeing if we're 
-	# on the ground of recently left it
-	if onGround || coyoteTimer > 0:
-		# Jump if the button was pressed or we registered a jump recently
-		if Input.is_action_just_pressed("jump") || jumpBufferTimer > 0: 
-			Jump()
-	# If we aren't allowed to jump, then fly
-	else:
-		if Input.is_action_just_pressed("jump"):
-			Flap()
+	HandleCeilingBounce()
 	
-	velocity = freeVelocity
-	
-	# If we hit the ceiling then, if we're scraping, don't move upward
-	# If we aren't scraping, then bounce off the ceiling with you current
-	# upwards desired velocity multiplied by the CEILING_BOUNCINESS of the
-	# ceiling
-	if is_on_ceiling():
-		if scraping:
-			velocity.y = 0 
-		else:
-			freeVelocity.y = abs(freeVelocity.y) * CEILING_BOUNCINESS
-			velocity.y = freeVelocity.y
-			
-	
-				
+	if ezHover and ezHoverTimer == 0:
+		sticking = false
+		ezHover = false
+
 	move_and_slide()
