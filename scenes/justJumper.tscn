@@ -1,90 +1,90 @@
-[gd_scene load_steps=26 format=3 uid="uid://3pejxafw0t3q"]
+[gd_scene load_steps=26 format=3 uid="uid://djty72svx5tl4"]
 
-[ext_resource type="Script" uid="uid://bypdwmhfvhjfl" path="res://scripts/warrior.gd" id="1_fvbna"]
-[ext_resource type="Texture2D" uid="uid://cwrn0smmq7673" path="res://assets/sprites/knight.png" id="2_jq62g"]
+[ext_resource type="Script" uid="uid://cf167x3bpmb2l" path="res://scripts/just_jumper.gd" id="1_tigya"]
+[ext_resource type="Texture2D" uid="uid://cwrn0smmq7673" path="res://assets/sprites/knight.png" id="2_vxf8b"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g2els"]
-atlas = ExtResource("2_jq62g")
+atlas = ExtResource("2_vxf8b")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qhqgy"]
-atlas = ExtResource("2_jq62g")
+atlas = ExtResource("2_vxf8b")
 region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dqkch"]
-atlas = ExtResource("2_jq62g")
+atlas = ExtResource("2_vxf8b")
 region = Rect2(64, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qlg0r"]
-atlas = ExtResource("2_jq62g")
+atlas = ExtResource("2_vxf8b")
 region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tuyoq"]
-atlas = ExtResource("2_jq62g")
+atlas = ExtResource("2_vxf8b")
 region = Rect2(64, 160, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fjrip"]
-atlas = ExtResource("2_jq62g")
+atlas = ExtResource("2_vxf8b")
 region = Rect2(0, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_smehm"]
-atlas = ExtResource("2_jq62g")
+atlas = ExtResource("2_vxf8b")
 region = Rect2(32, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ur7pv"]
-atlas = ExtResource("2_jq62g")
+atlas = ExtResource("2_vxf8b")
 region = Rect2(64, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y4r1p"]
-atlas = ExtResource("2_jq62g")
+atlas = ExtResource("2_vxf8b")
 region = Rect2(96, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_d2wvv"]
-atlas = ExtResource("2_jq62g")
+atlas = ExtResource("2_vxf8b")
 region = Rect2(128, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3v2ag"]
-atlas = ExtResource("2_jq62g")
+atlas = ExtResource("2_vxf8b")
 region = Rect2(160, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jej6c"]
-atlas = ExtResource("2_jq62g")
+atlas = ExtResource("2_vxf8b")
 region = Rect2(192, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_f1ej7"]
-atlas = ExtResource("2_jq62g")
+atlas = ExtResource("2_vxf8b")
 region = Rect2(224, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oprun"]
-atlas = ExtResource("2_jq62g")
+atlas = ExtResource("2_vxf8b")
 region = Rect2(0, 96, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a8ls1"]
-atlas = ExtResource("2_jq62g")
+atlas = ExtResource("2_vxf8b")
 region = Rect2(32, 96, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qfm1y"]
-atlas = ExtResource("2_jq62g")
+atlas = ExtResource("2_vxf8b")
 region = Rect2(64, 96, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fulsm"]
-atlas = ExtResource("2_jq62g")
+atlas = ExtResource("2_vxf8b")
 region = Rect2(96, 96, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4r5pv"]
-atlas = ExtResource("2_jq62g")
+atlas = ExtResource("2_vxf8b")
 region = Rect2(128, 96, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_60mlk"]
-atlas = ExtResource("2_jq62g")
+atlas = ExtResource("2_vxf8b")
 region = Rect2(160, 96, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_i4ail"]
-atlas = ExtResource("2_jq62g")
+atlas = ExtResource("2_vxf8b")
 region = Rect2(192, 96, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a38lo"]
-atlas = ExtResource("2_jq62g")
+atlas = ExtResource("2_vxf8b")
 region = Rect2(224, 96, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_tuyoq"]
@@ -171,11 +171,11 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_fjrip"]
 radius = 5.0
 
-[node name="warrior" type="CharacterBody2D"]
+[node name="JustJump" type="CharacterBody2D"]
 z_index = 5
 collision_layer = 2
 slide_on_ceiling = false
-script = ExtResource("1_fvbna")
+script = ExtResource("1_tigya")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -12)
@@ -191,15 +191,11 @@ shape = SubResource("CircleShape2D_fjrip")
 zoom = Vector2(3, 3)
 position_smoothing_enabled = true
 
-[node name="JRay" type="RayCast2D" parent="."]
-position = Vector2(7, -1)
-target_position = Vector2(0, -15)
-
-[node name="CeilingRay" type="RayCast2D" parent="."]
-position = Vector2(-3, -1)
-target_position = Vector2(0, -15)
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2(0, -5)
+target_position = Vector2(0, -10)
 
 [node name="Timer" type="Timer" parent="."]
 unique_name_in_owner = true
-wait_time = 0.1
+wait_time = 0.05
 autostart = true

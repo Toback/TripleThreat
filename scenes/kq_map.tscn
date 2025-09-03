@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://duhbgbrygmdi3" path="res://assets/sprites/KQDaySpriteSheet.png" id="2_lv7re"]
 [ext_resource type="FontFile" uid="uid://6rxom0gy206u" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="3_lv7re"]
 [ext_resource type="PackedScene" uid="uid://bb7hq6wp35qdh" path="res://scenes/berry.tscn" id="5_wgq7d"]
-[ext_resource type="PackedScene" uid="uid://3pejxafw0t3q" path="res://scenes/warrior.tscn" id="6_6tic6"]
+[ext_resource type="PackedScene" uid="uid://3pejxafw0t3q" path="res://scenes/warrior.tscn" id="7_lv7re"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1d8bh"]
 texture = ExtResource("2_lv7re")
@@ -68,5 +68,5 @@ autowrap_mode = 2
 [node name="Berry" parent="." instance=ExtResource("5_wgq7d")]
 position = Vector2(118, -11)
 
-[node name="warrior" parent="." instance=ExtResource("6_6tic6")]
-position = Vector2(126, -105)
+[node name="warrior" parent="." instance=ExtResource("7_lv7re")]
+position = Vector2(171, -126)
