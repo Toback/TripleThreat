@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://duhbgbrygmdi3" path="res://assets/sprites/KQDaySpriteSheet.png" id="2_lv7re"]
 [ext_resource type="FontFile" uid="uid://6rxom0gy206u" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="3_lv7re"]
 [ext_resource type="PackedScene" uid="uid://bb7hq6wp35qdh" path="res://scenes/berry.tscn" id="5_wgq7d"]
-[ext_resource type="PackedScene" uid="uid://3pejxafw0t3q" path="res://scenes/warrior.tscn" id="7_lv7re"]
+[ext_resource type="PackedScene" uid="uid://dixytoc68exvu" path="res://scenes/warriorDashing.tscn" id="6_6tic6"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1d8bh"]
 texture = ExtResource("2_lv7re")
@@ -39,6 +39,11 @@ sources/0 = SubResource("TileSetAtlasSource_1d8bh")
 
 [node name="KQMap" type="Node2D"]
 
+[node name="WarriorCamera" type="Camera2D" parent="."]
+position = Vector2(224, 58)
+zoom = Vector2(1.18, 1.18)
+position_smoothing_enabled = true
+
 [node name="KqReference" type="Sprite2D" parent="."]
 position = Vector2(226, 69)
 scale = Vector2(0.502392, 0.502392)
@@ -68,5 +73,9 @@ autowrap_mode = 2
 [node name="Berry" parent="." instance=ExtResource("5_wgq7d")]
 position = Vector2(118, -11)
 
-[node name="warrior" parent="." instance=ExtResource("7_lv7re")]
-position = Vector2(171, -126)
+[node name="warriorDashing" parent="." instance=ExtResource("6_6tic6")]
+position = Vector2(354, 68)
+
+[node name="warriorDashing2" parent="." instance=ExtResource("6_6tic6")]
+position = Vector2(-97, 66)
+PLAYER_ID = 1
