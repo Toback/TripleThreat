@@ -125,16 +125,28 @@ func gravity() -> float:
 	# check if our character is going up. Godot has UP being negative y.
 	if freeVelocity.y < 0.0 :
 		# hold the jump button down to jump higher 
-		if MultiplayerInput.is_action_pressed(PLAYER_ID, "jump"):
-			currentGravity = jumpGravity
-			return currentGravity 
-		# when you let go of the jump button while rising, you fall down at a faster fall gravity
-		else:
-			# Ease to the max fall gravity. Can set SPEED_TO_MAX_GRAVITY really high to just
-			# go immediately to the fallGravity speed
-			currentGravity = move_toward(currentGravity, fallGravity, SPEED_TO_MAX_GRAVITY)
-			#currentGravity = fallGravity
-			return currentGravity
+		if not Input.get_joy_name(0) or not Input.get_joy_name(1):
+			if Input.is_action_pressed("jump"):
+				currentGravity = jumpGravity
+				return currentGravity 
+				# when you let go of the jump button while rising, you fall down at a faster fall gravity
+			else:
+				# Ease to the max fall gravity. Can set SPEED_TO_MAX_GRAVITY really high to just
+				# go immediately to the fallGravity speed
+				currentGravity = move_toward(currentGravity, fallGravity, SPEED_TO_MAX_GRAVITY)
+				#currentGravity = fallGravity
+				return currentGravity
+		else:	
+			if MultiplayerInput.is_action_pressed(PLAYER_ID, "jump"):
+				currentGravity = jumpGravity
+				return currentGravity 
+				# when you let go of the jump button while rising, you fall down at a faster fall gravity
+			else:
+				# Ease to the max fall gravity. Can set SPEED_TO_MAX_GRAVITY really high to just
+				# go immediately to the fallGravity speed
+				currentGravity = move_toward(currentGravity, fallGravity, SPEED_TO_MAX_GRAVITY)
+				#currentGravity = fallGravity
+				return currentGravity
 	# once you start falling, fall down faster
 	else:
 		currentGravity = fallGravity
@@ -232,11 +244,17 @@ func BufferFlap() -> void:
 	jumping = false
 	
 func _process(delta: float) -> void:
-	if not Input.get_joy_name(0) or not Input.get_joy_name(1):
-		return
+	#if not Input.get_joy_name(0) or not Input.get_joy_name(1):
+		#return
 	#var now = Time.get_ticks_msec()  / 1000.0
-	direction = MultiplayerInput.get_axis(PLAYER_ID, "move_left", "move_right")
-	var inputDir := MultiplayerInput.get_vector(PLAYER_ID, "move_left", "move_right", "move_up", "move_down")
+	var inputDir: Vector2
+	if not Input.get_joy_name(0) or not Input.get_joy_name(1):
+		direction = Input.get_axis("move_left", "move_right")
+		inputDir = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	else:
+		direction = MultiplayerInput.get_axis(PLAYER_ID, "move_left", "move_right")
+		inputDir = MultiplayerInput.get_vector(PLAYER_ID, "move_left", "move_right", "move_up", "move_down")
+		
 
 	if is_on_floor() and dashTimer == 0:
 		canDash = true
@@ -245,24 +263,40 @@ func _process(delta: float) -> void:
 	
 	if jumping and is_on_floor():
 		jumping = false
-		
-	if MultiplayerInput.is_action_just_pressed(PLAYER_ID, "dash") and canDash:
-		Dash(inputDir)
+	
+	if not Input.get_joy_name(0) or not Input.get_joy_name(1):
+		if Input.is_action_just_pressed("dash") and canDash:
+			Dash(inputDir)
+	else:
+		if MultiplayerInput.is_action_just_pressed(PLAYER_ID, "dash") and canDash:
+			Dash(inputDir)
 	### Handle jump and flapping
 	# Check if we're allowed to jump by seeing if we're 
 	# on the ground of recently left it
 	if is_on_floor() || coyoteTimer > 0:
 		# Jump if the button was pressed or we registered a jump recently
-		if MultiplayerInput.is_action_just_pressed(PLAYER_ID,"jump") || jumpBufferTimer > 0: 
-			Jump()
+		if not Input.get_joy_name(0) or not Input.get_joy_name(1):
+			if Input.is_action_just_pressed("jump") || jumpBufferTimer > 0: 
+				Jump()
+		else:
+			if MultiplayerInput.is_action_just_pressed(PLAYER_ID,"jump") || jumpBufferTimer > 0: 
+				Jump()	
 	# If we aren't allowed to jump, then fly
 	else:
-		if MultiplayerInput.is_action_just_pressed(PLAYER_ID, "jump"):
-			ezHoverTimer = EZ_HOVER_MAINTAIN_RATE
-			if justTouchedCeilingTimer > 0 and not ezHover:
-				bufferFlap = true
-			else:
-				Flap()
+		if not Input.get_joy_name(0) or not Input.get_joy_name(1):
+			if Input.is_action_just_pressed("jump"):
+				ezHoverTimer = EZ_HOVER_MAINTAIN_RATE
+				if justTouchedCeilingTimer > 0 and not ezHover:
+					bufferFlap = true
+				else:
+					Flap()
+		else:
+			if MultiplayerInput.is_action_just_pressed(PLAYER_ID, "jump"):
+				ezHoverTimer = EZ_HOVER_MAINTAIN_RATE
+				if justTouchedCeilingTimer > 0 and not ezHover:
+					bufferFlap = true
+				else:
+					Flap()
 				
 	if bufferFlap and justTouchedCeilingTimer == 0:
 		print("Buffered")
@@ -352,8 +386,8 @@ func HandleCeilingBounce() -> void:
 
 func _physics_process(delta: float) -> void:	
 	physicsFrame += 1
-	if not Input.get_joy_name(0) or not Input.get_joy_name(1):
-		return
+	#if not Input.get_joy_name(0) or not Input.get_joy_name(1):
+		#return
 	var onGround = is_on_floor()
 	
 	### Determine ON GROUND speeds / accelerations based on constants 
