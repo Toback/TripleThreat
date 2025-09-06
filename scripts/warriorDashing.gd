@@ -26,6 +26,9 @@ extends CharacterBody2D
 @export var DASH_SPEED := 400.0
 @export var DASH_TIME := 0.1
 
+# Bounce Constants
+@export var BOUNCE_TIME := 0.5
+
 # Flying Constants
 @export var FLAP_HEIGHT := -30.0
 @export var MAX_FLAP_HEIGHT := -100.0
@@ -82,6 +85,12 @@ var bufferFlap: bool = false
 var canDash: bool = true
 var hasDashed: bool = false
 var isInteractable: bool = true
+
+#var bounceSpeedX: float = 0.0
+#var bounceSpeedY: float = 0.0
+var bounceSpeed: Vector2 = Vector2.ZERO
+var bounceTimer: float = 0.0
+			
 
 func _ready() -> void:
 	#timer.start()
@@ -357,6 +366,7 @@ func HandleTimers(delta) -> void:
 	if scrapeTimer == 0:
 		scrapeBumps = 0
 	dashTimer = max(dashTimer - delta, 0)
+	bounceTimer = max(bounceTimer - delta, 0)
 
 func HandleCeilingBounce() -> void:
 	# If we hit the ceiling then, if we're sticking, don't move upward
@@ -424,14 +434,18 @@ func _physics_process(delta: float) -> void:
 	else:
 		maxSpeedChange = deceleration * delta
 	
-	if dashTimer == 0:
+	if dashTimer == 0 and bounceTimer == 0:
 		freeVelocity.x = move_toward(freeVelocity.x, desiredVelocity.x, maxSpeedChange)
-	else:
-		freeVelocity.x = dashDir.x * DASH_SPEED
+	elif bounceTimer > 0:
+		freeVelocity = bounceSpeed
+	elif dashTimer > 0:
+		freeVelocity = dashDir * DASH_SPEED
 	
-	if dashTimer >0:
-		freeVelocity.y = dashDir.y * DASH_SPEED
-	
+	#if bounceTimer >0:
+		#freeVelocity.y = bounceSpeed.y
+	#if dashTimer >0:
+		#freeVelocity.y = dashDir.y * DASH_SPEED
+	#
 	# Move the character according to gravity and acceleration. The rest
 	# Handles special cases where we're scraping or sticking which sets the velocity.y
 	# to 0
@@ -492,21 +506,32 @@ func _physics_process(delta: float) -> void:
 	##get_tree().current_scene.add_child(new_player)
 	##new_player.PLAYER_ID = PLAYER_ID
 	#new_player.global_position = Vector2(155, -130)
-	
 
 func _on_hit_box_body_entered(_body: Node2D) -> void:
-	print(name, " ",isInteractable, " ",_body.name, " ", _body.isInteractable)
-	if global_position.y < _body.global_position.y and (
-		isInteractable == true and _body.isInteractable == true and
-		_body.is_in_group("Player")
-	):
+	if get_instance_id() < _body.get_instance_id():
+		return
+	if _body.is_in_group("Player") and _body != self:
+		if abs(abs(global_position.y) - abs(_body.global_position.y))  >= 4.0 and (
+			isInteractable == true and _body.isInteractable == true
+		):
+			_body.deathCounter += 1
+			_body.isInteractable = false
+			_body.platform_collider.set_deferred("disabled", true)
+			_body.animationPlayer.play("die")
+		else:	
+			var bounceBack = abs(abs(velocity)  + abs(_body.velocity)) * 0.25 
+			
+			if global_position.x > _body.global_position.x:
+				bounceSpeed.x = bounceBack.x
+				_body.bounceSpeed.x = -bounceBack.x
+				#
+			else:
+				bounceSpeed.x = -bounceBack.x
+				_body.bounceSpeed.x = bounceBack.x
 
-		_body.deathCounter += 1
-		_body.isInteractable = false
-		_body.platform_collider.set_deferred("disabled", true)
-		_body.animationPlayer.play("die")
-			#break
-	#pass # Replace with function body.
+			
+			bounceTimer = BOUNCE_TIME
+			_body.bounceTimer = BOUNCE_TIME
 
 func respawn() -> void:
 	isInteractable = true

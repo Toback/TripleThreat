@@ -74,8 +74,8 @@ autowrap_mode = 2
 position = Vector2(118, -11)
 
 [node name="warriorDashing" parent="." instance=ExtResource("6_6tic6")]
-position = Vector2(354, 68)
+position = Vector2(577, 68)
 
 [node name="warriorDashing2" parent="." instance=ExtResource("6_6tic6")]
-position = Vector2(-97, 66)
+position = Vector2(443, 66)
 PLAYER_ID = 1
