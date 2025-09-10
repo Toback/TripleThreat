@@ -1,91 +1,91 @@
-[gd_scene load_steps=31 format=3 uid="uid://dixytoc68exvu"]
+[gd_scene load_steps=31 format=3 uid="uid://bvs7nfkn5hi37"]
 
-[ext_resource type="Script" uid="uid://6yrucent5i0x" path="res://scripts/warriorDashing.gd" id="1_xiy1m"]
-[ext_resource type="Texture2D" uid="uid://cwrn0smmq7673" path="res://assets/sprites/knight.png" id="2_a0q0s"]
-[ext_resource type="AudioStream" uid="uid://ux7p2v0r66kh" path="res://assets/sounds/hurt.wav" id="3_a0q0s"]
+[ext_resource type="Script" uid="uid://d50fcplg8cyh" path="res://scripts/warrior_state_machine.gd" id="1_kaqys"]
+[ext_resource type="Texture2D" uid="uid://cwrn0smmq7673" path="res://assets/sprites/knight.png" id="2_4ssb8"]
+[ext_resource type="AudioStream" uid="uid://ux7p2v0r66kh" path="res://assets/sounds/hurt.wav" id="3_k8ld7"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g2els"]
-atlas = ExtResource("2_a0q0s")
+atlas = ExtResource("2_4ssb8")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qhqgy"]
-atlas = ExtResource("2_a0q0s")
+atlas = ExtResource("2_4ssb8")
 region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dqkch"]
-atlas = ExtResource("2_a0q0s")
+atlas = ExtResource("2_4ssb8")
 region = Rect2(64, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qlg0r"]
-atlas = ExtResource("2_a0q0s")
+atlas = ExtResource("2_4ssb8")
 region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tuyoq"]
-atlas = ExtResource("2_a0q0s")
+atlas = ExtResource("2_4ssb8")
 region = Rect2(64, 160, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fjrip"]
-atlas = ExtResource("2_a0q0s")
+atlas = ExtResource("2_4ssb8")
 region = Rect2(0, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_smehm"]
-atlas = ExtResource("2_a0q0s")
+atlas = ExtResource("2_4ssb8")
 region = Rect2(32, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ur7pv"]
-atlas = ExtResource("2_a0q0s")
+atlas = ExtResource("2_4ssb8")
 region = Rect2(64, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y4r1p"]
-atlas = ExtResource("2_a0q0s")
+atlas = ExtResource("2_4ssb8")
 region = Rect2(96, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_d2wvv"]
-atlas = ExtResource("2_a0q0s")
+atlas = ExtResource("2_4ssb8")
 region = Rect2(128, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3v2ag"]
-atlas = ExtResource("2_a0q0s")
+atlas = ExtResource("2_4ssb8")
 region = Rect2(160, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jej6c"]
-atlas = ExtResource("2_a0q0s")
+atlas = ExtResource("2_4ssb8")
 region = Rect2(192, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_f1ej7"]
-atlas = ExtResource("2_a0q0s")
+atlas = ExtResource("2_4ssb8")
 region = Rect2(224, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oprun"]
-atlas = ExtResource("2_a0q0s")
+atlas = ExtResource("2_4ssb8")
 region = Rect2(0, 96, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a8ls1"]
-atlas = ExtResource("2_a0q0s")
+atlas = ExtResource("2_4ssb8")
 region = Rect2(32, 96, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qfm1y"]
-atlas = ExtResource("2_a0q0s")
+atlas = ExtResource("2_4ssb8")
 region = Rect2(64, 96, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fulsm"]
-atlas = ExtResource("2_a0q0s")
+atlas = ExtResource("2_4ssb8")
 region = Rect2(96, 96, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4r5pv"]
-atlas = ExtResource("2_a0q0s")
+atlas = ExtResource("2_4ssb8")
 region = Rect2(128, 96, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_60mlk"]
-atlas = ExtResource("2_a0q0s")
+atlas = ExtResource("2_4ssb8")
 region = Rect2(160, 96, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_i4ail"]
-atlas = ExtResource("2_a0q0s")
+atlas = ExtResource("2_4ssb8")
 region = Rect2(192, 96, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a38lo"]
-atlas = ExtResource("2_a0q0s")
+atlas = ExtResource("2_4ssb8")
 region = Rect2(224, 96, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_tuyoq"]
@@ -252,18 +252,18 @@ _data = {
 radius = 18.75
 height = 81.25
 
-[node name="warriorDashing" type="CharacterBody2D" groups=["Player"]]
+[node name="warriorStateMachine" type="CharacterBody2D" groups=["Player"]]
 z_index = 5
 position = Vector2(17, 66)
 collision_layer = 6
 slide_on_ceiling = false
-script = ExtResource("1_xiy1m")
+script = ExtResource("1_kaqys")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -15.62)
 scale = Vector2(1.41, 2.51)
 sprite_frames = SubResource("SpriteFrames_tuyoq")
-animation = &"jump"
+animation = &"run"
 autoplay = "idle"
 
 [node name="PlatformCollider" type="CollisionShape2D" parent="."]
@@ -289,7 +289,7 @@ libraries = {
 }
 
 [node name="DieSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_a0q0s")
+stream = ExtResource("3_k8ld7")
 bus = &"SFX"
 
 [node name="HitBox" type="Area2D" parent="." groups=["Player"]]

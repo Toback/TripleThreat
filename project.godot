@@ -11,13 +11,13 @@ config_version=5
 [application]
 
 config/name="TripleThreat"
-run/main_scene="uid://bm2tpn26j8j0t"
+run/main_scene="uid://otba75i0yt7g"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
-Music="*res://scenes/music.tscn"
+Music="res://scenes/music.tscn"
 MultiplayerInput="*res://addons/multiplayer_input/multiplayer_input.gd"
 
 [dotnet]
