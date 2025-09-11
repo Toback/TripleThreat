@@ -14,13 +14,13 @@ func do(delta: float) -> void:
 		is_complete = true
 	return
 
-func fixed_do(delta: float) -> void:
+func physics_do(delta: float) -> void:
 	var max_speed_change
 	var input_x = input.get_movement_direction().x
 	
 	var desired_velocity =  Vector2(input_x, 0) * RUN_SPEED
 	
-	body.freeVelocity.y += gravity() * delta
+	#body.freeVelocity.y += gravity() * delta
 	
 	if(sign(input_x) != sign(body.freeVelocity.x) ):
 		max_speed_change = MAX_TURN_SPEED * delta

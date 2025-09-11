@@ -24,7 +24,7 @@ class_name FlapState extends State
 @export var STICK_TIMER := 0.2
 
 var flap_hover_timer: float = 0
-var jumpBufferTimer: float = 0
+#var jumpBufferTimer: float = 0
 var maintain_scrape_timer: float = 0
 var coyoteTimer: float = 0
 var stickTimer: float = STICK_TIMER
@@ -72,15 +72,12 @@ func do(delta: float) -> void:
 	flap_hover_timer = max(flap_hover_timer - delta, 0)
 	if(input_pressed_jump):
 		_flap()
-	#desired_velocity = Vector2(input.get_movement_direction().x, 0) * AIR_SPEED
+	
 	if body.grounded:
 		is_complete = true
 	return
 
-func fixed_do(delta: float) -> void:
-	#var max_speed_change
-	#var input_x = input.get_movement_direction().x
-	
+func physics_do(delta: float) -> void:
 	body.freeVelocity.y += gravity() * delta
 	
 	# Clamp player's fall & rise speeds	
@@ -166,14 +163,10 @@ func _flap() -> void:
 func _buffer_flap() -> void:
 	body.freeVelocity.y = FLAP_HEIGHT
 	
-	# Record the jump time
-	#var now = Time.get_ticks_msec     ()  / 1000.0
-	#jumpTimes.append(now)
-
 	# zero out timers, otherwise multiple jumps will register
 	flap_hover_timer = FLAP_HOVER_TIMER
-	jumpBufferTimer = 0
-	coyoteTimer = 0
+	#jumpBufferTimer = 0
+	#coyoteTimer = 0
 	stickTimer = STICK_TIMER
 	#jump_state.jumping = false
 	

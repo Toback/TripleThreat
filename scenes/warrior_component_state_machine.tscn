@@ -266,6 +266,7 @@ position = Vector2(17, 66)
 collision_layer = 6
 slide_on_ceiling = false
 script = ExtResource("1_1i32f")
+CEILING_BOUNCINESS = 0.2
 
 [node name="StateLabel" type="Label" parent="."]
 offset_left = -46.0

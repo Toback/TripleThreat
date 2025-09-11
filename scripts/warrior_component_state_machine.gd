@@ -224,8 +224,6 @@ func Flap() -> void:
 	##jump_state.jumping = false
 	
 func _process(delta: float) -> void:
-	#grounded = is_on_floor()
-	#print("is_on_floor ", is_on_floor())
 	_handle_input()
 	_handle_jump_input()
 	_handle_dash_input()
@@ -347,7 +345,6 @@ func _processAll(delta: float) -> void:
 				set_state(flap_state)
 				
 	if bufferFlap and justTouchedCeilingTimer == 0:
-		print("Buffered")
 		bufferFlap = false
 		flap_state.attempt_buffer_flap = true
 		set_state(flap_state)
@@ -433,6 +430,7 @@ func HandleCeilingBounce() -> void:
 		justTouchedCeilingBool = false
 
 func _physics_process(delta: float) -> void:	
+	
 	physicsFrame += 1
 	
 	### Determine ON GROUND speeds / accelerations based on constants 
@@ -490,9 +488,8 @@ func _physics_process(delta: float) -> void:
 		#velocity = freeVelocity
 	#else:
 	
-	state.fixed_do(delta)
+	state.physics_do(delta)
 	velocity = freeVelocity
-	
 	_face_input()
 	
 	HandleStickAndEZHover()
@@ -502,16 +499,17 @@ func _physics_process(delta: float) -> void:
 	if ezHover and flap_state.maintain_scrape_timer == 0:
 		sticking = false
 		ezHover = false
-
+	
 	move_and_slide()
 	
 	grounded = is_on_floor()
+	
 
 func _face_input() -> void:
 	### flip sprite
-	if direction > 0:
+	if input_dir.x > 0:
 		animated_sprite.flip_h = false
-	elif direction < 0:
+	elif input_dir.x < 0:
 		animated_sprite.flip_h = true
 
 func _on_hit_box_body_entered(_body: Node2D) -> void:

@@ -21,7 +21,7 @@ func do(delta: float) -> void:
 		is_complete = true
 	return
 
-func fixed_do(delta: float) -> void:
+func physics_do(delta: float) -> void:
 	body.freeVelocity.y += gravity() * delta
 	body.freeVelocity = bounce_speed
 	return

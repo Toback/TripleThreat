@@ -21,7 +21,7 @@ func enter() -> void:
 func do(delta: float) -> void:
 	push_warning("_do not implemented")
 
-func fixed_do(delta: float) -> void:
+func physics_do(delta: float) -> void:
 	push_warning("_fixed_do not implemented")
 
 func exit() -> void:

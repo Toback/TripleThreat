@@ -38,7 +38,7 @@ func do(delta: float) -> void:
 	if body.grounded or (!body.grounded and !jumping):
 		is_complete = true
 
-func fixed_do(delta: float) -> void:
+func physics_do(delta: float) -> void:
 	body.freeVelocity.y += gravity() * delta
 	
 	# Clamp player's fall

@@ -19,8 +19,8 @@ func do(delta: float) -> void:
 		is_complete = true
 	return
 
-func fixed_do(delta: float) -> void:
-	body.freeVelocity.y += gravity() * delta
+func physics_do(delta: float) -> void:
+	#body.freeVelocity.y += gravity() * delta
 	push_warning("_fixed_do not implemented")
 
 func exit() -> void:
