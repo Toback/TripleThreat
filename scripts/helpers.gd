@@ -9,6 +9,10 @@ static func map(value: float, min1: float, max1: float, min2: float, max2: float
 		return val
 		
 static func get_snapped_direction(raw_dir: Vector2) -> Vector2:
+	# If input doesn't meet a threshold, return zero vector
+	if raw_dir.length() < 0.5:
+		return Vector2.ZERO
+	
 	# Get angle in radians
 	var angle := raw_dir.angle()
 	

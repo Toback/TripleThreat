@@ -20,6 +20,11 @@ config/icon="res://icon.svg"
 Music="res://scenes/music.tscn"
 MultiplayerInput="*res://addons/multiplayer_input/multiplayer_input.gd"
 
+[display]
+
+window/size/viewport_width=2304
+window/size/viewport_height=1296
+
 [dotnet]
 
 project/assembly_name="firstGame"

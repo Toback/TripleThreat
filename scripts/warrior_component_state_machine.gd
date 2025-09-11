@@ -39,7 +39,7 @@ extends CharacterBody2D
 @export var STICK_TIMER := 0.2
 @export var BUMPS_TO_EZ_HOVER := 3
 @export var TIME_TO_EZ_HOVER := 1.0
-@export var EZ_HOVER_MAINTAIN_RATE := 0.25 # 4 times a second
+#@export var EZ_HOVER_MAINTAIN_RATE := 0.25 # 4 times a second
 @export var CEILING_FLAP_BOOST_TIMER := 0.2
 @export_range(0.0, 3.0, 0.05) var CEILING_BOUNCINESS: float = 1.1
 
@@ -56,21 +56,21 @@ extends CharacterBody2D
 var direction: float
 var maxSpeedChange: float
 var desiredVelocity: Vector2
-var jumpSpeed:   float 
+#var jumpSpeed:   float 
 var jumpGravity: float
 var fallGravity: float
 var flapSpeed:    float 
 var currentGravity: float = JUMP_GRAVITY
-var coyoteTimer: float
-var jumpBufferTimer: float
+var coyote_timer: float
+var jump_buffer_timer: float
 var flapHoverTimer: float
-var ezHoverTimer: float
+#var ezHoverTimer: float
 var stickTimer: float
-var dashDir: Vector2 = Vector2.ZERO
+#var dashDir: Vector2 = Vector2.ZERO
 var sticking: bool = false
 var ezHover: bool = false
 var freeVelocity: Vector2 = Vector2.ZERO
-var jumping: bool = false
+#var jumping: bool = false
 var jumpTimes: Array = []
 var deathCounter: int = 0
 var physicsFrame: int = 0
@@ -83,7 +83,7 @@ var justTouchedCeilingTimer: float = 0
 var justTouchedCeilingBool: bool = false
 var velocityBeforeTouchingCeiling: = 0.0
 var bufferFlap: bool = false
-var canDash: bool = true
+#var canDash: bool = true
 var hasDashed: bool = false
 var isInteractable: bool = true
 
@@ -108,6 +108,8 @@ var state: State
 @onready var player_input = $input_component     as InputComponent
 
 var input_dir: Vector2
+var input_jump: bool
+var input_dash: bool
 var grounded: bool = false
 	
 func _ready() -> void:
@@ -118,19 +120,6 @@ func _ready() -> void:
 	jump_state.setup(self, animated_sprite, player_input, state_label)
 	run_state.setup(self, animated_sprite, player_input, state_label)
 	state = idle_state
-#
-func _on_timer_timeout() -> void:
-	#print("TICK at: ", Time.get_ticks_msec() / 1000.0)
-	var ev := InputEventAction.new()
-	ev.action = "jump"
-	ev.pressed = true
-	Input.parse_input_event(ev)
-
-	# Optionally also simulate "release" right away (tap behavior):
-	var ev_release := InputEventAction.new()
-	ev_release.action = "jump"
-	ev_release.pressed = false
-	Input.parse_input_event(ev_release)
 
 func tryingToJ():
 	if jRayCast.is_colliding() and not ceilingRayCast.is_colliding():
@@ -138,8 +127,8 @@ func tryingToJ():
 	return false
 		
 func gravity() -> float:
-	if state == dash_state:
-		return 0
+	#if state == dash_state:
+		#return 0
 	
 	if justTouchedCeilingTimer > 0.0:
 		if ezHover or sticking:
@@ -155,48 +144,36 @@ func gravity() -> float:
 	# check if our character is going up. Godot has UP being negative y.
 	if freeVelocity.y < 0.0 :
 		# hold the jump button down to jump higher 
-		if not Input.get_joy_name(0) or not Input.get_joy_name(1):
-			if Input.is_action_pressed("jump"):
-				currentGravity = jumpGravity
-				return currentGravity 
-				# when you let go of the jump button while rising, you fall down at a faster fall gravity
-			else:
-				# Ease to the max fall gravity. Can set SPEED_TO_MAX_GRAVITY really high to just
-				# go immediately to the fallGravity speed
-				currentGravity = move_toward(currentGravity, fallGravity, SPEED_TO_MAX_GRAVITY)
-				#currentGravity = fallGravity
-				return currentGravity
-		else:	
-			if MultiplayerInput.is_action_pressed(PLAYER_ID, "jump"):
-				currentGravity = jumpGravity
-				return currentGravity 
-				# when you let go of the jump button while rising, you fall down at a faster fall gravity
-			else:
-				# Ease to the max fall gravity. Can set SPEED_TO_MAX_GRAVITY really high to just
-				# go immediately to the fallGravity speed
-				currentGravity = move_toward(currentGravity, fallGravity, SPEED_TO_MAX_GRAVITY)
-				#currentGravity = fallGravity
-				return currentGravity
+		if input_jump:
+			currentGravity = jumpGravity
+			return currentGravity 
+			# when you let go of the jump button while rising, you fall down at a faster fall gravity
+		else:
+			# Ease to the max fall gravity. Can set SPEED_TO_MAX_GRAVITY really high to just
+			# go immediately to the fallGravity speed
+			currentGravity = move_toward(currentGravity, fallGravity, SPEED_TO_MAX_GRAVITY)
+			#currentGravity = fallGravity
+			return currentGravity
 	# once you start falling, fall down faster
 	else:
 		currentGravity = fallGravity
 		return currentGravity
 
-func Jump() -> void:
-	freeVelocity.y = jumpSpeed
-	# zero out timers, otherwise multiple jumps will register
-	jumpBufferTimer = 0
-	coyoteTimer = 0
-	jumping = true	
+#func Jump() -> void:
+	#freeVelocity.y = JUMP_SPEED
+	## zero out timers, otherwise multiple jumps will register
+	#jumpBufferTimer = 0
+	#coyoteTimer = 0
+	#jump_state.jumping = true
 
 
 	
-func Dash(inputDir: Vector2) -> void:
+func Dash() -> void:
 	dash_state.dash_timer = DASH_TIME
-	dashDir = Helpers.get_snapped_direction(inputDir)	
-	canDash = false
+	#dashDir = Helpers.get_snapped_direction(inputDir)	
+	#canDash = false
 	hasDashed = true
-	jumping = false
+	#jump_state.jumping = false
 
 func Flap() -> void:
 	# If you're sticking but not EZ Hovering then you're currently sticking
@@ -227,50 +204,56 @@ func Flap() -> void:
 
 	# zero out timers, otherwise multiple jumps will register
 	flapHoverTimer = FLAP_HOVER_TIMER
-	jumpBufferTimer = 0
-	coyoteTimer = 0
+	#jump_buffer_timer = 0
+	#coyote_timer = 0
 	stickTimer = STICK_TIMER
-	jumping = false
+	#jump_state.jumping = false
 	
-func BufferFlap() -> void:
-	freeVelocity.y = FLAP_HEIGHT
-	
-	# Record the jump time
-	var now = Time.get_ticks_msec     ()  / 1000.0
-	jumpTimes.append(now)
-
-	# zero out timers, otherwise multiple jumps will register
-	flapHoverTimer = FLAP_HOVER_TIMER
-	jumpBufferTimer = 0
-	coyoteTimer = 0
-	stickTimer = STICK_TIMER
-	jumping = false
+#func BufferFlap() -> void:
+	#freeVelocity.y = FLAP_HEIGHT
+	#
+	## Record the jump time
+	#var now = Time.get_ticks_msec     ()  / 1000.0
+	#jumpTimes.append(now)
+#
+	## zero out timers, otherwise multiple jumps will register
+	#flapHoverTimer = FLAP_HOVER_TIMER
+	#jumpBufferTimer = 0
+	#coyoteTimer = 0
+	#stickTimer = STICK_TIMER
+	##jump_state.jumping = false
 	
 func _process(delta: float) -> void:
 	#grounded = is_on_floor()
 	#print("is_on_floor ", is_on_floor())
 	_handle_input()
 	_handle_jump_input()
+	_handle_dash_input()
 	
 	_processAll(delta)
 	
 	_select_state()
 
-	state.do()
-
-func _physics_process(delta: float) -> void:
-	grounded = is_on_floor()
-	_handle_X_movement()
-
-	_apply_friction()
-	
-	_physics_processALL(delta)
+	state.do(delta)
 	
 func _handle_input() -> void:
-	input_dir = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	if not Input.get_joy_name(0) or not Input.get_joy_name(1):
+		input_dir = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	else:
+		input_dir = MultiplayerInput.get_vector(PLAYER_ID, "move_left", "move_right", "move_up", "move_down")
+		
 
 func _handle_jump_input() -> void:
-	return
+	if not Input.get_joy_name(0) or not Input.get_joy_name(1):
+		input_jump = Input.is_action_just_pressed("jump")
+	else:
+		input_jump = MultiplayerInput.is_action_just_pressed(PLAYER_ID,"jump")
+	
+func _handle_dash_input() -> void:
+	if not Input.get_joy_name(0) or not Input.get_joy_name(1):
+		input_dash = Input.is_action_just_pressed("dash")
+	else:
+		input_dash = MultiplayerInput.is_action_just_pressed(PLAYER_ID, "dash")
 	
 func _select_state() -> void:
 	var old_state: State = state
@@ -278,22 +261,26 @@ func _select_state() -> void:
 	state.is_complete = false
 		
 	if bounce_state.bounce_timer > 0:
-		state = bounce_state
+		set_state(bounce_state)
 	elif dash_state.dash_timer > 0:
-		state = dash_state
+		set_state(dash_state)
 	elif grounded:
 		if input_dir.x == 0:
-			state = idle_state
+			set_state(idle_state)
 		else:
-			state = run_state
+			set_state(run_state)
 	else:
-		if jumping:
-			state = jump_state
+		if not jump_state.jumping:
+			set_state(flap_state)
 		else:
-			state = flap_state
+			set_state(jump_state)
 
-	if old_state != state:
-		state.exit()
+func set_state(new_state : State, over_ride:bool = false):
+	if new_state != null and (state != new_state || over_ride):
+		if state != null:
+			state.exit()
+
+		state = new_state
 		state.initialize()
 		state.enter()
 
@@ -314,119 +301,62 @@ func _select_state() -> void:
 
 #func _start_flapping() -> void:
 	#return
-
-
-	
-func _handle_X_movement() -> void:
-	return
-	
-func _apply_friction() -> void:
-	return
-	
-#func _update_idle() -> void:
-	#if !grounded or input_dir.x != 0 or dash_timer > 0 or bounce_timer > 0:
-		#state_complete = true
-	#return
-
-#func _update_running() -> void:
-	#if !grounded or input_dir.x == 0 or dash_timer > 0 or bounce_timer > 0:
-		#state_complete = true
-	#return
-	
-#func _update_jumping() -> void:
-	## Play jump animation corresponding to how far up and down we go
-	#var time: float = map(velocity.y, jumpSpeed, -jumpSpeed, 0, 1, true)
-	#
-	#var total_frames: int = animated_sprite.sprite_frames.get_frame_count("jump")
-	#var frame_index = int(time * (total_frames - 1))
-	#animated_sprite.play("jump")
-	#animated_sprite.frame = frame_index
-	#
-	#if grounded or (!grounded and !jumping) or dash_timer > 0 or bounce_timer > 0:
-		#state_complete = true
-	#return
-	
-#func _update_flapping() -> void:
-	#if grounded or dash_timer > 0 or bounce_timer > 0:
-		#state_complete = true
-	#return
-	#
-#func _update_dashing() -> void:
-	#if dash_timer == 0 or dash_timer > 0:
-		#state_complete = true
-	#return
-	
-#func _update_bouncing() -> void:
-	#if bounce_timer == 0:
-		#state_complete = true
-	#return
 	
 	
 func _processAll(delta: float) -> void:
 	#if not Input.get_joy_name(0) or not Input.get_joy_name(1):
 		#return
 	#var now = Time.get_ticks_msec()  / 1000.0
-	var inputDir: Vector2
-	if not Input.get_joy_name(0) or not Input.get_joy_name(1):
-		direction = Input.get_axis("move_left", "move_right")
-		inputDir = Input.get_vector("move_left", "move_right", "move_up", "move_down")
-	else:
-		direction = MultiplayerInput.get_axis(PLAYER_ID, "move_left", "move_right")
-		inputDir = MultiplayerInput.get_vector(PLAYER_ID, "move_left", "move_right", "move_up", "move_down")
-		
+	#var inputDir: Vector2
+	#if not Input.get_joy_name(0) or not Input.get_joy_name(1):
+		#direction = Input.get_axis("move_left", "move_right")
+		#inputDir = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	#else:
+		#direction = MultiplayerInput.get_axis(PLAYER_ID, "move_left", "move_right")
+		#inputDir = MultiplayerInput.get_vector(PLAYER_ID, "move_left", "move_right", "move_up", "move_down")
+		#
 
-	if is_on_floor() and state != dash_state:
-		canDash = true
+	#if is_on_floor() and state != dash_state:
+		#canDash = true
 	
 	HandleTimers(delta)
 	
-	if jumping and is_on_floor():
-		jumping = false
+	#if jump_state.jumping and is_on_floor():
+		#jump_state.jumping = false
 	
-	if not Input.get_joy_name(0) or not Input.get_joy_name(1):
-		if Input.is_action_just_pressed("dash") and canDash:
-			Dash(inputDir)
-	else:
-		if MultiplayerInput.is_action_just_pressed(PLAYER_ID, "dash") and canDash:
-			Dash(inputDir)
+	if input_dash and state != dash_state:
+		set_state(dash_state)
+
 	### Handle jump and flapping
 	# Check if we're allowed to jump by seeing if we're 
-	# on the ground of recently left it
-	if is_on_floor() || coyoteTimer > 0:
+	# on the ground or recently left it
+	if is_on_floor() || coyote_timer > 0:
 		# Jump if the button was pressed or we registered a jump recently
-		if not Input.get_joy_name(0) or not Input.get_joy_name(1):
-			if Input.is_action_just_pressed("jump") || jumpBufferTimer > 0: 
-				Jump()
-		else:
-			if MultiplayerInput.is_action_just_pressed(PLAYER_ID,"jump") || jumpBufferTimer > 0: 
-				Jump()	
-	# If we aren't allowed to jump, then fly
+		if input_jump || jump_buffer_timer > 0: 
+			jump_state.attempt_jump = true
+			set_state(jump_state)
+	# If we aren't on the ground, then fly
 	else:
-		if not Input.get_joy_name(0) or not Input.get_joy_name(1):
-			if Input.is_action_just_pressed("jump"):
-				ezHoverTimer = EZ_HOVER_MAINTAIN_RATE
-				if justTouchedCeilingTimer > 0 and not ezHover:
-					bufferFlap = true
-				else:
-					Flap()
-		else:
-			if MultiplayerInput.is_action_just_pressed(PLAYER_ID, "jump"):
-				ezHoverTimer = EZ_HOVER_MAINTAIN_RATE
-				if justTouchedCeilingTimer > 0 and not ezHover:
-					bufferFlap = true
-				else:
-					Flap()
+		if input_jump:
+			#ezHoverTimer = EZ_HOVER_MAINTAIN_RATE
+			jump_buffer_timer = JUMP_BUFFER
+			if justTouchedCeilingTimer > 0 and not ezHover:
+				bufferFlap = true
+			else:
+				flap_state.attempt_flap = true
+				set_state(flap_state)
 				
 	if bufferFlap and justTouchedCeilingTimer == 0:
 		print("Buffered")
 		bufferFlap = false
-		BufferFlap()	
+		flap_state.attempt_buffer_flap = true
+		set_state(flap_state)
 	
 	# How fast we can go once we we've hit our max speed
-	if is_on_floor():
-		desiredVelocity =  Vector2(direction, 0) * RUN_SPEED
-	else:
-		desiredVelocity =  Vector2(direction, 0) * AIR_SPEED
+	#if is_on_floor():
+		#desiredVelocity =  Vector2(direction, 0) * RUN_SPEED
+	#else:
+		#desiredVelocity =  Vector2(direction, 0) * AIR_SPEED
 	
 func HandleStickAndEZHover() -> void:
 	### Handle sticking & ez hovering
@@ -461,18 +391,17 @@ func HandleStickAndEZHover() -> void:
 
 func HandleTimers(delta) -> void:
 	### Handle timers
-	var onGround = is_on_floor()
-	if onGround:
-		coyoteTimer = COYOTO_TIME
+	if grounded:
+		coyote_timer = COYOTO_TIME
 	else:
-		coyoteTimer = max(coyoteTimer - delta, 0)
-	jumpBufferTimer = max(jumpBufferTimer - delta, 0)
+		coyote_timer = max(coyote_timer - delta, 0)
+	jump_buffer_timer = max(jump_buffer_timer - delta, 0)
 	flapHoverTimer = max(flapHoverTimer - delta, 0.0)
 	stickTimer = max(stickTimer - delta, 0)
 	scrapeTimer = max(scrapeTimer - delta, 0)
 	flapBoostTimer = max(flapBoostTimer - delta, 0)
 	justTouchedCeilingTimer = max(justTouchedCeilingTimer - delta, 0) 
-	ezHoverTimer = max(ezHoverTimer - delta, 0) 
+	#ezHoverTimer = max(ezHoverTimer - delta, 0) 
 	if scrapeTimer == 0:
 		scrapeBumps = 0
 
@@ -497,26 +426,24 @@ func HandleCeilingBounce() -> void:
 			for i in range(get_slide_collision_count()):
 				var collision = get_slide_collision(i)
 				if collision.get_normal().y > 0 and justTouchedCeilingBool:
+					#freeVelocity.y += velocity.bounce(collision.get_normal()).y * CEILING_BOUNCINESS
 					freeVelocity.y += abs(velocity.y) * CEILING_BOUNCINESS
 					velocity.y = freeVelocity.y
 	else:
 		justTouchedCeilingBool = false
 
-func _physics_processALL(delta: float) -> void:	
+func _physics_process(delta: float) -> void:	
 	physicsFrame += 1
-	#if not Input.get_joy_name(0) or not Input.get_joy_name(1):
-		#return
-	var onGround = is_on_floor()
 	
 	### Determine ON GROUND speeds / accelerations based on constants 
-	var acceleration = MAX_ACCELERATION if onGround else MAX_AIR_ACCELERATION 
-	var deceleration = MAX_DECELERATION if onGround else MAX_AIR_DECELERATION
-	var turnSpeed    = MAX_TURN_SPEED   if onGround else MAX_AIR_TURN_SPEED
+	#var acceleration = MAX_ACCELERATION if grounded else MAX_AIR_ACCELERATION 
+	#var deceleration = MAX_DECELERATION if grounded else MAX_AIR_DECELERATION
+	#var turnSpeed    = MAX_TURN_SPEED   if grounded else MAX_AIR_TURN_SPEED
 	
 	### Determine ON JUMP speeds / accelerations based on constants
-	# NOTE These don't rely on "onGround" so we can eventually move these to @onready varaibles
+	# NOTE These don't rely on "grounded" so we can eventually move these to @onready varaibles
 	# Currently done like this to allow us to experiment with different variables in editor   
-	jumpSpeed = JUMP_SPEED
+	#jumpSpeed = JUMP_SPEED
 	jumpGravity = JUMP_GRAVITY
 	fallGravity = FALL_GRAVITY
 	
@@ -526,28 +453,28 @@ func _physics_processALL(delta: float) -> void:
 		ezHover = false
 	
 	# Add the gravity (to free velocity, not actual movement yet)
-	freeVelocity.y += gravity() * delta
+	#freeVelocity.y += gravity() * delta
 	
 	# Clamp player's fall & rise speeds	
-	freeVelocity.y = min(freeVelocity.y, TERMINAL_DOWN_VELOCITY)
-	if not jumping and state != dash_state:
-		freeVelocity.y = max(freeVelocity.y, TERMINAL_UP_VELOCITY)
+	#freeVelocity.y = min(freeVelocity.y, TERMINAL_DOWN_VELOCITY)
+	#if not jump_state.jumping and state != dash_state:
+		#freeVelocity.y = max(freeVelocity.y, TERMINAL_UP_VELOCITY)
 	
 	# Horizontal acceleration applied to freeVelocity.x
-	if direction != 0:
-		if(sign(direction) != sign(freeVelocity.x) ):
-			maxSpeedChange = turnSpeed * delta
-		else:
-			maxSpeedChange = acceleration * delta
-	else:
-		maxSpeedChange = deceleration * delta
-	
-	if state != dash_state and state != bounce_state:
-		freeVelocity.x = move_toward(freeVelocity.x, desiredVelocity.x, maxSpeedChange)
-	elif state == bounce_state:
-		freeVelocity = bounceSpeed
-	elif state == dash_state:
-		freeVelocity = dashDir * DASH_SPEED
+	#if direction != 0:
+		#if(sign(direction) != sign(freeVelocity.x) ):
+			#maxSpeedChange = turnSpeed * delta
+		#else:
+			#maxSpeedChange = acceleration * delta
+	#else:
+		#maxSpeedChange = deceleration * delta
+	#
+	#if state != dash_state and state != bounce_state:
+		#freeVelocity.x = move_toward(freeVelocity.x, desiredVelocity.x, maxSpeedChange)
+	#elif state == bounce_state:
+		#freeVelocity = bounceSpeed
+	#elif state == dash_state:
+		#freeVelocity = dash_state.dash_dir * DASH_SPEED
 	
 	#if bounce_timer >0:
 		#freeVelocity.y = bounceSpeed.y
@@ -562,63 +489,38 @@ func _physics_processALL(delta: float) -> void:
 	#if dash_timer == 0.0 and hasDashed:
 		#velocity = freeVelocity
 	#else:
+	
+	state.fixed_do(delta)
 	velocity = freeVelocity
 	
-	### flip sprite
-	if direction > 0:
-		animated_sprite.flip_h = false
-	elif direction < 0:
-		animated_sprite.flip_h = true
-		
-	### Simple animations
-	#if onGround:
-		#if direction == 0:
-			#animated_sprite.play("idle")
-		#else:
-			#animated_sprite.play("run")
-	#else:
-		#animated_sprite.play("jump")
+	_face_input()
 	
-	#HandleStickAndEZHover()
+	HandleStickAndEZHover()
 			
-	#HandleCeilingBounce()
+	HandleCeilingBounce()
 		
-	if ezHover and ezHoverTimer == 0:
+	if ezHover and flap_state.maintain_scrape_timer == 0:
 		sticking = false
 		ezHover = false
 
 	move_and_slide()
 	
-	#for i in range(get_slide_collision_count()):
-		#var collision = get_slide_collision(i)
-		#var other = collision.get_collider()
-		## Only check collisions with other players
-		#if other.is_in_group("Player"):
-			#print("p1 ", global_position, " p2 ", other.global_position)
-			#resolve_collision(self, other)
-			#break
+	grounded = is_on_floor()
 
-
-#func resolve_collision(p1: Node2D, p2: Node2D) -> void:
-#
-	##elif p1.global_position.y > p2.global_position.y:
-		##p1.deathCounter += 1
-		##print("p1 died ", p1.deathCounter, " times")
-		##p1.platform_collider.disabled = true
-		##p1.animationPlayer.play("die")
-
-#func Respawn():
-	## Reset position and velocity
-	##queue_free()
-	##var new_player = preload("res://scenes/warriorDashing.tscn").instantiate()
-	##get_tree().current_scene.add_child(new_player)
-	##new_player.PLAYER_ID = PLAYER_ID
-	#new_player.global_position = Vector2(155, -130)
+func _face_input() -> void:
+	### flip sprite
+	if direction > 0:
+		animated_sprite.flip_h = false
+	elif direction < 0:
+		animated_sprite.flip_h = true
 
 func _on_hit_box_body_entered(_body: Node2D) -> void:
+	# Ensures only 1 player resolves the collision	
 	if get_instance_id() < _body.get_instance_id():
 		return
+		
 	if _body.is_in_group("Player") and _body != self:
+		# Check height threshhold. If not met, then it's a bounce
 		if abs(abs(global_position.y) - abs(_body.global_position.y))  >= 4.0 and (
 			isInteractable == true and _body.isInteractable == true
 		):
@@ -630,14 +532,12 @@ func _on_hit_box_body_entered(_body: Node2D) -> void:
 			var bounceBack = abs(abs(velocity)  + abs(_body.velocity)) * 0.25 
 			
 			if global_position.x > _body.global_position.x:
-				bounceSpeed.x = bounceBack.x
-				_body.bounceSpeed.x = -bounceBack.x
-				#
+				bounce_state.bounceSpeed.x = bounceBack.x
+				_body.bounce_statebounceSpeed.x = -bounceBack.x
 			else:
-				bounceSpeed.x = -bounceBack.x
-				_body.bounceSpeed.x = bounceBack.x
-
-			
+				bounce_state.bounceSpeed.x = -bounceBack.x
+				_body.bounce_state.bounceSpeed.x = bounceBack.x
+	
 			bounce_state.bounce_timer = BOUNCE_TIME
 			_body.bounce_state.bounce_timer = BOUNCE_TIME
 

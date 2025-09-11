@@ -7,6 +7,11 @@ func get_movement_direction() -> Vector2:
 func wants_jump() -> bool:
 	#MultiplayerInput.is_action_just_pressed(PLAYER_ID,"jump")
 	#MultiplayerInput.is_action_pressed(PLAYER_ID, "jump")
+	return Input.is_action_pressed("jump")
+	
+func wants_flap() -> bool:
+	#MultiplayerInput.is_action_just_pressed(PLAYER_ID,"jump")
+	#MultiplayerInput.is_action_pressed(PLAYER_ID, "jump")
 	return Input.is_action_just_pressed("jump")
 	
 func wants_dash() -> bool:

@@ -13,13 +13,15 @@ var animated_sprite: AnimatedSprite2D
 var input: InputComponent
 var state_label: Label
 
+@export var DEFAULT_GRAVITY := 400
+
 func enter() -> void:
 	push_warning("_enter not implemented")
 	
-func do() -> void:
+func do(delta: float) -> void:
 	push_warning("_do not implemented")
 
-func fixed_do() -> void:
+func fixed_do(delta: float) -> void:
 	push_warning("_fixed_do not implemented")
 
 func exit() -> void:
@@ -35,4 +37,6 @@ func initialize() -> void:
 	is_complete = false
 	start_time = Time.get_ticks_msec() / 1000.0
 	
+func gravity() -> float:
+	return DEFAULT_GRAVITY
 	

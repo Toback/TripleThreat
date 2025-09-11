@@ -41,7 +41,8 @@ sources/0 = SubResource("TileSetAtlasSource_1d8bh")
 
 [node name="WarriorCamera" type="Camera2D" parent="."]
 position = Vector2(224, 58)
-zoom = Vector2(1.18, 1.18)
+scale = Vector2(1, 0.948177)
+zoom = Vector2(2.36, 2.36)
 position_smoothing_enabled = true
 
 [node name="KqReference" type="Sprite2D" parent="."]
@@ -76,3 +77,5 @@ position = Vector2(118, -11)
 
 [node name="warriorComponentStateMachine" parent="." instance=ExtResource("6_d5dc3")]
 position = Vector2(206, 15)
+SPEED_TO_MAX_GRAVITY = 300.0
+TERMINAL_DOWN_VELOCITY = 300.0
