@@ -15,7 +15,7 @@ func do(delta: float) -> void:
 	return
 
 func physics_do(delta: float) -> void:
-	push_warning("_fixed_do not implemented")
+	return
 
 func exit() -> void:
-	push_warning("_exit not implemented")
+	return

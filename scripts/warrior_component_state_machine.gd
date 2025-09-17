@@ -27,6 +27,8 @@ var grounded: bool = false
 @onready var jump_state   = $states/jump_state   as JumpState
 @onready var run_state    = $states/run_state    as RunState
 @onready var player_input = $input_component     as InputComponent
+@onready var hair: Node2D = $hair
+
 
 func _ready() -> void:
 	bounce_state.setup(self, animated_sprite, player_input, state_label)
@@ -41,6 +43,8 @@ func _process(delta: float) -> void:
 	input_dir = player_input.get_movement_direction(PLAYER_ID)
 	input_jump = player_input.wants_jump(PLAYER_ID)
 	input_dash = player_input.wants_dash(PLAYER_ID)
+	
+	hair.update_hair(global_position, current_facing_direction().x)
 	
 	_handle_timers(delta)
 	
@@ -129,7 +133,6 @@ func _on_hit_box_body_entered(_body: Node2D) -> void:
 		if abs(abs(global_position.y) - abs(_body.global_position.y))  >= 4.0 and (
 			is_interactable and _body.is_interactable
 		):
-			_body.deathCounter += 1
 			_body.is_interactable = false
 			_body.platform_collider.set_deferred("disabled", true)
 			_body.animation_player.play("die")
@@ -138,7 +141,7 @@ func _on_hit_box_body_entered(_body: Node2D) -> void:
 			
 			if global_position.x > _body.global_position.x:
 				bounce_state.bounce_speed.x = bounce_back.x
-				_body.bounce_statebounce_speed.x = -bounce_back.x
+				_body.bounce_state.bounce_speed.x = -bounce_back.x
 			else:
 				bounce_state.bounce_speed.x = -bounce_back.x
 				_body.bounce_state.bounce_speed.x = bounce_back.x
@@ -149,4 +152,9 @@ func _on_hit_box_body_entered(_body: Node2D) -> void:
 func respawn() -> void:
 	is_interactable = true
 	platform_collider.set_deferred("disabled", false)
+
+func current_facing_direction() -> Vector2:
+	if animated_sprite.flip_h:
+		return Vector2.LEFT
+	return Vector2.RIGHT
 	

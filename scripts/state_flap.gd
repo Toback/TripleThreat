@@ -80,14 +80,14 @@ func do(delta: float) -> void:
 	input_pressed_jump = input.wants_flap(body.PLAYER_ID)
 	
 	if(input_pressed_jump):
-		if just_touched_ceiling_timer > 0:
-			buffer_flap = true
-		else:
-			_flap()
+		#if just_touched_ceiling_timer > 0:
+			#buffer_flap = true
+		#else:
+		_flap()
 	
-	if buffer_flap and just_touched_ceiling_timer == 0:
-		buffer_flap = false
-		_buffer_flap()
+	#if buffer_flap and just_touched_ceiling_timer == 0:
+		#buffer_flap = false
+		#_buffer_flap()
 	
 	if body.grounded:
 		is_complete = true

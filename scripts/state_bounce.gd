@@ -2,7 +2,7 @@ class_name BounceState extends State
 
 @export var BOUNCE_TIME := 0.5
 var bounce_timer: float = 0.0
-var bounce_speed: float = 0.0
+var bounce_speed: Vector2
 
 func enter() -> void:
 	print("bounce")

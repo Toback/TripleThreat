@@ -31,4 +31,4 @@ func physics_do(delta: float) -> void:
 
 
 func exit() -> void:
-	push_warning("_exit not implemented")
+	return
