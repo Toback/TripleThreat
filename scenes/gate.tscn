@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://d1ms5nbs4c2lb"]
+
+[ext_resource type="Script" uid="uid://ctd32nebpq8fg" path="res://scripts/gate.gd" id="1_xfvdi"]
+[ext_resource type="Texture2D" uid="uid://urbqfm4bo1md" path="res://assets/sprites/WarriorGate.png" id="2_xwxio"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xwxio"]
+size = Vector2(59, 50)
+
+[node name="Gate" type="Area2D"]
+collision_mask = 2
+script = ExtResource("1_xfvdi")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2, 0)
+shape = SubResource("RectangleShape2D_xwxio")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(3, 2)
+scale = Vector2(0.0238319, 0.0251082)
+texture = ExtResource("2_xwxio")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
