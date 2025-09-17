@@ -12,18 +12,6 @@ var gates = [neutral_gate, blue_gate, gold_gate]
 
 func _ready() -> void:
 	sprite.texture = gates[0]
-	print('gate is ready')
-	
-	# body_entered.connect(_on_enter)
-	# body_exited.connect(_on_exit)
-
-# aaasfunc _on_enter(body: Node) -> void:
-#	if body.is_in_group("Player"):  # optional extra safety
-
-#func _on_exit(body: Node) -> void:
-	#if body.is_in_group("Player"):
-		#close_gate()
-
 
 func _on_body_entered(body: Node2D) -> void:
 	print("entered gate")
