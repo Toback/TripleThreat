@@ -40,7 +40,6 @@ var scrape_bumps: int
 
 var buffer_flap: bool
 var attempt_flap: bool
-var attempt_buffer_flap: bool
 
 var max_speed_change: float
 var input_x: float
@@ -60,9 +59,6 @@ func enter() -> void:
 	internal_velocity = body.freeVelocity
 	if attempt_flap:
 		_flap()
-
-	if attempt_buffer_flap:
-		_buffer_flap()
 	
 func do(delta: float) -> void:
 	maintain_scrape_timer = max(maintain_scrape_timer - delta, 0)
