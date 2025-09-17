@@ -7,20 +7,14 @@ func enter() -> void:
 	state_label.text = "idle"
 	
 func do(delta: float) -> void:
-	#print("idling")
-	#if !grounded or input_dir.x != 0 or dash_timer > 0 or bounce_timer > 0:
-	#body.freeVelocity.y += gravity() * delta
-	
 	body.freeVelocity.x = move_toward(body.freeVelocity.x, 0,  MAX_DECELERATION * delta)
-	
 	body.velocity = body.freeVelocity
 	
-	if !body.grounded or input.get_movement_direction().x != 0:
+	if !body.grounded or input.get_movement_direction(body.PLAYER_ID).x != 0:
 		is_complete = true
 	return
 
 func physics_do(delta: float) -> void:
-	#body.freeVelocity.y += gravity() * delta
 	push_warning("_fixed_do not implemented")
 
 func exit() -> void:

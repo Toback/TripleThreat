@@ -264,9 +264,7 @@ height = 81.25
 z_index = 5
 position = Vector2(17, 66)
 collision_layer = 6
-slide_on_ceiling = false
 script = ExtResource("1_1i32f")
-CEILING_BOUNCINESS = 0.2
 
 [node name="StateLabel" type="Label" parent="."]
 offset_left = -46.0
@@ -294,8 +292,9 @@ position = Vector2(7, -1)
 target_position = Vector2(0, -15)
 
 [node name="CeilingRay" type="RayCast2D" parent="."]
-position = Vector2(-3, -1)
-target_position = Vector2(0, -15)
+unique_name_in_owner = true
+position = Vector2(0, -1)
+target_position = Vector2(0, -19)
 
 [node name="Timer" type="Timer" parent="."]
 unique_name_in_owner = true

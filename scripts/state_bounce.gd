@@ -4,19 +4,13 @@ class_name BounceState extends State
 var bounce_timer: float = 0.0
 var bounce_speed: float = 0.0
 
-
 func enter() -> void:
 	print("bounce")
 	bounce_timer = BOUNCE_TIME
 	state_label.text = "bouncing"
 	
 func do(delta: float) -> void:
-	#print("bouncing")
-	
-	#body.freeVelocity.y += gravity() * delta
-	
 	bounce_timer = max(BOUNCE_TIME - time, 0)
-	#body.freeVelocity = bounce_speed
 	if bounce_timer == 0:
 		is_complete = true
 	return

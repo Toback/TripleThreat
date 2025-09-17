@@ -1,7 +1,5 @@
 class_name State extends Node
 
-
-# Timer isn't working...
 var is_complete: bool
 var start_time: float = Time.get_ticks_msec() / 1000.0
 var time: float:

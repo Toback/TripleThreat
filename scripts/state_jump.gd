@@ -1,13 +1,14 @@
 class_name JumpState extends State
 
-@export var JUMP_SPEED := -250.0
 var jumping: bool
 var jump_speed: float
-var desired_velocity: float
 var input_x: float
 var input_jump: bool
 var current_gravity: float
 var max_speed_change
+var attempt_jump
+
+@export var JUMP_SPEED := -250.0
 @export var JUMP_GRAVITY := 400.0
 @export var FALL_GRAVITY := 1200.0
 @export var SPEED_TO_MAX_GRAVITY := 500.0
@@ -18,9 +19,7 @@ var max_speed_change
 @export var AIR_SPEED := 140.0 
 
 @export var TERMINAL_DOWN_VELOCITY := 220.0
-@export var TERMINAL_UP_VELOCITY := -180.0
 
-var attempt_jump
 
 func enter() -> void:
 	print("jump")
@@ -33,8 +32,8 @@ func enter() -> void:
 	
 func do(delta: float) -> void:	
 	_handle_animation()
-	input_x = input.get_movement_direction().x
-	input_jump = input.wants_jump()
+	input_x = input.get_movement_direction(body.PLAYER_ID).x
+	input_jump = input.wants_jump(body.PLAYER_ID)
 	if body.grounded or (!body.grounded and !jumping):
 		is_complete = true
 
@@ -52,7 +51,7 @@ func physics_do(delta: float) -> void:
 	else:
 		max_speed_change = MAX_AIR_DECELERATION * delta
 		
-	desired_velocity = input_x * AIR_SPEED
+	var desired_velocity := input_x * AIR_SPEED
 	body.freeVelocity.x = move_toward(body.freeVelocity.x, desired_velocity, max_speed_change)
 
 func _jump() -> void:

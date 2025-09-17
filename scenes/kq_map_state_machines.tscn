@@ -77,5 +77,3 @@ position = Vector2(118, -11)
 
 [node name="warriorComponentStateMachine" parent="." instance=ExtResource("6_d5dc3")]
 position = Vector2(206, 15)
-SPEED_TO_MAX_GRAVITY = 300.0
-TERMINAL_DOWN_VELOCITY = 300.0
