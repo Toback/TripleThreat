@@ -2,14 +2,14 @@ class_name BounceState extends State
 
 @export var BOUNCE_TIME := 0.5
 var bounce_timer: float = 0.0
-var bounce_speed: float = 0.0
+var bounce_speed: Vector2
 
 func enter() -> void:
 	print("bounce")
 	bounce_timer = BOUNCE_TIME
 	state_label.text = "bouncing"
 	
-func do(delta: float) -> void:
+func do(_delta: float) -> void:
 	bounce_timer = max(BOUNCE_TIME - time, 0)
 	if bounce_timer == 0:
 		is_complete = true

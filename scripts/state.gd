@@ -16,10 +16,10 @@ var state_label: Label
 func enter() -> void:
 	push_warning("_enter not implemented")
 	
-func do(delta: float) -> void:
+func do(_delta: float) -> void:
 	push_warning("_do not implemented")
 
-func physics_do(delta: float) -> void:
+func physics_do(_delta: float) -> void:
 	push_warning("_fixed_do not implemented")
 
 func exit() -> void:

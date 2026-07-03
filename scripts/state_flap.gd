@@ -20,14 +20,12 @@ class_name FlapState extends State
 @export var FALL_GRAVITY := 1200.0
 @export var SPEED_TO_MAX_GRAVITY := 500.0
 
-@export var BUFFER_FLAP_TIMER := 0.13
-
 # Scrape & Stick Constants
 @export var STICK_TIMER := 0.2
 
 @onready var ceiling_ray: RayCast2D = %CeilingRay
 
-
+ 
 var flap_hover_timer: float = 0
 var maintain_scrape_timer: float = 0
 var stick_timer: float = STICK_TIMER
@@ -38,7 +36,6 @@ var sticking: bool = false
 var current_gravity: float
 var scrape_bumps: int
 
-var buffer_flap: bool
 var attempt_flap: bool
 
 var max_speed_change: float
@@ -58,7 +55,9 @@ func enter() -> void:
 	state_label.text = "flapping"
 	internal_velocity = body.freeVelocity
 	if attempt_flap:
+		attempt_flap = false
 		_flap()
+		
 	
 func do(delta: float) -> void:
 	maintain_scrape_timer = max(maintain_scrape_timer - delta, 0)
@@ -76,18 +75,11 @@ func do(delta: float) -> void:
 		sticking = false
 		
 	input_x = input.get_movement_direction(body.PLAYER_ID).x
-	input_hold_jump = input.wants_jump(body.PLAYER_ID)
-	input_pressed_jump = input.wants_flap(body.PLAYER_ID)
+	input_hold_jump = input.wants_hold_jump(body.PLAYER_ID)
+	input_pressed_jump = input.wants_jump(body.PLAYER_ID)
 	
 	if(input_pressed_jump):
-		if just_touched_ceiling_timer > 0:
-			buffer_flap = true
-		else:
-			_flap()
-	
-	if buffer_flap and just_touched_ceiling_timer == 0:
-		buffer_flap = false
-		_buffer_flap()
+		_flap()
 	
 	if body.grounded:
 		is_complete = true
@@ -130,7 +122,6 @@ func _check_if_just_touched_ceiling() -> void:
 	# the body not stay on the ceiling.
 	if body.is_on_ceiling() and ceiling_ray.is_colliding() and !touching_ceiling:
 		just_touched_ceiling = true
-		just_touched_ceiling_timer = BUFFER_FLAP_TIMER
 		velocity_before_touching_ceiling = body.velocity.y 
 		touching_ceiling = true
 		
@@ -142,6 +133,7 @@ func exit() -> void:
 	scrape_bumps = 0
 	scrape = false
 	just_touched_ceiling = false
+	attempt_flap = false
 
 func gravity() -> float:
 	if scrape:
@@ -176,8 +168,6 @@ func gravity() -> float:
 		current_gravity = FALL_GRAVITY
 		return current_gravity
 		
-	return FALL_GRAVITY
-
 func _flap() -> void:
 	maintain_scrape_timer = MAINTAIN_SCRAPE_RATE
 	# If you're sticking but not EZ Hovering then you're currently sticking
@@ -202,11 +192,6 @@ func _flap() -> void:
 	else:
 		internal_velocity.y += FLAP_HEIGHT
 	
-	flap_hover_timer = FLAP_HOVER_TIMER
-	stick_timer = STICK_TIMER
-	
-func _buffer_flap() -> void:
-	internal_velocity.y = FLAP_HEIGHT
 	flap_hover_timer = FLAP_HOVER_TIMER
 	stick_timer = STICK_TIMER
 	
