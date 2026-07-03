@@ -13,7 +13,7 @@ var gates = [neutral_gate, blue_gate, gold_gate]
 func _ready() -> void:
 	sprite.texture = gates[0]
 
-func _on_body_entered(body: Node2D) -> void:
+func _on_body_entered(_body: Node2D) -> void:
 	print("entered gate")
 	state = (state + 1) % len(gates)
 	

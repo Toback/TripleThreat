@@ -9,7 +9,7 @@ func enter() -> void:
 	bounce_timer = BOUNCE_TIME
 	state_label.text = "bouncing"
 	
-func do(delta: float) -> void:
+func do(_delta: float) -> void:
 	bounce_timer = max(BOUNCE_TIME - time, 0)
 	if bounce_timer == 0:
 		is_complete = true

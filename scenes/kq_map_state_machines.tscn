@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://otba75i0yt7g"]
+[gd_scene load_steps=11 format=4 uid="uid://otba75i0yt7g"]
 
 [ext_resource type="Texture2D" uid="uid://dbn8sb7mr10q7" path="res://assets/sprites/KQ/KQReference.png" id="1_d5dc3"]
 [ext_resource type="Texture2D" uid="uid://duhbgbrygmdi3" path="res://assets/sprites/KQDaySpriteSheet.png" id="2_v6ruv"]
@@ -6,7 +6,8 @@
 [ext_resource type="FontFile" uid="uid://6rxom0gy206u" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="4_q1v8k"]
 [ext_resource type="PackedScene" uid="uid://bb7hq6wp35qdh" path="res://scenes/berry.tscn" id="5_6s3s3"]
 [ext_resource type="PackedScene" uid="uid://drmr48jgoyqrp" path="res://scenes/warrior_component_state_machine.tscn" id="6_d5dc3"]
-[ext_resource type="PackedScene" uid="uid://d1ms5nbs4c2lb" path="res://scenes/gate.tscn" id="7_v6ruv"]
+[ext_resource type="PackedScene" path="res://scenes/gate.tscn" id="7_v6ruv"]
+[ext_resource type="Script" uid="uid://bup4vo18ludle" path="res://scripts/hair.gd" id="8_hqcq1"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1d8bh"]
 texture = ExtResource("2_v6ruv")
@@ -76,9 +77,14 @@ metadata/_edit_use_anchors_ = true
 [node name="Berry" parent="." instance=ExtResource("5_6s3s3")]
 position = Vector2(118, -11)
 
-[node name="warriorComponentStateMachine" parent="." instance=ExtResource("6_d5dc3")]
-position = Vector2(206, 15)
-
 [node name="Gate" parent="." instance=ExtResource("7_v6ruv")]
 position = Vector2(17, 190)
 scale = Vector2(1.4, 1.4)
+
+[node name="warrior" type="Node" parent="."]
+
+[node name="warriorComponentStateMachine" parent="warrior" instance=ExtResource("6_d5dc3")]
+position = Vector2(206, 15)
+
+[node name="hair" type="Node2D" parent="warrior"]
+script = ExtResource("8_hqcq1")

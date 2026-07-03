@@ -9,7 +9,7 @@ func enter() -> void:
 	animated_sprite.play("run")
 	state_label.text = "run"
 	
-func do(delta: float) -> void:
+func do(_delta: float) -> void:
 	if !body.grounded or input.get_movement_direction(body.PLAYER_ID).x == 0:
 		is_complete = true
 	return

@@ -1,9 +1,9 @@
 class_name Helpers
 
-static func map(value: float, min1: float, max1: float, min2: float, max2: float, clamp: bool = false) -> float:
+static func map(value: float, min1: float, max1: float, min2: float, max2: float, clamped: bool = false) -> float:
 	# map value from one range to another
 	var val: float = min2 + (max2 - min2) * (value - min1) / (max1 - min1)
-	if clamp:
+	if clamped:
 		return clamp(val, min(min2,max2), max(min2, max2))
 	else:
 		return val

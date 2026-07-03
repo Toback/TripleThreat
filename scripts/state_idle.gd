@@ -1,5 +1,5 @@
 class_name IdleState extends State
-@export var MAX_DECELERATION := 700.0
+@export var MAX_DECELERATION := 1500.0
 
 func enter() -> void:
 	print("idle")
@@ -14,7 +14,7 @@ func do(delta: float) -> void:
 		is_complete = true
 	return
 
-func physics_do(delta: float) -> void:
+func physics_do(_delta: float) -> void:
 	return
 
 func exit() -> void:
