@@ -14,9 +14,10 @@ var input_jump: bool
 var input_dash: bool
 var grounded: bool = false
 var walled: bool = false
+var has_berry: bool = false
 
 @export var PLAYER_ID := 0 
-@export var COYOTO_TIME := 0.05
+@export var COYOTO_TIME := 0.05 # Always let warriors start with a big jump in the air
 @export var BOUNCE_TIME := 0.5
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -66,14 +67,14 @@ func _process(delta: float) -> void:
 	### Handle jump and flapping
 	# Check if we're allowed to jump by seeing if we're 
 	# on the ground or recently left it
-	if grounded || coyote_timer > 0 || dash_coyote_timer > 0 || left_wall_cling_ray.is_colliding() || right_wall_cling_ray.is_colliding():
+	if grounded || coyote_timer > 0 || dash_coyote_timer > 0 || (left_wall_cling_ray.is_colliding() and not has_berry) || (right_wall_cling_ray.is_colliding() and not has_berry):
 		# Jump if the button was pressed or we registered a jump recently
 		if input_jump || jump_buffer_timer > 0: 
 			jump_state.attempt_jump = true
 			set_state(jump_state, true)
 	# If we aren't on the ground, then fly
 	else:
-		if input_jump:
+		if input_jump and not has_berry:
 			flap_state.attempt_flap = true
 			if state != dash_state:
 				set_state(flap_state)
@@ -97,7 +98,7 @@ func _select_state() -> void:
 		else:
 			set_state(run_state)
 	elif ((left_wall_cling_ray.is_colliding()  and input_dir.x < -0.5) or
-		  (right_wall_cling_ray.is_colliding() and input_dir.x >  0.5)) and jump_state.wall_jump_timer == 0:
+		  (right_wall_cling_ray.is_colliding() and input_dir.x >  0.5)) and jump_state.wall_jump_timer == 0 and not has_berry:
 		set_state(wall_cling_state)
 	else:
 		if not jump_state.jumping:

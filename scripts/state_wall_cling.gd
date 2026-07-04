@@ -9,7 +9,7 @@ var input_x: float
 
 func enter() -> void:
 	print("wall")
-	state_label.text = "wall"
+	state_label.text = "wall_cling"
 	
 func do(_delta: float) -> void:	
 	input_x = input.get_movement_direction(body.PLAYER_ID).x

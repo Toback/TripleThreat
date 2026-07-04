@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://dlnmjgb11uokv"]
+
+[ext_resource type="Script" uid="uid://dlgshm56jtn5c" path="res://scripts/berry_hole.gd" id="1_ik8mq"]
+[ext_resource type="Texture2D" uid="uid://dm7b71j53dhyl" path="res://assets/sprites/vinylTT.png" id="2_ik8mq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xwxio"]
+size = Vector2(12, 12)
+
+[node name="BerryHole" type="Area2D"]
+collision_mask = 2
+script = ExtResource("1_ik8mq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_xwxio")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(2.3841858e-07, 0)
+scale = Vector2(1.0059581, 1.0598313)
+texture = ExtResource("2_ik8mq")
+
+[node name="Label" type="Label" parent="."]
+visible = false
+offset_left = -12.000002
+offset_top = -25.000002
+offset_right = 68.0
+offset_bottom = -2.000002
+scale = Vector2(0.28235078, 0.28235078)
+text = "berry hole"
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

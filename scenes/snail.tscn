@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://dchsmkl3426mh"]
+
+[ext_resource type="Script" uid="uid://46oxnyjqm4v5" path="res://scripts/snail.gd" id="1_5b1ba"]
+[ext_resource type="Texture2D" uid="uid://564et4ple1rp" path="res://assets/sprites/Snail.png" id="2_5b1ba"]
+[ext_resource type="PackedScene" uid="uid://ctsj3sudabjkf" path="res://scenes/killzone.tscn" id="3_ymp48"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0l8pv"]
+size = Vector2(110, 87)
+
+[node name="Snail" type="Node2D"]
+script = ExtResource("1_5b1ba")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-1, -16)
+texture = ExtResource("2_5b1ba")
+
+[node name="OnSnailCheck" parent="." instance=ExtResource("3_ymp48")]
+script = null
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OnSnailCheck"]
+position = Vector2(0, -37.5)
+shape = SubResource("RectangleShape2D_0l8pv")
+
+[node name="RayCastRight" type="RayCast2D" parent="."]
+position = Vector2(0, -6)
+target_position = Vector2(8, 0)
+
+[node name="RayCastLeft" type="RayCast2D" parent="."]
+position = Vector2(0, -6)
+target_position = Vector2(-8, 0)
