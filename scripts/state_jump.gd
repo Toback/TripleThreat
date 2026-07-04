@@ -29,7 +29,10 @@ var wall_jump_dir: int
 
 func enter() -> void:
 	print("jump")
-	animated_sprite.play("jump")
+	if body.has_berry:
+		animated_sprite.play("jump")
+	else:
+		animated_sprite.play("jump")
 	state_label.text = "jump"
 	jumping = true
 	if (body.left_wall_cling_ray.is_colliding() || body.right_wall_cling_ray.is_colliding()) and !body.grounded: 

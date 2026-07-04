@@ -57,6 +57,9 @@ func enter() -> void:
 	if attempt_flap:
 		attempt_flap = false
 		_flap()
+	else:
+		# You fell off a platform to flap, so set your fall speed to 0 to start with
+		internal_velocity.y = 0
 		
 	
 func do(delta: float) -> void:
@@ -78,7 +81,7 @@ func do(delta: float) -> void:
 	input_hold_jump = input.wants_hold_jump(body.PLAYER_ID)
 	input_pressed_jump = input.wants_jump(body.PLAYER_ID)
 	
-	if(input_pressed_jump):
+	if(input_pressed_jump) and not body.has_berry:
 		_flap()
 	
 	if body.grounded:
@@ -88,7 +91,7 @@ func do(delta: float) -> void:
 func physics_do(delta: float) -> void:
 	internal_velocity.y += gravity() * delta
 	
-	# Clamp player's fall & rise speeds	
+	# Clamp player's fall & rise speeds
 	internal_velocity.y = min(internal_velocity.y, TERMINAL_DOWN_VELOCITY)
 	internal_velocity.y = max(internal_velocity.y, TERMINAL_UP_VELOCITY)
 	

@@ -3,7 +3,10 @@ class_name IdleState extends State
 
 func enter() -> void:
 	print("idle")
-	animated_sprite.play("idle")
+	if body.has_berry:
+		animated_sprite.play("idle")
+	else:
+		animated_sprite.play("idle")
 	state_label.text = "idle"
 	
 func do(delta: float) -> void:

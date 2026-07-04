@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://otba75i0yt7g"]
+[gd_scene load_steps=13 format=4 uid="uid://otba75i0yt7g"]
 
 [ext_resource type="Texture2D" uid="uid://dbn8sb7mr10q7" path="res://assets/sprites/KQ/KQReference.png" id="1_d5dc3"]
 [ext_resource type="Texture2D" uid="uid://duhbgbrygmdi3" path="res://assets/sprites/KQDaySpriteSheet.png" id="2_v6ruv"]
@@ -6,8 +6,10 @@
 [ext_resource type="FontFile" uid="uid://6rxom0gy206u" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="4_q1v8k"]
 [ext_resource type="PackedScene" uid="uid://bb7hq6wp35qdh" path="res://scenes/berry.tscn" id="5_6s3s3"]
 [ext_resource type="PackedScene" uid="uid://drmr48jgoyqrp" path="res://scenes/warrior_component_state_machine.tscn" id="6_d5dc3"]
-[ext_resource type="PackedScene" path="res://scenes/gate.tscn" id="7_v6ruv"]
-[ext_resource type="Script" uid="uid://bup4vo18ludle" path="res://scripts/hair.gd" id="8_hqcq1"]
+[ext_resource type="PackedScene" uid="uid://d1ms5nbs4c2lb" path="res://scenes/gate.tscn" id="7_v6ruv"]
+[ext_resource type="Script" path="res://scripts/hair.gd" id="8_hqcq1"]
+[ext_resource type="PackedScene" uid="uid://dchsmkl3426mh" path="res://scenes/snail.tscn" id="9_q1v8k"]
+[ext_resource type="PackedScene" uid="uid://dlnmjgb11uokv" path="res://scenes/berry_hole.tscn" id="10_6s3s3"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1d8bh"]
 texture = ExtResource("2_v6ruv")
@@ -48,7 +50,7 @@ zoom = Vector2(2.36, 2.36)
 position_smoothing_enabled = true
 
 [node name="KqReference" type="Sprite2D" parent="."]
-position = Vector2(220, 69)
+position = Vector2(221.00002, 69)
 scale = Vector2(0.502392, 0.502392)
 texture = ExtResource("1_d5dc3")
 
@@ -75,16 +77,57 @@ autowrap_mode = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="Berry" parent="." instance=ExtResource("5_6s3s3")]
-position = Vector2(118, -11)
+position = Vector2(124, -2)
 
 [node name="Gate" parent="." instance=ExtResource("7_v6ruv")]
 position = Vector2(17, 190)
 scale = Vector2(1.4, 1.4)
 
-[node name="warrior" type="Node" parent="."]
+[node name="warrior" type="Node" parent="." groups=["Player"]]
 
-[node name="warriorComponentStateMachine" parent="warrior" instance=ExtResource("6_d5dc3")]
+[node name="warriorComponentStateMachine" parent="warrior" groups=["Blue"] instance=ExtResource("6_d5dc3")]
 position = Vector2(206, 15)
 
 [node name="hair" type="Node2D" parent="warrior"]
 script = ExtResource("8_hqcq1")
+
+[node name="Snail" parent="." instance=ExtResource("9_q1v8k")]
+position = Vector2(220, 329)
+
+[node name="BlueHive" type="Node" parent="."]
+
+[node name="BerryHole" parent="BlueHive" instance=ExtResource("10_6s3s3")]
+position = Vector2(170, -155)
+
+[node name="BerryHole2" parent="BlueHive" instance=ExtResource("10_6s3s3")]
+position = Vector2(185, -162)
+
+[node name="BerryHole3" parent="BlueHive" instance=ExtResource("10_6s3s3")]
+position = Vector2(185, -149)
+
+[node name="BerryHole4" parent="BlueHive" instance=ExtResource("10_6s3s3")]
+position = Vector2(170, -142)
+
+[node name="BerryHole5" parent="BlueHive" instance=ExtResource("10_6s3s3")]
+position = Vector2(170, -168)
+
+[node name="BerryHole6" parent="BlueHive" instance=ExtResource("10_6s3s3")]
+position = Vector2(155, -149)
+
+[node name="BerryHole7" parent="BlueHive" instance=ExtResource("10_6s3s3")]
+position = Vector2(155, -162)
+
+[node name="BerryHole8" parent="BlueHive" instance=ExtResource("10_6s3s3")]
+position = Vector2(140, -142)
+
+[node name="BerryHole9" parent="BlueHive" instance=ExtResource("10_6s3s3")]
+position = Vector2(140, -155)
+
+[node name="BerryHole10" parent="BlueHive" instance=ExtResource("10_6s3s3")]
+position = Vector2(140, -168)
+
+[node name="BerryHole11" parent="BlueHive" instance=ExtResource("10_6s3s3")]
+position = Vector2(125, -149)
+
+[node name="BerryHole12" parent="BlueHive" instance=ExtResource("10_6s3s3")]
+position = Vector2(125, -162)

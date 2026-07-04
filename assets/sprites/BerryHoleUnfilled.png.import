@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dbn8sb7mr10q7"
-path="res://.godot/imported/KQReference.png-5c3a7cd342fc0720409ca838307ee7ff.ctex"
+uid="uid://db1g6njp3jrtp"
+path="res://.godot/imported/BerryHoleUnfilled.png-9177e55efb2091f297265b7898d7dd5c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/KQ/KQReference.png"
-dest_files=["res://.godot/imported/KQReference.png-5c3a7cd342fc0720409ca838307ee7ff.ctex"]
+source_file="res://assets/sprites/BerryHoleUnfilled.png"
+dest_files=["res://.godot/imported/BerryHoleUnfilled.png-9177e55efb2091f297265b7898d7dd5c.ctex"]
 
 [params]
 

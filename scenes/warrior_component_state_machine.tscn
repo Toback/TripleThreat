@@ -11,8 +11,8 @@
 [ext_resource type="Script" uid="uid://xrkyeqn1lj2i" path="res://scripts/state_idle.gd" id="7_ffd1n"]
 [ext_resource type="Script" uid="uid://dn35pci0tfs7i" path="res://scripts/state_jump.gd" id="8_l71u3"]
 [ext_resource type="Script" uid="uid://c6fsop3rjrhc2" path="res://scripts/state_run.gd" id="9_ykjuj"]
-[ext_resource type="Script" uid="uid://dyj42wkhligjp" path="res://scripts/state_crouch.gd" id="12_ffd1n"]
-[ext_resource type="Script" uid="uid://lwy02rop2p8y" path="res://scripts/state_wall_cling.gd" id="13_l71u3"]
+[ext_resource type="Script" path="res://scripts/state_crouch.gd" id="12_ffd1n"]
+[ext_resource type="Script" path="res://scripts/state_wall_cling.gd" id="13_l71u3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g2els"]
 atlas = ExtResource("2_aljyq")

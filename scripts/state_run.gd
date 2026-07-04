@@ -6,7 +6,10 @@ class_name RunState extends State
 
 func enter() -> void:
 	print("run")
-	animated_sprite.play("run")
+	if body.has_berry:
+		animated_sprite.play("run")
+	else:
+		animated_sprite.play("run")
 	state_label.text = "run"
 	
 func do(_delta: float) -> void:
