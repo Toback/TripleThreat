@@ -20,6 +20,7 @@ var has_berry: bool = false
 @export var COYOTO_TIME := 0.05 # Always let warriors start with a big jump in the air
 @export var BOUNCE_TIME := 0.5
 
+@onready var berry_sprite: Sprite2D = $BerrySprite
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var platform_collider: CollisionShape2D = $PlatformCollider
@@ -51,10 +52,10 @@ func _process(delta: float) -> void:
 	input_dir = player_input.get_movement_direction(PLAYER_ID)
 	input_jump = player_input.wants_jump(PLAYER_ID)
 	input_dash = player_input.wants_dash(PLAYER_ID)
-	
+	 
 	#hair.update_hair(global_position, current_facing_direction().x)
 	#print("warrior ",global_position)
-	
+	_handle_berry_sprite()
 	_handle_timers(delta)
 	
 	if input_dash and dash_state.can_dash:
@@ -124,6 +125,20 @@ func _handle_timers(delta) -> void:
 	dash_coyote_timer = max(dash_coyote_timer - delta, 0)
 	dash_cooldown_timer = max(dash_cooldown_timer - delta, 0)
 	jump_buffer_timer = max(jump_buffer_timer - delta, 0)
+	
+func _handle_berry_sprite() -> void:
+	if has_berry:
+		berry_sprite.visible = true
+		if current_facing_direction() == Vector2.LEFT:
+			berry_sprite.flip_h = true
+			berry_sprite.offset.x = 16 
+		else:
+			berry_sprite.flip_h = false
+			berry_sprite.offset.x = -16
+	else:
+		berry_sprite.visible = false
+		
+
 
 func _physics_process(delta: float) -> void:	
 	physics_frame += 1

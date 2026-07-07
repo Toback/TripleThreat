@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://otba75i0yt7g"]
+[gd_scene load_steps=14 format=4 uid="uid://otba75i0yt7g"]
 
 [ext_resource type="Texture2D" uid="uid://dbn8sb7mr10q7" path="res://assets/sprites/KQ/KQReference.png" id="1_d5dc3"]
 [ext_resource type="Texture2D" uid="uid://duhbgbrygmdi3" path="res://assets/sprites/KQDaySpriteSheet.png" id="2_v6ruv"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://scripts/hair.gd" id="8_hqcq1"]
 [ext_resource type="PackedScene" uid="uid://dchsmkl3426mh" path="res://scenes/snail.tscn" id="9_q1v8k"]
 [ext_resource type="PackedScene" uid="uid://dlnmjgb11uokv" path="res://scenes/berry_hole.tscn" id="10_6s3s3"]
+[ext_resource type="PackedScene" uid="uid://cqv3tfpemjv5v" path="res://scenes/net.tscn" id="11_5hrsx"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1d8bh"]
 texture = ExtResource("2_v6ruv")
@@ -64,70 +65,91 @@ unique_name_in_owner = true
 script = ExtResource("3_hqcq1")
 
 [node name="ScoreLabel" type="Label" parent="GameManager"]
-offset_left = 31.0
-offset_top = -42.0
-offset_right = 123.0
-offset_bottom = -19.0
+offset_left = 175.0
+offset_top = -73.0
+offset_right = 267.0
+offset_bottom = -50.0
 theme_override_colors/font_color = Color(0.0980392, 0.313726, 0.752941, 1)
 theme_override_fonts/font = ExtResource("4_q1v8k")
 theme_override_font_sizes/font_size = 8
-text = "Collected X Coins"
+text = "Blue Team 0
+Gold Team 0"
 horizontal_alignment = 1
 autowrap_mode = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="Berry" parent="." instance=ExtResource("5_6s3s3")]
+[node name="CanvasLayer" type="CanvasLayer" parent="GameManager"]
+
+[node name="ColorRect" type="ColorRect" parent="GameManager/CanvasLayer"]
+offset_left = -15.0
+offset_top = -17.999998
+offset_right = 78.418396
+offset_bottom = 75.47369
+scale = Vector2(24.962963, 14.25)
+color = Color(0, 0, 0, 0)
+
+[node name="CurrentRound" type="Node" parent="."]
+
+[node name="Berry" parent="CurrentRound" instance=ExtResource("5_6s3s3")]
 position = Vector2(124, -2)
 
-[node name="Gate" parent="." instance=ExtResource("7_v6ruv")]
+[node name="Gate" parent="CurrentRound" instance=ExtResource("7_v6ruv")]
 position = Vector2(17, 190)
 scale = Vector2(1.4, 1.4)
 
-[node name="warrior" type="Node" parent="." groups=["Player"]]
+[node name="Snail" parent="CurrentRound" instance=ExtResource("9_q1v8k")]
+position = Vector2(-65, 330)
 
-[node name="warriorComponentStateMachine" parent="warrior" groups=["Blue"] instance=ExtResource("6_d5dc3")]
+[node name="warrior" type="Node" parent="CurrentRound" groups=["Player"]]
+
+[node name="warriorComponentStateMachine" parent="CurrentRound/warrior" groups=["Blue"] instance=ExtResource("6_d5dc3")]
 position = Vector2(206, 15)
 
-[node name="hair" type="Node2D" parent="warrior"]
+[node name="hair" type="Node2D" parent="CurrentRound/warrior"]
 script = ExtResource("8_hqcq1")
 
-[node name="Snail" parent="." instance=ExtResource("9_q1v8k")]
-position = Vector2(220, 329)
+[node name="BlueHive" type="Node" parent="CurrentRound"]
 
-[node name="BlueHive" type="Node" parent="."]
-
-[node name="BerryHole" parent="BlueHive" instance=ExtResource("10_6s3s3")]
+[node name="BerryHole" parent="CurrentRound/BlueHive" instance=ExtResource("10_6s3s3")]
 position = Vector2(170, -155)
 
-[node name="BerryHole2" parent="BlueHive" instance=ExtResource("10_6s3s3")]
+[node name="BerryHole2" parent="CurrentRound/BlueHive" instance=ExtResource("10_6s3s3")]
 position = Vector2(185, -162)
 
-[node name="BerryHole3" parent="BlueHive" instance=ExtResource("10_6s3s3")]
+[node name="BerryHole3" parent="CurrentRound/BlueHive" instance=ExtResource("10_6s3s3")]
 position = Vector2(185, -149)
 
-[node name="BerryHole4" parent="BlueHive" instance=ExtResource("10_6s3s3")]
+[node name="BerryHole4" parent="CurrentRound/BlueHive" instance=ExtResource("10_6s3s3")]
 position = Vector2(170, -142)
 
-[node name="BerryHole5" parent="BlueHive" instance=ExtResource("10_6s3s3")]
+[node name="BerryHole5" parent="CurrentRound/BlueHive" instance=ExtResource("10_6s3s3")]
 position = Vector2(170, -168)
 
-[node name="BerryHole6" parent="BlueHive" instance=ExtResource("10_6s3s3")]
+[node name="BerryHole6" parent="CurrentRound/BlueHive" instance=ExtResource("10_6s3s3")]
 position = Vector2(155, -149)
 
-[node name="BerryHole7" parent="BlueHive" instance=ExtResource("10_6s3s3")]
+[node name="BerryHole7" parent="CurrentRound/BlueHive" instance=ExtResource("10_6s3s3")]
 position = Vector2(155, -162)
 
-[node name="BerryHole8" parent="BlueHive" instance=ExtResource("10_6s3s3")]
+[node name="BerryHole8" parent="CurrentRound/BlueHive" instance=ExtResource("10_6s3s3")]
 position = Vector2(140, -142)
 
-[node name="BerryHole9" parent="BlueHive" instance=ExtResource("10_6s3s3")]
+[node name="BerryHole9" parent="CurrentRound/BlueHive" instance=ExtResource("10_6s3s3")]
 position = Vector2(140, -155)
 
-[node name="BerryHole10" parent="BlueHive" instance=ExtResource("10_6s3s3")]
+[node name="BerryHole10" parent="CurrentRound/BlueHive" instance=ExtResource("10_6s3s3")]
 position = Vector2(140, -168)
 
-[node name="BerryHole11" parent="BlueHive" instance=ExtResource("10_6s3s3")]
+[node name="BerryHole11" parent="CurrentRound/BlueHive" instance=ExtResource("10_6s3s3")]
 position = Vector2(125, -149)
 
-[node name="BerryHole12" parent="BlueHive" instance=ExtResource("10_6s3s3")]
+[node name="BerryHole12" parent="CurrentRound/BlueHive" instance=ExtResource("10_6s3s3")]
 position = Vector2(125, -162)
+
+[node name="Nets" type="Node" parent="CurrentRound"]
+
+[node name="BlueNet" parent="CurrentRound/Nets" groups=["Blue"] instance=ExtResource("11_5hrsx")]
+position = Vector2(-264, 307)
+
+[node name="GoldNet" parent="CurrentRound/Nets" groups=["Gold"] instance=ExtResource("11_5hrsx")]
+position = Vector2(700, 307)

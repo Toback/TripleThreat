@@ -1,0 +1,75 @@
+[gd_scene load_steps=8 format=3 uid="uid://dmdfu66ebuujc"]
+
+[ext_resource type="PackedScene" uid="uid://cqv3tfpemjv5v" path="res://scenes/net.tscn" id="1_ncpjl"]
+[ext_resource type="PackedScene" uid="uid://bb7hq6wp35qdh" path="res://scenes/berry.tscn" id="2_oxac0"]
+[ext_resource type="PackedScene" uid="uid://d1ms5nbs4c2lb" path="res://scenes/gate.tscn" id="3_d1isx"]
+[ext_resource type="PackedScene" uid="uid://drmr48jgoyqrp" path="res://scenes/warrior_component_state_machine.tscn" id="4_al8w5"]
+[ext_resource type="Script" path="res://scripts/hair.gd" id="5_4mt0l"]
+[ext_resource type="PackedScene" uid="uid://dchsmkl3426mh" path="res://scenes/snail.tscn" id="6_6xet5"]
+[ext_resource type="PackedScene" uid="uid://dlnmjgb11uokv" path="res://scenes/berry_hole.tscn" id="7_ydm5b"]
+
+[node name="CurrentRound" type="Node"]
+
+[node name="Nets" type="Node" parent="."]
+
+[node name="BlueNet" parent="Nets" groups=["Blue"] instance=ExtResource("1_ncpjl")]
+position = Vector2(-264, 307)
+
+[node name="GoldNet" parent="Nets" groups=["Gold"] instance=ExtResource("1_ncpjl")]
+position = Vector2(700, 307)
+
+[node name="Berry" parent="." instance=ExtResource("2_oxac0")]
+position = Vector2(124, -2)
+
+[node name="Gate" parent="." instance=ExtResource("3_d1isx")]
+position = Vector2(17, 190)
+scale = Vector2(1.4, 1.4)
+
+[node name="warrior" type="Node" parent="." groups=["Player"]]
+
+[node name="warriorComponentStateMachine" parent="warrior" groups=["Blue"] instance=ExtResource("4_al8w5")]
+position = Vector2(206, 15)
+
+[node name="hair" type="Node2D" parent="warrior"]
+script = ExtResource("5_4mt0l")
+
+[node name="Snail" parent="." instance=ExtResource("6_6xet5")]
+position = Vector2(-65, 330)
+
+[node name="BlueHive" type="Node" parent="."]
+
+[node name="BerryHole" parent="BlueHive" instance=ExtResource("7_ydm5b")]
+position = Vector2(170, -155)
+
+[node name="BerryHole2" parent="BlueHive" instance=ExtResource("7_ydm5b")]
+position = Vector2(185, -162)
+
+[node name="BerryHole3" parent="BlueHive" instance=ExtResource("7_ydm5b")]
+position = Vector2(185, -149)
+
+[node name="BerryHole4" parent="BlueHive" instance=ExtResource("7_ydm5b")]
+position = Vector2(170, -142)
+
+[node name="BerryHole5" parent="BlueHive" instance=ExtResource("7_ydm5b")]
+position = Vector2(170, -168)
+
+[node name="BerryHole6" parent="BlueHive" instance=ExtResource("7_ydm5b")]
+position = Vector2(155, -149)
+
+[node name="BerryHole7" parent="BlueHive" instance=ExtResource("7_ydm5b")]
+position = Vector2(155, -162)
+
+[node name="BerryHole8" parent="BlueHive" instance=ExtResource("7_ydm5b")]
+position = Vector2(140, -142)
+
+[node name="BerryHole9" parent="BlueHive" instance=ExtResource("7_ydm5b")]
+position = Vector2(140, -155)
+
+[node name="BerryHole10" parent="BlueHive" instance=ExtResource("7_ydm5b")]
+position = Vector2(140, -168)
+
+[node name="BerryHole11" parent="BlueHive" instance=ExtResource("7_ydm5b")]
+position = Vector2(125, -149)
+
+[node name="BerryHole12" parent="BlueHive" instance=ExtResource("7_ydm5b")]
+position = Vector2(125, -162)

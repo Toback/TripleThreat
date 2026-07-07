@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://cqv3tfpemjv5v"]
+
+[ext_resource type="Texture2D" uid="uid://urbqfm4bo1md" path="res://assets/sprites/WarriorGate.png" id="2_ekmni"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xwxio"]
+size = Vector2(59, 50)
+
+[node name="Net" type="Area2D" groups=["Net"]]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["Net"]]
+position = Vector2(2, 0)
+shape = SubResource("RectangleShape2D_xwxio")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(3, 2)
+scale = Vector2(0.0238319, 0.0251082)
+texture = ExtResource("2_ekmni")
