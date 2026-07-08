@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://drmr48jgoyqrp"]
+[gd_scene load_steps=44 format=3 uid="uid://drmr48jgoyqrp"]
 
 [ext_resource type="Script" uid="uid://c7v6hbysaqj5l" path="res://scripts/warrior_component_state_machine.gd" id="1_1i32f"]
 [ext_resource type="Texture2D" uid="uid://cwrn0smmq7673" path="res://assets/sprites/knight.png" id="2_aljyq"]
@@ -263,6 +263,15 @@ _data = {
 radius = 18.75
 height = 81.25
 
+[sub_resource type="Gradient" id="Gradient_ykjuj"]
+offsets = PackedFloat32Array(0, 0.09214502, 0.3776435, 0.6238671, 0.83383685)
+colors = PackedColorArray(0.96875, 0.96875, 0.96875, 1, 0.63375676, 0.6337568, 0.63375676, 1, 0.19076231, 0.19076234, 0.19076225, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_1ak2t"]
+gradient = SubResource("Gradient_ykjuj")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
 [node name="warriorComponentStateMachine" type="CharacterBody2D" groups=["Player"]]
 z_index = 5
 collision_layer = 6
@@ -359,5 +368,8 @@ script = ExtResource("12_ffd1n")
 
 [node name="wall_cling_state" type="Node" parent="states"]
 script = ExtResource("13_l71u3")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+texture = SubResource("GradientTexture2D_1ak2t")
 
 [connection signal="body_entered" from="HitBox" to="." method="_on_hit_box_body_entered"]

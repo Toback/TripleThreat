@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://otba75i0yt7g"]
+[gd_scene load_steps=20 format=4 uid="uid://otba75i0yt7g"]
 
 [ext_resource type="Texture2D" uid="uid://dbn8sb7mr10q7" path="res://assets/sprites/KQ/KQReference.png" id="1_d5dc3"]
 [ext_resource type="Texture2D" uid="uid://duhbgbrygmdi3" path="res://assets/sprites/KQDaySpriteSheet.png" id="2_v6ruv"]
@@ -12,21 +12,36 @@
 [ext_resource type="PackedScene" uid="uid://dlnmjgb11uokv" path="res://scenes/berry_hole.tscn" id="10_6s3s3"]
 [ext_resource type="PackedScene" uid="uid://cqv3tfpemjv5v" path="res://scenes/net.tscn" id="11_5hrsx"]
 
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_5hrsx"]
+polygon = PackedVector2Array(-0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_hqbbs"]
+polygon = PackedVector2Array(-7.905135, -2.9728708, 7.905135, -2.9728708, 8.040265, 8.242961, -7.7700047, 8.378091)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_egkkj"]
+polygon = PackedVector2Array(-7.905135, -2.9728708, 7.905135, -2.9728708, 8.040265, 8.242961, -7.7700047, 8.378091)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_lco76"]
+polygon = PackedVector2Array(-7.905135, -2.9728708, 7.905135, -2.9728708, 8.040265, 8.242961, -7.7700047, 8.378091)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_ah6v0"]
+polygon = PackedVector2Array(-8.040266, -9.324005, -1.0134792, -8.513222, -0.87834835, 8.378091, -8.040266, 7.972699)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_msn60"]
+polygon = PackedVector2Array(1.2837391, -7.8375697, 8.040265, -8.378092, 7.6348734, 8.107831, 1.1486092, 8.513223)
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1d8bh"]
 texture = ExtResource("2_v6ruv")
 2:0/0 = 0
+2:0/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_5hrsx")
 3:0/0 = 0
 4:0/0 = 0
 5:0/0 = 0
 2:1/0 = 0
+2:1/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_hqbbs")
 2:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8.06345, -2.83891, 8.07695, -3.23258, 7.97266, 7.99564, -8.05134, 7.83687)
-3:1/0 = 0
-3:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8.06345, -2.83891, 8.07695, -3.23258, 7.97266, 7.99564, -8.05134, 7.83687)
-4:1/0 = 0
-4:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8.06345, -2.83891, 8.07695, -3.23258, 7.97266, 7.99564, -8.05134, 7.83687)
-6:1/0 = 0
-6:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-7.95098, -8.01284, -1.0899, -7.9566, -0.977422, 8.29628, -8.05134, 7.83687)
 7:1/0 = 0
+7:1/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_msn60")
 7:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(0.765966, -8.06908, 8.07695, -8.06908, 8.13319, 7.95885, 0.934681, 8.12756)
 11:0/size_in_atlas = Vector2i(5, 3)
 11:0/0 = 0
@@ -36,13 +51,27 @@ texture = ExtResource("2_v6ruv")
 7:4/0 = 0
 0:0/size_in_atlas = Vector2i(2, 2)
 0:0/0 = 0
+3:1/0 = 0
+3:1/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_egkkj")
+3:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8.06345, -2.83891, 8.07695, -3.23258, 7.97266, 7.99564, -8.05134, 7.83687)
+4:1/0 = 0
+4:1/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_lco76")
+4:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8.06345, -2.83891, 8.07695, -3.23258, 7.97266, 7.99564, -8.05134, 7.83687)
+6:1/0 = 0
+6:1/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_ah6v0")
+6:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-7.95098, -8.01284, -1.0899, -7.9566, -0.977422, 8.29628, -8.05134, 7.83687)
 
 [sub_resource type="TileSet" id="TileSet_wgq7d"]
 tile_size = Vector2i(1, 1)
+occlusion_layer_0/light_mask = 1
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_1d8bh")
 
 [node name="KQMap" type="Node2D"]
+
+[node name="WorldLighting" type="DirectionalLight2D" parent="."]
+color = Color(0.16066858, 0.21319252, 0.1289447, 1)
+blend_mode = 1
 
 [node name="WarriorCamera" type="Camera2D" parent="."]
 position = Vector2(224, 58)
@@ -103,7 +132,11 @@ position = Vector2(-65, 330)
 [node name="warrior" type="Node" parent="CurrentRound" groups=["Player"]]
 
 [node name="warriorComponentStateMachine" parent="CurrentRound/warrior" groups=["Blue"] instance=ExtResource("6_d5dc3")]
-position = Vector2(206, 15)
+position = Vector2(366, -80)
+
+[node name="PointLight2D" parent="CurrentRound/warrior/warriorComponentStateMachine" index="13"]
+position = Vector2(0, -7)
+shadow_enabled = true
 
 [node name="hair" type="Node2D" parent="CurrentRound/warrior"]
 script = ExtResource("8_hqcq1")
@@ -153,3 +186,5 @@ position = Vector2(-264, 307)
 
 [node name="GoldNet" parent="CurrentRound/Nets" groups=["Gold"] instance=ExtResource("11_5hrsx")]
 position = Vector2(700, 307)
+
+[editable path="CurrentRound/warrior/warriorComponentStateMachine"]
