@@ -7,7 +7,7 @@ var state: int = 0
 var berry_pile_unfilled: Texture2D = preload("res://assets/sprites/BerryPilUnfull.png")
 var berry_pile_filled: Texture2D = preload("res://assets/sprites/BerryPillFull.png")
 
-var berry_pile_states = [berry_pile_filled, berry_pile_unfilled,]
+var berry_pile_states = [berry_pile_filled, berry_pile_unfilled]
 
 func _ready() -> void:
 	sprite.texture = berry_pile_states[0]
