@@ -1,15 +1,18 @@
-[gd_scene load_steps=20 format=4 uid="uid://otba75i0yt7g"]
+[gd_scene load_steps=36 format=4 uid="uid://otba75i0yt7g"]
 
 [ext_resource type="Texture2D" uid="uid://dbn8sb7mr10q7" path="res://assets/sprites/KQ/KQReference.png" id="1_d5dc3"]
 [ext_resource type="Texture2D" uid="uid://duhbgbrygmdi3" path="res://assets/sprites/KQDaySpriteSheet.png" id="2_v6ruv"]
 [ext_resource type="Script" uid="uid://cl5g46p6vr4ao" path="res://scripts/game_manager.gd" id="3_hqcq1"]
 [ext_resource type="FontFile" uid="uid://6rxom0gy206u" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="4_q1v8k"]
 [ext_resource type="PackedScene" uid="uid://bb7hq6wp35qdh" path="res://scenes/berry.tscn" id="5_6s3s3"]
+[ext_resource type="Texture2D" uid="uid://c543yb0ssfuu" path="res://assets/sprites/coin.png" id="5_egkkj"]
 [ext_resource type="PackedScene" uid="uid://drmr48jgoyqrp" path="res://scenes/warrior_component_state_machine.tscn" id="6_d5dc3"]
+[ext_resource type="Texture2D" uid="uid://room8vvm4ftg" path="res://assets/sprites/BlankCoin.png" id="6_lco76"]
 [ext_resource type="PackedScene" uid="uid://d1ms5nbs4c2lb" path="res://scenes/gate.tscn" id="7_v6ruv"]
 [ext_resource type="Script" path="res://scripts/hair.gd" id="8_hqcq1"]
 [ext_resource type="PackedScene" uid="uid://dchsmkl3426mh" path="res://scenes/snail.tscn" id="9_q1v8k"]
 [ext_resource type="PackedScene" uid="uid://dlnmjgb11uokv" path="res://scenes/berry_hole.tscn" id="10_6s3s3"]
+[ext_resource type="Script" uid="uid://ji8nyxv4o22r" path="res://scripts/hive.gd" id="10_hqbbs"]
 [ext_resource type="PackedScene" uid="uid://cqv3tfpemjv5v" path="res://scenes/net.tscn" id="11_5hrsx"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_5hrsx"]
@@ -67,6 +70,98 @@ occlusion_layer_0/light_mask = 1
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_1d8bh")
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_i64fm"]
+atlas = ExtResource("5_egkkj")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_11l1o"]
+atlas = ExtResource("5_egkkj")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d14el"]
+atlas = ExtResource("5_egkkj")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ikuy"]
+atlas = ExtResource("5_egkkj")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wnlwo"]
+atlas = ExtResource("5_egkkj")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jig8b"]
+atlas = ExtResource("5_egkkj")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xmuha"]
+atlas = ExtResource("5_egkkj")
+region = Rect2(96, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kfxoj"]
+atlas = ExtResource("5_egkkj")
+region = Rect2(112, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jsmju"]
+atlas = ExtResource("5_egkkj")
+region = Rect2(128, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s0mny"]
+atlas = ExtResource("5_egkkj")
+region = Rect2(144, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7cc30"]
+atlas = ExtResource("5_egkkj")
+region = Rect2(160, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rojmm"]
+atlas = ExtResource("5_egkkj")
+region = Rect2(176, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_egkkj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i64fm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_11l1o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d14el")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1ikuy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wnlwo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jig8b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xmuha")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kfxoj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jsmju")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s0mny")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7cc30")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rojmm")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
 [node name="KQMap" type="Node2D"]
 
 [node name="WorldLighting" type="DirectionalLight2D" parent="."]
@@ -109,7 +204,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="GameManager"]
 
-[node name="ColorRect" type="ColorRect" parent="GameManager/CanvasLayer"]
+[node name="FadeToBlackColorRect" type="ColorRect" parent="GameManager/CanvasLayer"]
 offset_left = -15.0
 offset_top = -17.999998
 offset_right = 78.418396
@@ -117,10 +212,280 @@ offset_bottom = 75.47369
 scale = Vector2(24.962963, 14.25)
 color = Color(0, 0, 0, 0)
 
+[node name="RoundEndUI" type="Control" parent="GameManager/CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="GoldWinBar" type="Control" parent="GameManager/CanvasLayer/RoundEndUI"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="BlankSpots" type="HBoxContainer" parent="GameManager/CanvasLayer/RoundEndUI/GoldWinBar"]
+layout_mode = 0
+offset_left = 1049.0
+offset_top = 429.0
+offset_right = 1103.0
+offset_bottom = 469.0
+scale = Vector2(13.2823925, 3.3004081)
+theme_override_constants/separation = 1
+
+[node name="TextureRect" type="TextureRect" parent="GameManager/CanvasLayer/RoundEndUI/GoldWinBar/BlankSpots"]
+layout_mode = 2
+texture = ExtResource("6_lco76")
+
+[node name="TextureRect2" type="TextureRect" parent="GameManager/CanvasLayer/RoundEndUI/GoldWinBar/BlankSpots"]
+layout_mode = 2
+texture = ExtResource("6_lco76")
+
+[node name="TextureRect3" type="TextureRect" parent="GameManager/CanvasLayer/RoundEndUI/GoldWinBar/BlankSpots"]
+layout_mode = 2
+texture = ExtResource("6_lco76")
+
+[node name="TextureRect4" type="TextureRect" parent="GameManager/CanvasLayer/RoundEndUI/GoldWinBar/BlankSpots"]
+layout_mode = 2
+texture = ExtResource("6_lco76")
+
+[node name="TextureRect5" type="TextureRect" parent="GameManager/CanvasLayer/RoundEndUI/GoldWinBar/BlankSpots"]
+layout_mode = 2
+texture = ExtResource("6_lco76")
+
+[node name="ActualWins" type="HBoxContainer" parent="GameManager/CanvasLayer/RoundEndUI/GoldWinBar"]
+layout_mode = 0
+offset_left = 1048.0
+offset_top = 429.0
+offset_right = 1092.0
+offset_bottom = 469.0
+scale = Vector2(13.2823925, 3.3004081)
+theme_override_constants/separation = 11
+
+[node name="Control" type="Control" parent="GameManager/CanvasLayer/RoundEndUI/GoldWinBar/ActualWins"]
+visible = false
+layout_mode = 2
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="GameManager/CanvasLayer/RoundEndUI/GoldWinBar/ActualWins/Control"]
+z_index = 1
+position = Vector2(5.0442734, 19.997543)
+scale = Vector2(0.9693285, 3.9010332)
+sprite_frames = SubResource("SpriteFrames_egkkj")
+autoplay = "default"
+
+[node name="Control2" type="Control" parent="GameManager/CanvasLayer/RoundEndUI/GoldWinBar/ActualWins"]
+visible = false
+layout_mode = 2
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="GameManager/CanvasLayer/RoundEndUI/GoldWinBar/ActualWins/Control2"]
+z_index = 1
+position = Vector2(5.0442734, 19.997543)
+scale = Vector2(0.9693285, 3.9010332)
+sprite_frames = SubResource("SpriteFrames_egkkj")
+autoplay = "default"
+
+[node name="Control3" type="Control" parent="GameManager/CanvasLayer/RoundEndUI/GoldWinBar/ActualWins"]
+visible = false
+layout_mode = 2
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="GameManager/CanvasLayer/RoundEndUI/GoldWinBar/ActualWins/Control3"]
+z_index = 1
+position = Vector2(5.0442734, 19.997543)
+scale = Vector2(0.9693285, 3.9010332)
+sprite_frames = SubResource("SpriteFrames_egkkj")
+autoplay = "default"
+
+[node name="Control4" type="Control" parent="GameManager/CanvasLayer/RoundEndUI/GoldWinBar/ActualWins"]
+visible = false
+layout_mode = 2
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="GameManager/CanvasLayer/RoundEndUI/GoldWinBar/ActualWins/Control4"]
+z_index = 1
+position = Vector2(5.0442734, 19.997543)
+scale = Vector2(0.9693285, 3.9010332)
+sprite_frames = SubResource("SpriteFrames_egkkj")
+autoplay = "default"
+
+[node name="Control5" type="Control" parent="GameManager/CanvasLayer/RoundEndUI/GoldWinBar/ActualWins"]
+visible = false
+layout_mode = 2
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="GameManager/CanvasLayer/RoundEndUI/GoldWinBar/ActualWins/Control5"]
+z_index = 1
+position = Vector2(5.0442734, 19.997543)
+scale = Vector2(0.9693285, 3.9010332)
+sprite_frames = SubResource("SpriteFrames_egkkj")
+autoplay = "default"
+
+[node name="BlueWinBar" type="Control" parent="GameManager/CanvasLayer/RoundEndUI"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="BlankSpots" type="HBoxContainer" parent="GameManager/CanvasLayer/RoundEndUI/BlueWinBar"]
+layout_mode = 0
+offset_left = 1049.0
+offset_top = 676.0
+offset_right = 1103.0
+offset_bottom = 716.0
+scale = Vector2(13.2823925, 3.3004081)
+theme_override_constants/separation = 1
+
+[node name="TextureRect" type="TextureRect" parent="GameManager/CanvasLayer/RoundEndUI/BlueWinBar/BlankSpots"]
+layout_mode = 2
+texture = ExtResource("6_lco76")
+
+[node name="TextureRect2" type="TextureRect" parent="GameManager/CanvasLayer/RoundEndUI/BlueWinBar/BlankSpots"]
+layout_mode = 2
+texture = ExtResource("6_lco76")
+
+[node name="TextureRect3" type="TextureRect" parent="GameManager/CanvasLayer/RoundEndUI/BlueWinBar/BlankSpots"]
+layout_mode = 2
+texture = ExtResource("6_lco76")
+
+[node name="TextureRect4" type="TextureRect" parent="GameManager/CanvasLayer/RoundEndUI/BlueWinBar/BlankSpots"]
+layout_mode = 2
+texture = ExtResource("6_lco76")
+
+[node name="TextureRect5" type="TextureRect" parent="GameManager/CanvasLayer/RoundEndUI/BlueWinBar/BlankSpots"]
+layout_mode = 2
+texture = ExtResource("6_lco76")
+
+[node name="ActualWins" type="HBoxContainer" parent="GameManager/CanvasLayer/RoundEndUI/BlueWinBar"]
+layout_mode = 0
+offset_left = 1049.0
+offset_top = 676.0
+offset_right = 1093.0
+offset_bottom = 716.0
+scale = Vector2(13.2823925, 3.3004081)
+theme_override_constants/separation = 11
+
+[node name="Control" type="Control" parent="GameManager/CanvasLayer/RoundEndUI/BlueWinBar/ActualWins"]
+visible = false
+layout_mode = 2
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="GameManager/CanvasLayer/RoundEndUI/BlueWinBar/ActualWins/Control"]
+z_index = 1
+position = Vector2(5.0442734, 19.997543)
+scale = Vector2(0.9693285, 3.9010332)
+sprite_frames = SubResource("SpriteFrames_egkkj")
+autoplay = "default"
+
+[node name="Control2" type="Control" parent="GameManager/CanvasLayer/RoundEndUI/BlueWinBar/ActualWins"]
+visible = false
+layout_mode = 2
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="GameManager/CanvasLayer/RoundEndUI/BlueWinBar/ActualWins/Control2"]
+z_index = 1
+position = Vector2(5.0442734, 19.997543)
+scale = Vector2(0.9693285, 3.9010332)
+sprite_frames = SubResource("SpriteFrames_egkkj")
+autoplay = "default"
+
+[node name="Control3" type="Control" parent="GameManager/CanvasLayer/RoundEndUI/BlueWinBar/ActualWins"]
+visible = false
+layout_mode = 2
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="GameManager/CanvasLayer/RoundEndUI/BlueWinBar/ActualWins/Control3"]
+z_index = 1
+position = Vector2(5.0442734, 19.997543)
+scale = Vector2(0.9693285, 3.9010332)
+sprite_frames = SubResource("SpriteFrames_egkkj")
+autoplay = "default"
+
+[node name="Control4" type="Control" parent="GameManager/CanvasLayer/RoundEndUI/BlueWinBar/ActualWins"]
+visible = false
+layout_mode = 2
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="GameManager/CanvasLayer/RoundEndUI/BlueWinBar/ActualWins/Control4"]
+z_index = 1
+position = Vector2(5.0442734, 19.997543)
+scale = Vector2(0.9693285, 3.9010332)
+sprite_frames = SubResource("SpriteFrames_egkkj")
+autoplay = "default"
+
+[node name="Control5" type="Control" parent="GameManager/CanvasLayer/RoundEndUI/BlueWinBar/ActualWins"]
+visible = false
+layout_mode = 2
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="GameManager/CanvasLayer/RoundEndUI/BlueWinBar/ActualWins/Control5"]
+z_index = 1
+position = Vector2(5.0442734, 19.997543)
+scale = Vector2(0.9693285, 3.9010332)
+sprite_frames = SubResource("SpriteFrames_egkkj")
+autoplay = "default"
+
+[node name="GoldTeamLabel" type="Label" parent="GameManager/CanvasLayer/RoundEndUI"]
+layout_mode = 0
+offset_left = 220.0
+offset_top = 455.0
+offset_right = 312.0
+offset_bottom = 478.0
+scale = Vector2(10.148692, 10.148692)
+theme_override_colors/font_color = Color(0.8129145, 0.57017386, 1.92523e-07, 1)
+theme_override_fonts/font = ExtResource("4_q1v8k")
+theme_override_font_sizes/font_size = 8
+text = "Gold Team"
+horizontal_alignment = 1
+autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="BlueTeamLabel" type="Label" parent="GameManager/CanvasLayer/RoundEndUI"]
+layout_mode = 0
+offset_left = 220.0
+offset_top = 699.0
+offset_right = 312.0
+offset_bottom = 722.0
+scale = Vector2(10.148692, 10.148692)
+theme_override_colors/font_color = Color(0.0980392, 0.313726, 0.752941, 1)
+theme_override_fonts/font = ExtResource("4_q1v8k")
+theme_override_font_sizes/font_size = 8
+text = "Blue Team"
+horizontal_alignment = 1
+autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
+
 [node name="CurrentRound" type="Node" parent="."]
 
-[node name="Berry" parent="CurrentRound" instance=ExtResource("5_6s3s3")]
-position = Vector2(124, -2)
+[node name="BerryPiles" type="Node" parent="CurrentRound"]
+
+[node name="Berry" parent="CurrentRound/BerryPiles" instance=ExtResource("5_6s3s3")]
+position = Vector2(124, 20)
+
+[node name="Berry2" parent="CurrentRound/BerryPiles" instance=ExtResource("5_6s3s3")]
+position = Vector2(327, 20)
+
+[node name="Berry3" parent="CurrentRound/BerryPiles" instance=ExtResource("5_6s3s3")]
+position = Vector2(327, 142)
+
+[node name="Berry4" parent="CurrentRound/BerryPiles" instance=ExtResource("5_6s3s3")]
+position = Vector2(124, 142)
+
+[node name="Berry5" parent="CurrentRound/BerryPiles" instance=ExtResource("5_6s3s3")]
+position = Vector2(-56, 81)
+
+[node name="Berry6" parent="CurrentRound/BerryPiles" instance=ExtResource("5_6s3s3")]
+position = Vector2(-229, 21)
+
+[node name="Berry7" parent="CurrentRound/BerryPiles" instance=ExtResource("5_6s3s3")]
+position = Vector2(673, 20)
+
+[node name="Berry8" parent="CurrentRound/BerryPiles" instance=ExtResource("5_6s3s3")]
+position = Vector2(500.99994, 80)
+
+[node name="Berry9" parent="CurrentRound/BerryPiles" instance=ExtResource("5_6s3s3")]
+position = Vector2(586, 203)
+
+[node name="Berry10" parent="CurrentRound/BerryPiles" instance=ExtResource("5_6s3s3")]
+position = Vector2(510, 322)
+
+[node name="Berry11" parent="CurrentRound/BerryPiles" instance=ExtResource("5_6s3s3")]
+position = Vector2(223, 261.99997)
+
+[node name="Berry12" parent="CurrentRound/BerryPiles" instance=ExtResource("5_6s3s3")]
+position = Vector2(-63, 323.99997)
+
+[node name="Berry13" parent="CurrentRound/BerryPiles" instance=ExtResource("5_6s3s3")]
+position = Vector2(-142, 204)
 
 [node name="Gate" parent="CurrentRound" instance=ExtResource("7_v6ruv")]
 position = Vector2(17, 190)
@@ -129,9 +494,9 @@ scale = Vector2(1.4, 1.4)
 [node name="Snail" parent="CurrentRound" instance=ExtResource("9_q1v8k")]
 position = Vector2(-65, 330)
 
-[node name="warrior" type="Node" parent="CurrentRound" groups=["Player"]]
+[node name="warrior" type="Node" parent="CurrentRound"]
 
-[node name="warriorComponentStateMachine" parent="CurrentRound/warrior" groups=["Blue"] instance=ExtResource("6_d5dc3")]
+[node name="warriorComponentStateMachine" parent="CurrentRound/warrior" groups=["Gold"] instance=ExtResource("6_d5dc3")]
 position = Vector2(366, -80)
 
 [node name="PointLight2D" parent="CurrentRound/warrior/warriorComponentStateMachine" index="13"]
@@ -141,43 +506,53 @@ shadow_enabled = true
 [node name="hair" type="Node2D" parent="CurrentRound/warrior"]
 script = ExtResource("8_hqcq1")
 
-[node name="BlueHive" type="Node" parent="CurrentRound"]
+[node name="BlueHive" type="Node" parent="CurrentRound" groups=["Blue", "Gold"]]
+script = ExtResource("10_hqbbs")
 
-[node name="BerryHole" parent="CurrentRound/BlueHive" instance=ExtResource("10_6s3s3")]
+[node name="BerryHole" parent="CurrentRound/BlueHive" groups=["Blue"] instance=ExtResource("10_6s3s3")]
 position = Vector2(170, -155)
 
-[node name="BerryHole2" parent="CurrentRound/BlueHive" instance=ExtResource("10_6s3s3")]
+[node name="BerryHole2" parent="CurrentRound/BlueHive" groups=["Blue"] instance=ExtResource("10_6s3s3")]
 position = Vector2(185, -162)
 
-[node name="BerryHole3" parent="CurrentRound/BlueHive" instance=ExtResource("10_6s3s3")]
+[node name="BerryHole3" parent="CurrentRound/BlueHive" groups=["Blue"] instance=ExtResource("10_6s3s3")]
 position = Vector2(185, -149)
 
-[node name="BerryHole4" parent="CurrentRound/BlueHive" instance=ExtResource("10_6s3s3")]
+[node name="BerryHole4" parent="CurrentRound/BlueHive" groups=["Blue"] instance=ExtResource("10_6s3s3")]
 position = Vector2(170, -142)
 
-[node name="BerryHole5" parent="CurrentRound/BlueHive" instance=ExtResource("10_6s3s3")]
+[node name="BerryHole5" parent="CurrentRound/BlueHive" groups=["Blue"] instance=ExtResource("10_6s3s3")]
 position = Vector2(170, -168)
 
-[node name="BerryHole6" parent="CurrentRound/BlueHive" instance=ExtResource("10_6s3s3")]
+[node name="BerryHole6" parent="CurrentRound/BlueHive" groups=["Blue"] instance=ExtResource("10_6s3s3")]
 position = Vector2(155, -149)
 
-[node name="BerryHole7" parent="CurrentRound/BlueHive" instance=ExtResource("10_6s3s3")]
+[node name="BerryHole7" parent="CurrentRound/BlueHive" groups=["Blue"] instance=ExtResource("10_6s3s3")]
 position = Vector2(155, -162)
 
-[node name="BerryHole8" parent="CurrentRound/BlueHive" instance=ExtResource("10_6s3s3")]
+[node name="BerryHole8" parent="CurrentRound/BlueHive" groups=["Blue"] instance=ExtResource("10_6s3s3")]
 position = Vector2(140, -142)
 
-[node name="BerryHole9" parent="CurrentRound/BlueHive" instance=ExtResource("10_6s3s3")]
+[node name="BerryHole9" parent="CurrentRound/BlueHive" groups=["Blue"] instance=ExtResource("10_6s3s3")]
 position = Vector2(140, -155)
 
-[node name="BerryHole10" parent="CurrentRound/BlueHive" instance=ExtResource("10_6s3s3")]
+[node name="BerryHole10" parent="CurrentRound/BlueHive" groups=["Blue"] instance=ExtResource("10_6s3s3")]
 position = Vector2(140, -168)
 
-[node name="BerryHole11" parent="CurrentRound/BlueHive" instance=ExtResource("10_6s3s3")]
+[node name="BerryHole11" parent="CurrentRound/BlueHive" groups=["Blue"] instance=ExtResource("10_6s3s3")]
 position = Vector2(125, -149)
 
-[node name="BerryHole12" parent="CurrentRound/BlueHive" instance=ExtResource("10_6s3s3")]
+[node name="BerryHole12" parent="CurrentRound/BlueHive" groups=["Blue"] instance=ExtResource("10_6s3s3")]
 position = Vector2(125, -162)
+
+[node name="GoldHive" type="Node" parent="CurrentRound" groups=["Gold"]]
+script = ExtResource("10_hqbbs")
+
+[node name="BerryHole" parent="CurrentRound/GoldHive" groups=["Gold"] instance=ExtResource("10_6s3s3")]
+position = Vector2(302, -155)
+
+[node name="BerryHole2" parent="CurrentRound/GoldHive" groups=["Gold"] instance=ExtResource("10_6s3s3")]
+position = Vector2(317, -162)
 
 [node name="Nets" type="Node" parent="CurrentRound"]
 

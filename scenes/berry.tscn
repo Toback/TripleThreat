@@ -82,6 +82,7 @@ _data = {
 }
 
 [node name="Berry" type="Area2D"]
+scale = Vector2(0.23910405, 0.23910405)
 collision_mask = 2
 script = ExtResource("1_vcmpl")
 
