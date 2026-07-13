@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=4 uid="uid://otba75i0yt7g"]
+[gd_scene load_steps=47 format=4 uid="uid://otba75i0yt7g"]
 
 [ext_resource type="Texture2D" uid="uid://dbn8sb7mr10q7" path="res://assets/sprites/KQ/KQReference.png" id="1_d5dc3"]
 [ext_resource type="Texture2D" uid="uid://duhbgbrygmdi3" path="res://assets/sprites/KQDaySpriteSheet.png" id="2_v6ruv"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://c543yb0ssfuu" path="res://assets/sprites/coin.png" id="5_egkkj"]
 [ext_resource type="PackedScene" uid="uid://drmr48jgoyqrp" path="res://scenes/warrior_component_state_machine.tscn" id="6_d5dc3"]
 [ext_resource type="Texture2D" uid="uid://room8vvm4ftg" path="res://assets/sprites/BlankCoin.png" id="6_lco76"]
+[ext_resource type="Texture2D" uid="uid://cpfouaxhcs7he" path="res://assets/sprites/RoundStartAnimation.png" id="7_ah6v0"]
 [ext_resource type="PackedScene" uid="uid://d1ms5nbs4c2lb" path="res://scenes/gate.tscn" id="7_v6ruv"]
 [ext_resource type="Script" path="res://scripts/hair.gd" id="8_hqcq1"]
 [ext_resource type="PackedScene" uid="uid://dchsmkl3426mh" path="res://scenes/snail.tscn" id="9_q1v8k"]
@@ -158,6 +159,77 @@ animations = [{
 "texture": SubResource("AtlasTexture_rojmm")
 }],
 "loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_msn60"]
+atlas = ExtResource("7_ah6v0")
+region = Rect2(0, 0, 258, 258)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b1j7u"]
+atlas = ExtResource("7_ah6v0")
+region = Rect2(258, 0, 258, 258)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1bhht"]
+atlas = ExtResource("7_ah6v0")
+region = Rect2(516, 0, 258, 258)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1jwfb"]
+atlas = ExtResource("7_ah6v0")
+region = Rect2(774, 0, 258, 258)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rkdk7"]
+atlas = ExtResource("7_ah6v0")
+region = Rect2(1032, 0, 258, 258)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ofh56"]
+atlas = ExtResource("7_ah6v0")
+region = Rect2(1290, 0, 258, 258)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8jfie"]
+atlas = ExtResource("7_ah6v0")
+region = Rect2(1548, 0, 258, 258)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2tnu1"]
+atlas = ExtResource("7_ah6v0")
+region = Rect2(1806, 0, 258, 258)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b57cp"]
+atlas = ExtResource("7_ah6v0")
+region = Rect2(2064, 0, 258, 258)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_utexh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_msn60")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b1j7u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1bhht")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1jwfb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rkdk7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ofh56")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8jfie")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2tnu1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b57cp")
+}],
+"loop": false,
 "name": &"default",
 "speed": 10.0
 }]
@@ -443,6 +515,81 @@ text = "Blue Team"
 horizontal_alignment = 1
 autowrap_mode = 2
 metadata/_edit_use_anchors_ = true
+
+[node name="RoundStartUI" type="Control" parent="GameManager/CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="GameManager/CanvasLayer/RoundStartUI"]
+z_index = 1
+position = Vector2(1175, 642.00006)
+scale = Vector2(4.7559166, 4.7559166)
+sprite_frames = SubResource("SpriteFrames_utexh")
+autoplay = "default"
+
+[node name="RoundNumberControl" type="Control" parent="GameManager/CanvasLayer/RoundStartUI"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="RoundLabel" type="Label" parent="GameManager/CanvasLayer/RoundStartUI/RoundNumberControl"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 10.1
+anchor_top = 15.9
+anchor_right = 10.1
+anchor_bottom = 15.9
+offset_left = 175.0
+offset_top = -73.0
+offset_right = 267.0
+offset_bottom = -50.0
+scale = Vector2(12.963367, 12.963367)
+theme_override_colors/font_color = Color(0.0980392, 0.313726, 0.752941, 1)
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = ExtResource("4_q1v8k")
+theme_override_font_sizes/font_size = 8
+text = "Round 1"
+horizontal_alignment = 1
+autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="GoWordControl" type="Control" parent="GameManager/CanvasLayer/RoundStartUI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GoLabel" type="Label" parent="GameManager/CanvasLayer/RoundStartUI/GoWordControl"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 1096.0
+offset_top = 727.0
+offset_right = 1097.0
+offset_bottom = 735.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(12.963367, 12.963367)
+theme_override_colors/font_color = Color(0.0980392, 0.313726, 0.752941, 1)
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = ExtResource("4_q1v8k")
+theme_override_font_sizes/font_size = 8
+text = "Go!"
+horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="CurrentRound" type="Node" parent="."]
 

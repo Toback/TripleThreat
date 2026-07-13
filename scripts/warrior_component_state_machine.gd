@@ -49,6 +49,8 @@ func _ready() -> void:
 	state = idle_state
 	
 func _process(delta: float) -> void:
+	if Global.game_state != Global.GameState.PLAYING:
+		return
 	input_dir = player_input.get_movement_direction(PLAYER_ID)
 	input_jump = player_input.wants_jump(PLAYER_ID)
 	input_dash = player_input.wants_dash(PLAYER_ID)
