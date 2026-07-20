@@ -16,13 +16,6 @@ var grounded: bool = false
 var walled: bool = false
 var has_berry: bool = false
 
-const screen_boundary = {
-	left = -160.0,
-	right = 160.0,
-	top = -120.0,
-	bottom = 120.0
-}
-
 @onready var wrap_bounds: ReferenceRect = get_tree().get_first_node_in_group("WrapBounds")
 
 @export var PLAYER_ID := 0 

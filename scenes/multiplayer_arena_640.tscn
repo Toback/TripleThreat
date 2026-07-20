@@ -1,66 +1,62 @@
-[gd_scene load_steps=38 format=3 uid="uid://bbjmlop5hl7d4"]
+[gd_scene load_steps=34 format=3 uid="uid://dw7bvbdthyevw"]
 
-[ext_resource type="Script" uid="uid://cl5g46p6vr4ao" path="res://scripts/game_manager.gd" id="1_7mat0"]
-[ext_resource type="PackedScene" uid="uid://djio8oaq0dm3s" path="res://scenes/ForestMap320.tscn" id="1_nmcax"]
-[ext_resource type="FontFile" uid="uid://6rxom0gy206u" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="2_e5nib"]
-[ext_resource type="Texture2D" uid="uid://room8vvm4ftg" path="res://assets/sprites/BlankCoin.png" id="3_q65jx"]
-[ext_resource type="Texture2D" uid="uid://c543yb0ssfuu" path="res://assets/sprites/coin.png" id="4_o03h0"]
-[ext_resource type="Texture2D" uid="uid://cpfouaxhcs7he" path="res://assets/sprites/RoundStartAnimation.png" id="5_o7xue"]
-[ext_resource type="PackedScene" uid="uid://bb7hq6wp35qdh" path="res://scenes/berry.tscn" id="6_4gt0k"]
-[ext_resource type="PackedScene" uid="uid://d1ms5nbs4c2lb" path="res://scenes/gate.tscn" id="7_ucdx3"]
-[ext_resource type="PackedScene" uid="uid://dchsmkl3426mh" path="res://scenes/snail.tscn" id="8_raebr"]
-[ext_resource type="Script" uid="uid://bup4vo18ludle" path="res://scripts/hair.gd" id="9_4s56t"]
-[ext_resource type="PackedScene" uid="uid://et6833aeepvd" path="res://scenes/warrior_towerfall.tscn" id="10_0jwuw"]
-[ext_resource type="Script" uid="uid://ji8nyxv4o22r" path="res://scripts/hive.gd" id="11_716bg"]
-[ext_resource type="PackedScene" uid="uid://dlnmjgb11uokv" path="res://scenes/berry_hole.tscn" id="12_k7w3j"]
-[ext_resource type="PackedScene" uid="uid://cqv3tfpemjv5v" path="res://scenes/net.tscn" id="13_wwmlg"]
+[ext_resource type="Script" uid="uid://cl5g46p6vr4ao" path="res://scripts/game_manager.gd" id="1_bf5ui"]
+[ext_resource type="FontFile" uid="uid://6rxom0gy206u" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="2_52xeq"]
+[ext_resource type="Texture2D" uid="uid://room8vvm4ftg" path="res://assets/sprites/BlankCoin.png" id="3_626ke"]
+[ext_resource type="Texture2D" uid="uid://c543yb0ssfuu" path="res://assets/sprites/coin.png" id="4_b7ge5"]
+[ext_resource type="Texture2D" uid="uid://cpfouaxhcs7he" path="res://assets/sprites/RoundStartAnimation.png" id="5_8f46h"]
+[ext_resource type="PackedScene" uid="uid://d1ms5nbs4c2lb" path="res://scenes/gate.tscn" id="7_a8ehj"]
+[ext_resource type="PackedScene" uid="uid://dchsmkl3426mh" path="res://scenes/snail.tscn" id="8_r8p2v"]
+[ext_resource type="Script" uid="uid://bup4vo18ludle" path="res://scripts/hair.gd" id="9_ao54k"]
+[ext_resource type="PackedScene" uid="uid://et6833aeepvd" path="res://scenes/warrior_towerfall.tscn" id="10_0nmx8"]
+[ext_resource type="PackedScene" uid="uid://06e4m5v4ad78" path="res://scenes/ForestMap640.tscn" id="14_bf5ui"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_i64fm"]
-atlas = ExtResource("4_o03h0")
+atlas = ExtResource("4_b7ge5")
 region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_11l1o"]
-atlas = ExtResource("4_o03h0")
+atlas = ExtResource("4_b7ge5")
 region = Rect2(16, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_d14el"]
-atlas = ExtResource("4_o03h0")
+atlas = ExtResource("4_b7ge5")
 region = Rect2(32, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1ikuy"]
-atlas = ExtResource("4_o03h0")
+atlas = ExtResource("4_b7ge5")
 region = Rect2(48, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wnlwo"]
-atlas = ExtResource("4_o03h0")
+atlas = ExtResource("4_b7ge5")
 region = Rect2(64, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jig8b"]
-atlas = ExtResource("4_o03h0")
+atlas = ExtResource("4_b7ge5")
 region = Rect2(80, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xmuha"]
-atlas = ExtResource("4_o03h0")
+atlas = ExtResource("4_b7ge5")
 region = Rect2(96, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kfxoj"]
-atlas = ExtResource("4_o03h0")
+atlas = ExtResource("4_b7ge5")
 region = Rect2(112, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jsmju"]
-atlas = ExtResource("4_o03h0")
+atlas = ExtResource("4_b7ge5")
 region = Rect2(128, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_s0mny"]
-atlas = ExtResource("4_o03h0")
+atlas = ExtResource("4_b7ge5")
 region = Rect2(144, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7cc30"]
-atlas = ExtResource("4_o03h0")
+atlas = ExtResource("4_b7ge5")
 region = Rect2(160, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rojmm"]
-atlas = ExtResource("4_o03h0")
+atlas = ExtResource("4_b7ge5")
 region = Rect2(176, 0, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_o0vlb"]
@@ -108,39 +104,39 @@ animations = [{
 }]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_msn60"]
-atlas = ExtResource("5_o7xue")
+atlas = ExtResource("5_8f46h")
 region = Rect2(0, 0, 258, 258)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b1j7u"]
-atlas = ExtResource("5_o7xue")
+atlas = ExtResource("5_8f46h")
 region = Rect2(258, 0, 258, 258)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1bhht"]
-atlas = ExtResource("5_o7xue")
+atlas = ExtResource("5_8f46h")
 region = Rect2(516, 0, 258, 258)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1jwfb"]
-atlas = ExtResource("5_o7xue")
+atlas = ExtResource("5_8f46h")
 region = Rect2(774, 0, 258, 258)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rkdk7"]
-atlas = ExtResource("5_o7xue")
+atlas = ExtResource("5_8f46h")
 region = Rect2(1032, 0, 258, 258)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ofh56"]
-atlas = ExtResource("5_o7xue")
+atlas = ExtResource("5_8f46h")
 region = Rect2(1290, 0, 258, 258)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8jfie"]
-atlas = ExtResource("5_o7xue")
+atlas = ExtResource("5_8f46h")
 region = Rect2(1548, 0, 258, 258)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2tnu1"]
-atlas = ExtResource("5_o7xue")
+atlas = ExtResource("5_8f46h")
 region = Rect2(1806, 0, 258, 258)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b57cp"]
-atlas = ExtResource("5_o7xue")
+atlas = ExtResource("5_8f46h")
 region = Rect2(2064, 0, 258, 258)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_cpv2x"]
@@ -182,7 +178,7 @@ animations = [{
 
 [node name="GameManager" type="Node" parent="."]
 unique_name_in_owner = true
-script = ExtResource("1_7mat0")
+script = ExtResource("1_bf5ui")
 
 [node name="ScoreLabel" type="Label" parent="GameManager"]
 offset_left = 175.0
@@ -190,7 +186,7 @@ offset_top = -73.0
 offset_right = 267.0
 offset_bottom = -50.0
 theme_override_colors/font_color = Color(0.0980392, 0.313726, 0.752941, 1)
-theme_override_fonts/font = ExtResource("2_e5nib")
+theme_override_fonts/font = ExtResource("2_52xeq")
 theme_override_font_sizes/font_size = 8
 text = "Blue Team 0
 Gold Team 0"
@@ -230,23 +226,23 @@ theme_override_constants/separation = 1
 
 [node name="TextureRect" type="TextureRect" parent="GameManager/CanvasLayer/RoundEndUI/GoldWinBar/BlankSpots"]
 layout_mode = 2
-texture = ExtResource("3_q65jx")
+texture = ExtResource("3_626ke")
 
 [node name="TextureRect2" type="TextureRect" parent="GameManager/CanvasLayer/RoundEndUI/GoldWinBar/BlankSpots"]
 layout_mode = 2
-texture = ExtResource("3_q65jx")
+texture = ExtResource("3_626ke")
 
 [node name="TextureRect3" type="TextureRect" parent="GameManager/CanvasLayer/RoundEndUI/GoldWinBar/BlankSpots"]
 layout_mode = 2
-texture = ExtResource("3_q65jx")
+texture = ExtResource("3_626ke")
 
 [node name="TextureRect4" type="TextureRect" parent="GameManager/CanvasLayer/RoundEndUI/GoldWinBar/BlankSpots"]
 layout_mode = 2
-texture = ExtResource("3_q65jx")
+texture = ExtResource("3_626ke")
 
 [node name="TextureRect5" type="TextureRect" parent="GameManager/CanvasLayer/RoundEndUI/GoldWinBar/BlankSpots"]
 layout_mode = 2
-texture = ExtResource("3_q65jx")
+texture = ExtResource("3_626ke")
 
 [node name="ActualWins" type="HBoxContainer" parent="GameManager/CanvasLayer/RoundEndUI/GoldWinBar"]
 layout_mode = 0
@@ -328,23 +324,23 @@ theme_override_constants/separation = 1
 
 [node name="TextureRect" type="TextureRect" parent="GameManager/CanvasLayer/RoundEndUI/BlueWinBar/BlankSpots"]
 layout_mode = 2
-texture = ExtResource("3_q65jx")
+texture = ExtResource("3_626ke")
 
 [node name="TextureRect2" type="TextureRect" parent="GameManager/CanvasLayer/RoundEndUI/BlueWinBar/BlankSpots"]
 layout_mode = 2
-texture = ExtResource("3_q65jx")
+texture = ExtResource("3_626ke")
 
 [node name="TextureRect3" type="TextureRect" parent="GameManager/CanvasLayer/RoundEndUI/BlueWinBar/BlankSpots"]
 layout_mode = 2
-texture = ExtResource("3_q65jx")
+texture = ExtResource("3_626ke")
 
 [node name="TextureRect4" type="TextureRect" parent="GameManager/CanvasLayer/RoundEndUI/BlueWinBar/BlankSpots"]
 layout_mode = 2
-texture = ExtResource("3_q65jx")
+texture = ExtResource("3_626ke")
 
 [node name="TextureRect5" type="TextureRect" parent="GameManager/CanvasLayer/RoundEndUI/BlueWinBar/BlankSpots"]
 layout_mode = 2
-texture = ExtResource("3_q65jx")
+texture = ExtResource("3_626ke")
 
 [node name="ActualWins" type="HBoxContainer" parent="GameManager/CanvasLayer/RoundEndUI/BlueWinBar"]
 layout_mode = 0
@@ -418,7 +414,7 @@ offset_right = 312.0
 offset_bottom = 478.0
 scale = Vector2(10.148692, 10.148692)
 theme_override_colors/font_color = Color(0.8129145, 0.57017386, 1.92523e-07, 1)
-theme_override_fonts/font = ExtResource("2_e5nib")
+theme_override_fonts/font = ExtResource("2_52xeq")
 theme_override_font_sizes/font_size = 8
 text = "Gold Team"
 horizontal_alignment = 1
@@ -433,7 +429,7 @@ offset_right = 312.0
 offset_bottom = 722.0
 scale = Vector2(10.148692, 10.148692)
 theme_override_colors/font_color = Color(0.0980392, 0.313726, 0.752941, 1)
-theme_override_fonts/font = ExtResource("2_e5nib")
+theme_override_fonts/font = ExtResource("2_52xeq")
 theme_override_font_sizes/font_size = 8
 text = "Blue Team"
 horizontal_alignment = 1
@@ -472,7 +468,7 @@ offset_bottom = -50.0
 scale = Vector2(12.963367, 12.963367)
 theme_override_colors/font_color = Color(0.0980392, 0.313726, 0.752941, 1)
 theme_override_constants/outline_size = 7
-theme_override_fonts/font = ExtResource("2_e5nib")
+theme_override_fonts/font = ExtResource("2_52xeq")
 theme_override_font_sizes/font_size = 8
 text = "Round 1"
 horizontal_alignment = 1
@@ -509,7 +505,7 @@ grow_vertical = 2
 scale = Vector2(12.963367, 12.963367)
 theme_override_colors/font_color = Color(0.0980392, 0.313726, 0.752941, 1)
 theme_override_constants/outline_size = 7
-theme_override_fonts/font = ExtResource("2_e5nib")
+theme_override_fonts/font = ExtResource("2_52xeq")
 theme_override_font_sizes/font_size = 8
 text = "Go!"
 horizontal_alignment = 1
@@ -517,127 +513,43 @@ autowrap_mode = 2
 
 [node name="CurrentRound" type="Node" parent="."]
 
-[node name="BerryPiles" type="Node" parent="CurrentRound"]
-
-[node name="Berry" parent="CurrentRound/BerryPiles" instance=ExtResource("6_4gt0k")]
-position = Vector2(124, 20)
-
-[node name="Berry2" parent="CurrentRound/BerryPiles" instance=ExtResource("6_4gt0k")]
-position = Vector2(327, 20)
-
-[node name="Berry3" parent="CurrentRound/BerryPiles" instance=ExtResource("6_4gt0k")]
-position = Vector2(327, 142)
-
-[node name="Berry4" parent="CurrentRound/BerryPiles" instance=ExtResource("6_4gt0k")]
-position = Vector2(124, 142)
-
-[node name="Berry5" parent="CurrentRound/BerryPiles" instance=ExtResource("6_4gt0k")]
-position = Vector2(-56, 81)
-
-[node name="Berry6" parent="CurrentRound/BerryPiles" instance=ExtResource("6_4gt0k")]
-position = Vector2(-229, 21)
-
-[node name="Berry7" parent="CurrentRound/BerryPiles" instance=ExtResource("6_4gt0k")]
-position = Vector2(673, 20)
-
-[node name="Berry8" parent="CurrentRound/BerryPiles" instance=ExtResource("6_4gt0k")]
-position = Vector2(500.99994, 80)
-
-[node name="Berry9" parent="CurrentRound/BerryPiles" instance=ExtResource("6_4gt0k")]
-position = Vector2(586, 203)
-
-[node name="Berry10" parent="CurrentRound/BerryPiles" instance=ExtResource("6_4gt0k")]
-position = Vector2(510, 322)
-
-[node name="Berry11" parent="CurrentRound/BerryPiles" instance=ExtResource("6_4gt0k")]
-position = Vector2(223, 261.99997)
-
-[node name="Berry12" parent="CurrentRound/BerryPiles" instance=ExtResource("6_4gt0k")]
-position = Vector2(-63, 323.99997)
-
-[node name="Berry13" parent="CurrentRound/BerryPiles" instance=ExtResource("6_4gt0k")]
-position = Vector2(-142, 204)
-
-[node name="Gate" parent="CurrentRound" instance=ExtResource("7_ucdx3")]
+[node name="Gate" parent="CurrentRound" instance=ExtResource("7_a8ehj")]
+visible = false
 position = Vector2(17, 190)
 scale = Vector2(1.4, 1.4)
 
-[node name="Snail" parent="CurrentRound" instance=ExtResource("8_raebr")]
+[node name="Snail" parent="CurrentRound" instance=ExtResource("8_r8p2v")]
+visible = false
 position = Vector2(-65, 330)
 
 [node name="warrior" type="Node" parent="CurrentRound"]
 
 [node name="hair" type="Node2D" parent="CurrentRound/warrior"]
-script = ExtResource("9_4s56t")
+script = ExtResource("9_ao54k")
 
-[node name="WarriorTowerfall" parent="CurrentRound/warrior" instance=ExtResource("10_0jwuw")]
+[node name="WarriorTowerfall" parent="CurrentRound/warrior" instance=ExtResource("10_0nmx8")]
 
-[node name="BlueHive" type="Node" parent="CurrentRound" groups=["Blue", "Gold"]]
-script = ExtResource("11_716bg")
+[node name="dash_state" parent="CurrentRound/warrior/WarriorTowerfall/states" index="1"]
+DASH_SPEED = 250.0
+CROUCH_DASH_SPEED = 250.0
 
-[node name="BerryHole" parent="CurrentRound/BlueHive" groups=["Blue"] instance=ExtResource("12_k7w3j")]
-position = Vector2(170, -155)
+[node name="flap_state" parent="CurrentRound/warrior/WarriorTowerfall/states" index="2"]
+FLAP_HEIGHT = -20.0
+AIR_SPEED = 90.0
+MAX_AIR_ACCELERATION = 300.0
 
-[node name="BerryHole2" parent="CurrentRound/BlueHive" groups=["Blue"] instance=ExtResource("12_k7w3j")]
-position = Vector2(185, -162)
+[node name="jump_state" parent="CurrentRound/warrior/WarriorTowerfall/states" index="4"]
+JUMP_SPEED = -220.0
+AIR_SPEED = 90.0
 
-[node name="BerryHole3" parent="CurrentRound/BlueHive" groups=["Blue"] instance=ExtResource("12_k7w3j")]
-position = Vector2(185, -149)
+[node name="run_state" parent="CurrentRound/warrior/WarriorTowerfall/states" index="5"]
+RUN_SPEED = 110.0
+MAX_ACCELERATION = 500.0
+MAX_TURN_SPEED = 1000.0
 
-[node name="BerryHole4" parent="CurrentRound/BlueHive" groups=["Blue"] instance=ExtResource("12_k7w3j")]
-position = Vector2(170, -142)
+[node name="Map" parent="." instance=ExtResource("14_bf5ui")]
 
-[node name="BerryHole5" parent="CurrentRound/BlueHive" groups=["Blue"] instance=ExtResource("12_k7w3j")]
-position = Vector2(170, -168)
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(4, 4)
 
-[node name="BerryHole6" parent="CurrentRound/BlueHive" groups=["Blue"] instance=ExtResource("12_k7w3j")]
-position = Vector2(155, -149)
-
-[node name="BerryHole7" parent="CurrentRound/BlueHive" groups=["Blue"] instance=ExtResource("12_k7w3j")]
-position = Vector2(155, -162)
-
-[node name="BerryHole8" parent="CurrentRound/BlueHive" groups=["Blue"] instance=ExtResource("12_k7w3j")]
-position = Vector2(140, -142)
-
-[node name="BerryHole9" parent="CurrentRound/BlueHive" groups=["Blue"] instance=ExtResource("12_k7w3j")]
-position = Vector2(140, -155)
-
-[node name="BerryHole10" parent="CurrentRound/BlueHive" groups=["Blue"] instance=ExtResource("12_k7w3j")]
-position = Vector2(140, -168)
-
-[node name="BerryHole11" parent="CurrentRound/BlueHive" groups=["Blue"] instance=ExtResource("12_k7w3j")]
-position = Vector2(125, -149)
-
-[node name="BerryHole12" parent="CurrentRound/BlueHive" groups=["Blue"] instance=ExtResource("12_k7w3j")]
-position = Vector2(125, -162)
-
-[node name="GoldHive" type="Node" parent="CurrentRound" groups=["Gold"]]
-script = ExtResource("11_716bg")
-
-[node name="BerryHole" parent="CurrentRound/GoldHive" groups=["Gold"] instance=ExtResource("12_k7w3j")]
-position = Vector2(302, -155)
-
-[node name="BerryHole2" parent="CurrentRound/GoldHive" groups=["Gold"] instance=ExtResource("12_k7w3j")]
-position = Vector2(317, -162)
-
-[node name="Nets" type="Node" parent="CurrentRound"]
-
-[node name="BlueNet" parent="CurrentRound/Nets" groups=["Blue"] instance=ExtResource("13_wwmlg")]
-position = Vector2(-264, 307)
-
-[node name="GoldNet" parent="CurrentRound/Nets" groups=["Gold"] instance=ExtResource("13_wwmlg")]
-position = Vector2(700, 307)
-
-[node name="Map" parent="." instance=ExtResource("1_nmcax")]
-
-[node name="WarriorCamera" type="Camera2D" parent="Map"]
-visible = false
-scale = Vector2(1, 0.948177)
-zoom = Vector2(5, 5)
-position_smoothing_enabled = true
-
-[node name="Camera2D" type="Camera2D" parent="Map"]
-visible = false
-position = Vector2(30, 30)
-
-[editable path="Map"]
+[editable path="CurrentRound/warrior/WarriorTowerfall"]

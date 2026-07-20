@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ccf5uhvxvxjhe"
-path="res://.godot/imported/ForestEffect.png-29ad84ad54d1a95a0a049abd09c2bfcf.ctex"
+uid="uid://d0tgawty1g4ra"
+path="res://.godot/imported/ForestEffectLeavesBig.png-6ae8e5c96f593b52d0c525cdabbeabae.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/KQ/ForestMapArt/ForestEffect.png"
-dest_files=["res://.godot/imported/ForestEffect.png-29ad84ad54d1a95a0a049abd09c2bfcf.ctex"]
+source_file="res://assets/sprites/KQ/ForestMapArt/ForestEffectLeavesBig.png"
+dest_files=["res://.godot/imported/ForestEffectLeavesBig.png-6ae8e5c96f593b52d0c525cdabbeabae.ctex"]
 
 [params]
 

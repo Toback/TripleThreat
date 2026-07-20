@@ -50,7 +50,7 @@ var velocity_before_touching_ceiling: float
 var touching_ceiling: bool = false
 
 func enter() -> void:
-	print("flap")
+	#print("flap")
 	animated_sprite.play("jump")
 	state_label.text = "flapping"
 	internal_velocity = body.freeVelocity

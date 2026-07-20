@@ -5,7 +5,7 @@ var bounce_timer: float = 0.0
 var bounce_speed: Vector2
 
 func enter() -> void:
-	print("bounce")
+	#print("bounce")
 	bounce_timer = BOUNCE_TIME
 	state_label.text = "bouncing"
 	

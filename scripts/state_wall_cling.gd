@@ -8,7 +8,7 @@ var input_x: float
 @export var WALL_CLING_SPEED_TO_MAX_GRAVITY := 20000.0
 
 func enter() -> void:
-	print("wall")
+	#print("wall")
 	state_label.text = "wall_cling"
 	
 func do(_delta: float) -> void:	

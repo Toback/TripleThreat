@@ -5,7 +5,7 @@ class_name RunState extends State
 @export var MAX_TURN_SPEED := 3000.0
 
 func enter() -> void:
-	print("run")
+	#print("run")
 	if body.has_berry:
 		animated_sprite.play("run")
 	else:
