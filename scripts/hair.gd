@@ -3,7 +3,7 @@ extends Node2D
 const SEGMENTS := 5
 var hair_positions: Array = []
 var hair_sizes: Array = []
-@onready var warrior_component_state_machine: CharacterBody2D = $"../warriorComponentStateMachine"
+@onready var warrior_component_state_machine: CharacterBody2D = $"../WarriorTowerfall"
 
 @export var head_offset: Vector2 = Vector2(0, -12) # adjust where hair attaches
 @export var chase_speed := 2

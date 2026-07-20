@@ -2,7 +2,7 @@ class_name CrouchState extends State
 @export var CROUCH_DECELERATION := 3000.0
 
 func enter() -> void:
-	print("crouch")
+	#print("crouch")
 	state_label.text = "crouch"
 	
 func do(delta: float) -> void:

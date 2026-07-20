@@ -12,14 +12,13 @@ var can_dash: bool = true
 var dashed_from_ground: bool
 var dashed_from_crouch: bool
 
-
 func current_facing_direction() -> Vector2:
 	if animated_sprite.flip_h:
 		return Vector2.LEFT
 	return Vector2.RIGHT
 
 func enter() -> void:
-	print("dash")
+	#print("dash")
 	dash_timer = DASH_TIME
 	dash_dir = Helpers.get_snapped_direction(input.get_movement_direction(body.PLAYER_ID))
 	body.dash_cooldown_timer = DASH_COOLDOWN
@@ -66,6 +65,8 @@ func exit() -> void:
 	dash_timer = 0.0
 	dashed_from_crouch = false
 	dashed_from_ground = false
+	body.leftOverVelocity = body.freeVelocity
+	
 	
 func gravity() -> float:
 	return 0.0

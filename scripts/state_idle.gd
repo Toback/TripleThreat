@@ -2,7 +2,7 @@ class_name IdleState extends State
 @export var MAX_DECELERATION := 1500.0
 
 func enter() -> void:
-	print("idle")
+	#print("idle")
 	if body.has_berry:
 		animated_sprite.play("idle")
 	else:

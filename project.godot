@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="TripleThreat"
-run/main_scene="uid://bbjmlop5hl7d4"
+run/main_scene="uid://dw7bvbdthyevw"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -35,6 +35,7 @@ window/size/viewport_width=1600
 window/size/viewport_height=1200
 window/stretch/mode="canvas_items"
 window/stretch/scale_mode="integer"
+window/main_scene="uid://c6klwrcofq384"
 
 [dotnet]
 

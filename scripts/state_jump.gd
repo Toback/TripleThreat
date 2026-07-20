@@ -28,7 +28,7 @@ var wall_jump_dir: int
 @export var TERMINAL_DOWN_VELOCITY := 260.0
 
 func enter() -> void:
-	print("jump")
+	#print("jump")
 	if body.has_berry:
 		animated_sprite.play("jump")
 	else:
