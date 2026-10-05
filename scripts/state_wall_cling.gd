@@ -6,10 +6,13 @@ var input_x: float
 @export var WALL_CLING_GRAVITY_UP := 400
 @export var WALL_CLING_GRAVITY_UP_BUT_LET_GO_OF_JUMP := 2000.0
 @export var WALL_CLING_SPEED_TO_MAX_GRAVITY := 20000.0
+@export var wall_cling_sound: AudioStream
 
 func enter() -> void:
 	#print("wall")
 	state_label.text = "wall_cling"
+	animated_sprite.play("wall_cling")
+	play_sound(wall_cling_sound, -18.0, 0.0, -0.7)
 	
 func do(_delta: float) -> void:	
 	input_x = input.get_movement_direction(body.PLAYER_ID).x
@@ -50,4 +53,6 @@ func gravity() -> float:
 		#return WALL_CLING_GRAVITY_DOWN
 
 func exit() -> void:
+	stop_sound()
+	print("Exited")
 	return

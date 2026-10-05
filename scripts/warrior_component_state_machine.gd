@@ -47,14 +47,14 @@ const screen_boundary = {
 @onready var player_input: InputComponent     = $input_component
 
 func _ready() -> void:
-	bounce_state.setup(self, animated_sprite, player_input, state_label)
-	crouch_state.setup(self, animated_sprite, player_input, state_label)
-	dash_state.setup(self, animated_sprite, player_input, state_label)
-	flap_state.setup(self, animated_sprite, player_input, state_label)
-	idle_state.setup(self, animated_sprite, player_input, state_label)
-	jump_state.setup(self, animated_sprite, player_input, state_label)
-	run_state.setup(self, animated_sprite, player_input, state_label)
-	wall_cling_state.setup(self, animated_sprite, player_input, state_label)
+	#bounce_state.setup(self, animated_sprite, player_input, state_label)
+	#crouch_state.setup(self, animated_sprite, player_input, state_label)
+	#dash_state.setup(self, animated_sprite, player_input, state_label)
+	#flap_state.setup(self, animated_sprite, player_input, state_label)
+	#idle_state.setup(self, animated_sprite, player_input, state_label)
+	#jump_state.setup(self, animated_sprite, player_input, state_label)
+	#run_state.setup(self, animated_sprite, player_input, state_label)
+	#wall_cling_state.setup(self, animated_sprite, player_input, state_label)
 	state = idle_state
 	
 func _process(delta: float) -> void:

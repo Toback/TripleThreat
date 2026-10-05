@@ -22,6 +22,8 @@ var has_berry: bool = false
 @export var COYOTO_TIME := 0.05 # Always let warriors start with a big jump in the air
 @export var BOUNCE_TIME := 0.5
 
+var audio_index: int = 0
+@onready var audio_streams: Array[AudioStreamPlayer2D] = []
 @onready var berry_sprite: Sprite2D = $BerrySprite
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -40,14 +42,17 @@ var has_berry: bool = false
 @onready var player_input: InputComponent     = $input_component
 
 func _ready() -> void:
-	bounce_state.setup(self, animated_sprite, player_input, state_label)
-	crouch_state.setup(self, animated_sprite, player_input, state_label)
-	dash_state.setup(self, animated_sprite, player_input, state_label)
-	flap_state.setup(self, animated_sprite, player_input, state_label)
-	idle_state.setup(self, animated_sprite, player_input, state_label)
-	jump_state.setup(self, animated_sprite, player_input, state_label)
-	run_state.setup(self, animated_sprite, player_input, state_label)
-	wall_cling_state.setup(self, animated_sprite, player_input, state_label)
+	for audio_stream in $AudioStreams.get_children():
+		audio_streams.append(audio_stream as AudioStreamPlayer2D)
+	
+	bounce_state.setup(self, animated_sprite, player_input, state_label, audio_streams)
+	crouch_state.setup(self, animated_sprite, player_input, state_label, audio_streams)
+	dash_state.setup(self, animated_sprite, player_input, state_label, audio_streams)
+	flap_state.setup(self, animated_sprite, player_input, state_label, audio_streams)
+	idle_state.setup(self, animated_sprite, player_input, state_label, audio_streams)
+	jump_state.setup(self, animated_sprite, player_input, state_label, audio_streams)
+	run_state.setup(self, animated_sprite, player_input, state_label, audio_streams)
+	wall_cling_state.setup(self, animated_sprite, player_input, state_label, audio_streams)
 	state = idle_state
 	
 func _process(delta: float) -> void:

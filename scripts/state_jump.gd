@@ -26,13 +26,15 @@ var wall_jump_dir: int
 @export var WALL_JUMP_TIME := 0.2
 
 @export var TERMINAL_DOWN_VELOCITY := 260.0
+@export var jump_sound: AudioStream
+@export var landing_sound: AudioStream
 
 func enter() -> void:
 	#print("jump")
-	if body.has_berry:
-		animated_sprite.play("jump")
-	else:
-		animated_sprite.play("jump")
+	#if body.has_berry:
+		#animated_sprite.play("jump")
+	#else:
+		#animated_sprite.play("jump")
 	state_label.text = "jump"
 	jumping = true
 	if (body.left_wall_cling_ray.is_colliding() || body.right_wall_cling_ray.is_colliding()) and !body.grounded: 
@@ -43,12 +45,17 @@ func enter() -> void:
 			_wall_jump()
 		else:
 			_jump()
+	play_sound(jump_sound, 0.0)
 	
 func do(delta: float) -> void:	
 	_handle_animation()
 	input_x = input.get_movement_direction(body.PLAYER_ID).x
 	input_jump = input.wants_hold_jump(body.PLAYER_ID)
 	wall_jump_timer = max(wall_jump_timer - delta, 0)
+	#
+	#if body.velocity.y >= 0:
+		#animated_sprite.play("fall_loop")
+	
 	if body.grounded or (!body.grounded and !jumping):
 		is_complete = true
 
@@ -96,6 +103,8 @@ func exit() -> void:
 	jumping = false
 	jump_from_wall = false
 	wall_jump_timer = 0
+	if body.grounded:
+		play_sound(landing_sound, -20.0)
 	
 	
 func gravity() -> float:
@@ -118,8 +127,18 @@ func gravity() -> float:
 		return current_gravity
 			
 func _handle_animation() -> void:
-	var anim_time: float = Helpers.map(body.velocity.y, jump_speed, -jump_speed, 0, 1, true)
-	var total_frames: int = animated_sprite.sprite_frames.get_frame_count("jump")
-	var frame_index = int(anim_time * (total_frames - 1))
-	animated_sprite.play("jump")
-	animated_sprite.frame = frame_index
+	#var anim_time: float = Helpers.map(body.velocity.y, jump_speed, -jump_speed, 0, 1, true)
+	#var total_frames: int = animated_sprite.sprite_frames.get_frame_count("jump")
+	#var frame_index = int(anim_time * (total_frames - 1))
+	#animated_sprite.play("jump")
+	#animated_sprite.frame = frame_index
+	if body.velocity.y <= 0:
+		animated_sprite.play("jump")
+	else:
+		#if animated_sprite.animation_finished:
+		if animated_sprite.animation == "jump":
+			animated_sprite.play("fall")
+		if animated_sprite.sprite_frames.get_frame_count("fall")-1 == animated_sprite.frame:
+			if animated_sprite.animation != "fall_loop":
+				animated_sprite.play("fall_loop")
+		

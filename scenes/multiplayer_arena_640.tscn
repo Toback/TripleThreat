@@ -525,9 +525,13 @@ position = Vector2(-65, 330)
 [node name="warrior" type="Node" parent="CurrentRound"]
 
 [node name="hair" type="Node2D" parent="CurrentRound/warrior"]
+visible = false
 script = ExtResource("9_ao54k")
 
 [node name="WarriorTowerfall" parent="CurrentRound/warrior" instance=ExtResource("10_0nmx8")]
+
+[node name="AnimatedSprite2D" parent="CurrentRound/warrior/WarriorTowerfall" index="2"]
+autoplay = "jump"
 
 [node name="dash_state" parent="CurrentRound/warrior/WarriorTowerfall/states" index="1"]
 DASH_SPEED = 250.0
