@@ -66,8 +66,9 @@ func enter() -> void:
 		
 	
 func _on_animated_sprite_animation_finished() -> void:
-	if animated_sprite.animation == "flap":
-		animated_sprite.play("flap_loop")
+	if body.state.state_label.text == "flapping":
+		if animated_sprite.animation == "flap":
+			animated_sprite.play("flap_loop")
 
 func do(delta: float) -> void:
 	maintain_scrape_timer = max(maintain_scrape_timer - delta, 0)

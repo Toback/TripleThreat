@@ -15,12 +15,14 @@ var input_dash: bool
 var grounded: bool = false
 var walled: bool = false
 var has_berry: bool = false
+var wall_jump_grace_timer: float = 0.0
 
 @onready var wrap_bounds: ReferenceRect = get_tree().get_first_node_in_group("WrapBounds")
 
 @export var PLAYER_ID := 0 
 @export var COYOTO_TIME := 0.05 # Always let warriors start with a big jump in the air
 @export var BOUNCE_TIME := 0.5
+@export var WALL_JUMP_GRACE_TIME := 0.15
 
 var audio_index: int = 0
 @onready var audio_streams: Array[AudioStreamPlayer2D] = []
@@ -29,7 +31,9 @@ var audio_index: int = 0
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var platform_collider: CollisionShape2D = $PlatformCollider
 @onready var left_wall_cling_ray: RayCast2D = $left_wall_cling_ray
+@onready var left_wall_check_for_leaving_jump: RayCast2D = $left_wall_check_for_leaving_jump
 @onready var right_wall_cling_ray: RayCast2D = $right_wall_cling_ray
+@onready var right_wall_check_for_leaving_jump: RayCast2D = $right_wall_check_for_leaving_jump
 @onready var state_label: Label = $StateLabel
 @onready var bounce_state: BounceState        = $states/bounce_state 
 @onready var crouch_state: CrouchState        = $states/crouch_state
@@ -107,8 +111,10 @@ func _select_state() -> void:
 			set_state(idle_state)
 		else:
 			set_state(run_state)
-	elif ((left_wall_cling_ray.is_colliding()  and input_dir.x < -0.5) or
-		  (right_wall_cling_ray.is_colliding() and input_dir.x >  0.5)) and jump_state.wall_jump_timer == 0 and not has_berry:
+	elif (
+			(left_wall_cling_ray.is_colliding()  and input_dir.x < -0.5) or
+			(right_wall_cling_ray.is_colliding() and input_dir.x >  0.5)  
+		) and jump_state.wall_jump_timer == 0 and not has_berry and velocity.y > 0 and !grounded:
 		set_state(wall_cling_state)
 	else:
 		if not jump_state.jumping:
@@ -134,6 +140,7 @@ func _handle_timers(delta: float) -> void:
 	dash_coyote_timer = max(dash_coyote_timer - delta, 0)
 	dash_cooldown_timer = max(dash_cooldown_timer - delta, 0)
 	jump_buffer_timer = max(jump_buffer_timer - delta, 0)
+	wall_jump_grace_timer = max(wall_jump_grace_timer - delta, 0)
 	
 func _handle_berry_sprite() -> void:
 	if has_berry:

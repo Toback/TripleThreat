@@ -25,7 +25,6 @@ func do(_delta: float) -> void:
 	return
 	
 func physics_do(delta: float) -> void:
-	print(gravity())
 	body.freeVelocity.y += gravity() * delta
 
 func gravity() -> float:
@@ -54,5 +53,5 @@ func gravity() -> float:
 
 func exit() -> void:
 	stop_sound()
-	print("Exited")
+	body.wall_jump_grace_timer = body.WALL_JUMP_GRACE_TIME
 	return

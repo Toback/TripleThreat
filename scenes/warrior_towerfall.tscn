@@ -695,7 +695,7 @@ horizontal_alignment = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_tuyoq")
-animation = &"fall"
+animation = &"fall_loop"
 autoplay = "idle"
 offset = Vector2(0, -10.5)
 
@@ -706,8 +706,14 @@ sprite = NodePath("..")
 [node name="right_wall_cling_ray" type="RayCast2D" parent="."]
 target_position = Vector2(5, 0)
 
+[node name="right_wall_check_for_leaving_jump" type="RayCast2D" parent="."]
+target_position = Vector2(10, 0)
+
 [node name="left_wall_cling_ray" type="RayCast2D" parent="."]
 target_position = Vector2(-5, 0)
+
+[node name="left_wall_check_for_leaving_jump" type="RayCast2D" parent="."]
+target_position = Vector2(-10, 0)
 
 [node name="PlatformCollider" type="CollisionShape2D" parent="."]
 position = Vector2(0, -9)
@@ -851,4 +857,5 @@ randomness = 0.15
 process_material = ExtResource("37_6yc7v")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="states/flap_state" method="_on_animated_sprite_animation_finished"]
+[connection signal="animation_finished" from="AnimatedSprite2D" to="states/jump_state" method="_on_animated_sprite_animation_finished"]
 [connection signal="body_entered" from="HitBox" to="." method="_on_hit_box_body_entered"]
