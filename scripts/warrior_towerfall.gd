@@ -114,7 +114,7 @@ func _select_state() -> void:
 	elif (
 			(left_wall_cling_ray.is_colliding()  and input_dir.x < -0.5) or
 			(right_wall_cling_ray.is_colliding() and input_dir.x >  0.5)  
-		) and jump_state.wall_jump_timer == 0 and not has_berry and velocity.y > 0 and !grounded:
+		) and jump_state.wall_jump_duration_timer == 0 and not has_berry and velocity.y > 0 and !grounded:
 		set_state(wall_cling_state)
 	else:
 		if not jump_state.jumping:

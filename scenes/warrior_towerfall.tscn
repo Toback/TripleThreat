@@ -1,4 +1,4 @@
-[gd_scene load_steps=110 format=3 uid="uid://et6833aeepvd"]
+[gd_scene load_steps=113 format=3 uid="uid://et6833aeepvd"]
 
 [ext_resource type="Script" uid="uid://lcvjfaeyrru7" path="res://scripts/warrior_towerfall.gd" id="1_stw0o"]
 [ext_resource type="Texture2D" uid="uid://bgwy451r2s1e8" path="res://assets/sprites/BerryHoleFilled.png" id="2_stw0o"]
@@ -27,6 +27,7 @@
 [ext_resource type="Script" uid="uid://dyj42wkhligjp" path="res://scripts/state_crouch.gd" id="14_codp7"]
 [ext_resource type="Script" uid="uid://lwy02rop2p8y" path="res://scripts/state_wall_cling.gd" id="15_x1yqx"]
 [ext_resource type="Texture2D" uid="uid://bslf3ih42r2h5" path="res://assets/sprites/CharacterAnim/MainCharacter-WallClingRight.png" id="16_hv8kh"]
+[ext_resource type="Texture2D" uid="uid://50efq6s86il" path="res://assets/sprites/CharacterAnim/MainCharacter-WallClingJump.png" id="17_54vxn"]
 [ext_resource type="AudioStream" uid="uid://ccd2bned11332" path="res://assets/sounds/ChipTone/bounce.wav" id="20_ysjnq"]
 [ext_resource type="AudioStream" uid="uid://b7hoko56cgnc8" path="res://assets/sounds/FreeSound/whoosh_short_low_editted.wav" id="23_71uli"]
 [ext_resource type="AudioStream" uid="uid://cyas381532ojd" path="res://assets/sounds/ChipTone/flap.wav" id="23_x1yqx"]
@@ -290,6 +291,14 @@ region = Rect2(224, 96, 32, 32)
 [sub_resource type="AtlasTexture" id="AtlasTexture_subc7"]
 atlas = ExtResource("16_hv8kh")
 region = Rect2(0, 0, 21, 23)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sqwkb"]
+atlas = ExtResource("17_54vxn")
+region = Rect2(0, 0, 21, 23)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p230f"]
+atlas = ExtResource("17_54vxn")
+region = Rect2(21, 0, 21, 23)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_tuyoq"]
 animations = [{
@@ -575,6 +584,17 @@ animations = [{
 "loop": true,
 "name": &"wall_cling",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sqwkb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p230f")
+}],
+"loop": false,
+"name": &"wall_cling_jump",
+"speed": 20.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a0q0s"]
@@ -695,7 +715,7 @@ horizontal_alignment = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_tuyoq")
-animation = &"fall_loop"
+animation = &"wall_cling_jump"
 autoplay = "idle"
 offset = Vector2(0, -10.5)
 
@@ -788,6 +808,7 @@ script = ExtResource("12_xaayg")
 JUMP_SPEED = -150.0
 AIR_SPEED = 80.0
 jump_sound = ExtResource("29_6yc7v")
+wall_jump_sound = ExtResource("29_6yc7v")
 landing_sound = ExtResource("26_6yc7v")
 
 [node name="run_state" type="Node" parent="states"]
