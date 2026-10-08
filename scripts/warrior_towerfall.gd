@@ -121,30 +121,31 @@ func _select_state() -> void:
 			set_state(idle_state)
 		else:
 			set_state(run_state)
-	elif (
-			(
-				(!left_wall_check_for_leaving_jump_top.is_colliding() and left_ledge_grab_ray.is_colliding() and input_dir.x < -0.5) or
-				(!right_wall_check_for_leaving_jump_top.is_colliding() and right_ledge_grab_ray.is_colliding() and input_dir.x >  0.5)  
-			) and not has_berry and !grounded
-			or
-			ledge_grab_state.playing_animation
-		):
-		var corner: Vector2 = Vector2.ZERO
-		if state != ledge_grab_state:
-			if right_ledge_grab_ray.is_colliding():
-				corner = Vector2(
-					right_ledge_grab_ray.get_collision_point().x,
-					right_ledge_corner_detector_ray.get_collision_point().y
-				)
-			elif left_ledge_grab_ray.is_colliding():
-				corner = Vector2(
-					left_ledge_grab_ray.get_collision_point().x,
-					left_ledge_corner_detector_ray.get_collision_point().y
-				)
-			else:
-				print("Corner Detection Error")
-		ledge_grab_state.corner_location = corner
-		set_state(ledge_grab_state)
+	# Not liking how ledge grab feels at the moment. Leaving code for now
+	#elif (
+			#(
+				#(!left_wall_check_for_leaving_jump_top.is_colliding() and left_ledge_grab_ray.is_colliding() and input_dir.x < -0.5) or
+				#(!right_wall_check_for_leaving_jump_top.is_colliding() and right_ledge_grab_ray.is_colliding() and input_dir.x >  0.5)  
+			#) and not has_berry and !grounded
+			#or
+			#ledge_grab_state.playing_animation
+		#):
+		#var corner: Vector2 = Vector2.ZERO
+		#if state != ledge_grab_state:
+			#if right_ledge_grab_ray.is_colliding():
+				#corner = Vector2(
+					#right_ledge_grab_ray.get_collision_point().x,
+					#right_ledge_corner_detector_ray.get_collision_point().y
+				#)
+			#elif left_ledge_grab_ray.is_colliding():
+				#corner = Vector2(
+					#left_ledge_grab_ray.get_collision_point().x,
+					#left_ledge_corner_detector_ray.get_collision_point().y
+				#)
+			#else:
+				#print("Corner Detection Error")
+		#ledge_grab_state.corner_location = corner
+		#set_state(ledge_grab_state)
 	elif (
 			((left_wall_cling_ray.is_colliding() or left_wall_cling_top_ray.is_colliding())  and input_dir.x < -0.5) or
 			((right_wall_cling_ray.is_colliding() or right_wall_cling_top_ray.is_colliding()) and input_dir.x >  0.5)  

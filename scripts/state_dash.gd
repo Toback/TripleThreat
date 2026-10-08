@@ -48,7 +48,6 @@ func physics_do(delta: float) -> void:
 func _dash() -> void:
 	var before_dash_speed = body.freeVelocity
 	var new_speed: Vector2
-	print("dash_dir", dash_dir)
 	if dashed_from_crouch: #or (!dashed_from_ground and body.grounded):
 		#new_speed = (current_facing_direction() * CROUCH_DASH_SPEED) + Vector2(body.velocity.x, 0)
 		new_speed = body.current_facing_direction() * CROUCH_DASH_SPEED

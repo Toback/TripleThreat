@@ -163,19 +163,13 @@ func _handle_animation() -> void:
 		if (jump_from_wall_upwards or jump_from_wall_backwards) and !wall_cling_jump_anim_started_bool:
 			animated_sprite.play("wall_cling_jump")
 			wall_cling_jump_anim_started_bool = true
-			print("playing wall_cling jump ", animated_sprite.animation)
 		else:
 			if !jump_anim_started_bool and ((wall_cling_jump_anim_finished_bool) or (!jump_from_wall_upwards and !jump_from_wall_backwards)):
 				jump_anim_started_bool = true
 				animated_sprite.play("jump") 
-				print("playing jump ", animated_sprite.animation)
 	else:
 		if animated_sprite.animation == "jump" or animated_sprite.animation == "wall_cling_jump":
 			animated_sprite.play("fall")
-			print("playing fall ", animated_sprite.animation)
-		#if animated_sprite.sprite_frames.get_frame_count("fall")-1 == animated_sprite.frame:
-			#if animated_sprite.animation != "fall_loop":
-				#animated_sprite.play("fall_loop")
 		#
 func _on_animated_sprite_animation_finished() -> void:
 	if body.state.state_label.text == "jump":
@@ -183,10 +177,8 @@ func _on_animated_sprite_animation_finished() -> void:
 			wall_cling_jump_anim_finished_bool = true
 		if animated_sprite.animation == "jump":
 			animated_sprite.play("fall")
-			print("playing fall ", animated_sprite.animation)
 		if animated_sprite.animation == "fall":
 			animated_sprite.play("fall_loop")
-			print("playing fall_loop ", animated_sprite.animation)
 
 
 func _on_animated_sprite_2d_animation_finished() -> void:
