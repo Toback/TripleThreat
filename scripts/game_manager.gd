@@ -30,6 +30,7 @@ func _ready() -> void:
 	go_control_pos = go_control.position
 	Global.snail_win.connect(round_win)
 	Global.berry_win.connect(round_win)
+	#Engine.time_scale = 0.3
 	start_round()
 
 func round_win(winning_team: String):

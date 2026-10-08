@@ -46,7 +46,7 @@ func enter() -> void:
 	state_label.text = "jump"
 	jumping = true
 	pressed_jump_then_away_from_wall_timer = JUMP_THEN_FACE_AWAY_JUMP_GRACE_TIME
-	if (body.left_wall_cling_ray.is_colliding() or body.right_wall_cling_ray.is_colliding()) and !body.grounded: 
+	if (body.left_wall_cling_ray.is_colliding() or body.right_wall_cling_ray.is_colliding() or body.left_wall_cling_top_ray.is_colliding() or body.right_wall_cling_top_ray.is_colliding()) and !body.grounded: 
 		jump_from_wall_upwards = true
 	if input.back_colliding_with_wall(body) != 0 and body.wall_jump_grace_timer:
 		jump_from_wall_backwards = true
@@ -167,7 +167,7 @@ func _handle_animation() -> void:
 		else:
 			if !jump_anim_started_bool and ((wall_cling_jump_anim_finished_bool) or (!jump_from_wall_upwards and !jump_from_wall_backwards)):
 				jump_anim_started_bool = true
-				animated_sprite.play("jump")
+				animated_sprite.play("jump") 
 				print("playing jump ", animated_sprite.animation)
 	else:
 		if animated_sprite.animation == "jump" or animated_sprite.animation == "wall_cling_jump":

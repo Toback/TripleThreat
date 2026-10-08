@@ -529,6 +529,7 @@ visible = false
 script = ExtResource("9_ao54k")
 
 [node name="WarriorTowerfall" parent="CurrentRound/warrior" instance=ExtResource("10_0nmx8")]
+position = Vector2(-95, -38)
 
 [node name="AnimatedSprite2D" parent="CurrentRound/warrior/WarriorTowerfall" index="2"]
 autoplay = "jump"

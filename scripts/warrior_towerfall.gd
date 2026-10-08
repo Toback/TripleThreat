@@ -31,9 +31,17 @@ var audio_index: int = 0
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var platform_collider: CollisionShape2D = $PlatformCollider
 @onready var left_wall_cling_ray: RayCast2D = $left_wall_cling_ray
+@onready var left_ledge_grab_ray: RayCast2D = $left_ledge_grab_ray
+@onready var left_ledge_corner_detector_ray: RayCast2D = $left_ledge_corner_detector_ray
+@onready var left_wall_cling_top_ray: RayCast2D = $left_wall_cling_top_ray
 @onready var left_wall_check_for_leaving_jump: RayCast2D = $left_wall_check_for_leaving_jump
+@onready var left_wall_check_for_leaving_jump_top: RayCast2D = $left_wall_check_for_leaving_jump_top
+@onready var right_wall_cling_top_ray: RayCast2D = $right_wall_cling_top_ray
 @onready var right_wall_cling_ray: RayCast2D = $right_wall_cling_ray
+@onready var right_ledge_grab_ray: RayCast2D = $right_ledge_grab_ray
+@onready var right_ledge_corner_detector_ray: RayCast2D = $right_ledge_corner_detector_ray
 @onready var right_wall_check_for_leaving_jump: RayCast2D = $right_wall_check_for_leaving_jump
+@onready var right_wall_check_for_leaving_jump_top: RayCast2D = $right_wall_check_for_leaving_jump_top
 @onready var state_label: Label = $StateLabel
 @onready var bounce_state: BounceState        = $states/bounce_state 
 @onready var crouch_state: CrouchState        = $states/crouch_state
@@ -43,6 +51,7 @@ var audio_index: int = 0
 @onready var jump_state: JumpState            = $states/jump_state
 @onready var run_state: RunState              = $states/run_state
 @onready var wall_cling_state: WallClingState = $states/wall_cling_state
+@onready var ledge_grab_state: LedgeGrabState = $states/ledge_grab_state
 @onready var player_input: InputComponent     = $input_component
 
 func _ready() -> void:
@@ -57,6 +66,7 @@ func _ready() -> void:
 	jump_state.setup(self, animated_sprite, player_input, state_label, audio_streams)
 	run_state.setup(self, animated_sprite, player_input, state_label, audio_streams)
 	wall_cling_state.setup(self, animated_sprite, player_input, state_label, audio_streams)
+	ledge_grab_state.setup(self, animated_sprite, player_input, state_label, audio_streams)
 	state = idle_state
 	
 func _process(delta: float) -> void:
@@ -81,7 +91,7 @@ func _process(delta: float) -> void:
 	### Handle jump and flapping
 	# Check if we're allowed to jump by seeing if we're 
 	# on the ground or recently left it
-	if grounded || coyote_timer > 0 || dash_coyote_timer > 0 || (left_wall_cling_ray.is_colliding() and not has_berry) || (right_wall_cling_ray.is_colliding() and not has_berry):
+	if grounded || coyote_timer > 0 || dash_coyote_timer > 0 || ((left_wall_cling_ray.is_colliding() or left_wall_cling_top_ray.is_colliding()) and not has_berry) || ((right_wall_cling_ray.is_colliding() or right_wall_cling_top_ray.is_colliding()) and not has_berry):
 		# Jump if the button was pressed or we registered a jump recently
 		if input_jump || jump_buffer_timer > 0: 
 			jump_state.attempt_jump = true
@@ -112,8 +122,32 @@ func _select_state() -> void:
 		else:
 			set_state(run_state)
 	elif (
-			(left_wall_cling_ray.is_colliding()  and input_dir.x < -0.5) or
-			(right_wall_cling_ray.is_colliding() and input_dir.x >  0.5)  
+			(
+				(!left_wall_check_for_leaving_jump_top.is_colliding() and left_ledge_grab_ray.is_colliding() and input_dir.x < -0.5) or
+				(!right_wall_check_for_leaving_jump_top.is_colliding() and right_ledge_grab_ray.is_colliding() and input_dir.x >  0.5)  
+			) and not has_berry and !grounded
+			or
+			ledge_grab_state.playing_animation
+		):
+		var corner: Vector2 = Vector2.ZERO
+		if state != ledge_grab_state:
+			if right_ledge_grab_ray.is_colliding():
+				corner = Vector2(
+					right_ledge_grab_ray.get_collision_point().x,
+					right_ledge_corner_detector_ray.get_collision_point().y
+				)
+			elif left_ledge_grab_ray.is_colliding():
+				corner = Vector2(
+					left_ledge_grab_ray.get_collision_point().x,
+					left_ledge_corner_detector_ray.get_collision_point().y
+				)
+			else:
+				print("Corner Detection Error")
+		ledge_grab_state.corner_location = corner
+		set_state(ledge_grab_state)
+	elif (
+			((left_wall_cling_ray.is_colliding() or left_wall_cling_top_ray.is_colliding())  and input_dir.x < -0.5) or
+			((right_wall_cling_ray.is_colliding() or right_wall_cling_top_ray.is_colliding()) and input_dir.x >  0.5)  
 		) and jump_state.wall_jump_duration_timer == 0 and not has_berry and velocity.y > 0 and !grounded:
 		set_state(wall_cling_state)
 	else:
@@ -168,7 +202,7 @@ func _physics_process(delta: float) -> void:
 	grounded = is_on_floor()
 	walled   = is_on_wall()
 	
-	if grounded and dash_cooldown_timer == 0:
+	if (grounded or state == wall_cling_state ) and dash_cooldown_timer == 0:
 		dash_state.can_dash = true
 
 #func _wrap_character() -> void:

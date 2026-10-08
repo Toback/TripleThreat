@@ -1,4 +1,4 @@
-[gd_scene load_steps=113 format=3 uid="uid://et6833aeepvd"]
+[gd_scene load_steps=119 format=3 uid="uid://et6833aeepvd"]
 
 [ext_resource type="Script" uid="uid://lcvjfaeyrru7" path="res://scripts/warrior_towerfall.gd" id="1_stw0o"]
 [ext_resource type="Texture2D" uid="uid://bgwy451r2s1e8" path="res://assets/sprites/BerryHoleFilled.png" id="2_stw0o"]
@@ -25,6 +25,7 @@
 [ext_resource type="Script" uid="uid://dn35pci0tfs7i" path="res://scripts/state_jump.gd" id="12_xaayg"]
 [ext_resource type="Script" uid="uid://c6fsop3rjrhc2" path="res://scripts/state_run.gd" id="13_on7xn"]
 [ext_resource type="Script" uid="uid://dyj42wkhligjp" path="res://scripts/state_crouch.gd" id="14_codp7"]
+[ext_resource type="Texture2D" uid="uid://duaer4q1rwu7t" path="res://assets/sprites/CharacterAnim/MainCharacter-LedgeJump.png" id="15_n2x0x"]
 [ext_resource type="Script" uid="uid://lwy02rop2p8y" path="res://scripts/state_wall_cling.gd" id="15_x1yqx"]
 [ext_resource type="Texture2D" uid="uid://bslf3ih42r2h5" path="res://assets/sprites/CharacterAnim/MainCharacter-WallClingRight.png" id="16_hv8kh"]
 [ext_resource type="Texture2D" uid="uid://50efq6s86il" path="res://assets/sprites/CharacterAnim/MainCharacter-WallClingJump.png" id="17_54vxn"]
@@ -39,6 +40,8 @@
 [ext_resource type="Texture2D" uid="uid://ub8dnk6dj3wt" path="res://assets/sprites/dust.png" id="35_ghx6r"]
 [ext_resource type="Material" uid="uid://ba0l0tmfnlkn2" path="res://assets/materials/RunMaterial.tres" id="36_71uli"]
 [ext_resource type="Material" uid="uid://djwircw3ac42o" path="res://assets/materials/DashMaterial.tres" id="37_6yc7v"]
+[ext_resource type="Script" uid="uid://bgku1uv76kncj" path="res://scripts/state_ledge_grab.gd" id="37_irf6q"]
+[ext_resource type="AudioStream" uid="uid://wtrb08ujv00b" path="res://assets/sounds/FreeSound/grab_2.wav" id="39_mlcvi"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x06ey"]
 atlas = ExtResource("4_xaayg")
@@ -175,6 +178,18 @@ region = Rect2(0, 0, 21, 23)
 [sub_resource type="AtlasTexture" id="AtlasTexture_tuyoq"]
 atlas = ExtResource("4_5yqaj")
 region = Rect2(64, 160, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qoasf"]
+atlas = ExtResource("15_n2x0x")
+region = Rect2(21, 0, 21, 23)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cbixd"]
+atlas = ExtResource("15_n2x0x")
+region = Rect2(42, 0, 21, 23)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_anxwn"]
+atlas = ExtResource("15_n2x0x")
+region = Rect2(63, 0, 21, 23)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0si57"]
 atlas = ExtResource("8_03w70")
@@ -477,6 +492,20 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_qoasf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cbixd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_anxwn")
+}],
+"loop": false,
+"name": &"ledge_grab",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_0si57")
 }, {
 "duration": 1.0,
@@ -698,12 +727,12 @@ collision_layer = 6
 script = ExtResource("1_stw0o")
 
 [node name="BerrySprite" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(0, -6)
 texture = ExtResource("2_stw0o")
 offset = Vector2(-16, 0)
 
 [node name="StateLabel" type="Label" parent="."]
-visible = false
 offset_left = -46.0
 offset_top = -54.0
 offset_right = 44.0
@@ -715,7 +744,7 @@ horizontal_alignment = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_tuyoq")
-animation = &"wall_cling_jump"
+animation = &"ledge_grab"
 autoplay = "idle"
 offset = Vector2(0, -10.5)
 
@@ -723,14 +752,46 @@ offset = Vector2(0, -10.5)
 script = ExtResource("5_03w70")
 sprite = NodePath("..")
 
+[node name="right_wall_cling_top_ray" type="RayCast2D" parent="."]
+position = Vector2(0, -16)
+target_position = Vector2(5, 0)
+
+[node name="right_ledge_corner_detector_ray" type="RayCast2D" parent="."]
+position = Vector2(5, -18)
+target_position = Vector2(0, 10)
+
+[node name="right_ledge_grab_ray" type="RayCast2D" parent="."]
+position = Vector2(0, -8)
+target_position = Vector2(5, 0)
+
 [node name="right_wall_cling_ray" type="RayCast2D" parent="."]
 target_position = Vector2(5, 0)
+
+[node name="right_wall_check_for_leaving_jump_top" type="RayCast2D" parent="."]
+position = Vector2(0, -16)
+target_position = Vector2(10, 0)
 
 [node name="right_wall_check_for_leaving_jump" type="RayCast2D" parent="."]
 target_position = Vector2(10, 0)
 
+[node name="left_wall_cling_top_ray" type="RayCast2D" parent="."]
+position = Vector2(0, -16)
+target_position = Vector2(-5, 0)
+
+[node name="left_ledge_corner_detector_ray" type="RayCast2D" parent="."]
+position = Vector2(-5, -18)
+target_position = Vector2(0, 10)
+
+[node name="left_ledge_grab_ray" type="RayCast2D" parent="."]
+position = Vector2(0, -8)
+target_position = Vector2(-5, 0)
+
 [node name="left_wall_cling_ray" type="RayCast2D" parent="."]
 target_position = Vector2(-5, 0)
+
+[node name="left_wall_check_for_leaving_jump_top" type="RayCast2D" parent="."]
+position = Vector2(0, -16)
+target_position = Vector2(-10, 0)
 
 [node name="left_wall_check_for_leaving_jump" type="RayCast2D" parent="."]
 target_position = Vector2(-10, 0)
@@ -823,6 +884,10 @@ crouch_sound = ExtResource("32_71uli")
 [node name="wall_cling_state" type="Node" parent="states"]
 script = ExtResource("15_x1yqx")
 wall_cling_sound = ExtResource("34_71uli")
+
+[node name="ledge_grab_state" type="Node" parent="states"]
+script = ExtResource("37_irf6q")
+ledge_grab_sound = ExtResource("39_mlcvi")
 
 [node name="ForeGroundLight" type="PointLight2D" parent="."]
 light_mask = 6

@@ -18,14 +18,17 @@ func do(_delta: float) -> void:
 	input_x = input.get_movement_direction(body.PLAYER_ID).x
 	input_jump = input.wants_hold_jump(body.PLAYER_ID)
 	if  !body.left_wall_cling_ray.is_colliding() or \
+		!body.left_wall_cling_top_ray.is_colliding() or \
 		!body.right_wall_cling_ray.is_colliding() or \
-		(body.left_wall_cling_ray.is_colliding() and input_x > -0.5) or \
-		 (body.right_wall_cling_ray.is_colliding() and input_x < 0.5):
+		!body.right_wall_cling_top_ray.is_colliding() or \
+		((body.left_wall_cling_ray.is_colliding() or body.left_wall_cling_top_ray.is_colliding()) and input_x > -0.5) or \
+		 ((body.right_wall_cling_ray.is_colliding() or body.right_wall_cling_top_ray.is_colliding() ) and input_x < 0.5):
 		is_complete = true
 	return
 	
 func physics_do(delta: float) -> void:
 	body.freeVelocity.y += gravity() * delta
+	body.freeVelocity.y = min(body.freeVelocity.y, 100)
 
 func gravity() -> float:
 	# check if our character is going up. Godot has UP being negative y.

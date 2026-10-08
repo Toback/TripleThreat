@@ -14,10 +14,10 @@ var dashed_from_ground: bool
 var dashed_from_crouch: bool
 @onready var dash_dust = %DashParticles
 
-func current_facing_direction() -> Vector2:
-	if animated_sprite.flip_h:
-		return Vector2.LEFT
-	return Vector2.RIGHT
+#func current_facing_direction() -> Vector2:
+	#if animated_sprite.flip_h:
+		#return Vector2.LEFT
+	#return Vector2.RIGHT
 
 func enter() -> void:
 	#print("dash")
@@ -27,7 +27,7 @@ func enter() -> void:
 	play_sound(dash_sound, 5.0)
 	can_dash = false
 	if dash_dir == Vector2.ZERO:
-		dash_dir = current_facing_direction()
+		dash_dir = body.current_facing_direction()
 	if dashed_from_ground:
 		body.dash_coyote_timer = DASH_COYOTE_TIME
 	animated_sprite.play("dash")
@@ -51,7 +51,7 @@ func _dash() -> void:
 	print("dash_dir", dash_dir)
 	if dashed_from_crouch: #or (!dashed_from_ground and body.grounded):
 		#new_speed = (current_facing_direction() * CROUCH_DASH_SPEED) + Vector2(body.velocity.x, 0)
-		new_speed = current_facing_direction() * CROUCH_DASH_SPEED
+		new_speed = body.current_facing_direction() * CROUCH_DASH_SPEED
 	else:
 		# Dashing from air is a bigger boost to make it feel better.
 		if dashed_from_ground == false and dash_dir.y < 0:
