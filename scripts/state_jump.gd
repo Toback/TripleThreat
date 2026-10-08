@@ -7,10 +7,16 @@ var input_jump: bool
 var current_gravity: float
 var max_speed_change: float
 var attempt_jump: bool
-var jump_from_wall: bool
+var jump_from_wall_upwards: bool
+var jump_from_wall_backwards: bool
 
-var wall_jump_timer: float
+var wall_jump_duration_timer: float
+var pressed_jump_then_away_from_wall_timer: float
 var wall_jump_dir: int
+
+var wall_cling_jump_anim_started_bool : bool
+var wall_cling_jump_anim_finished_bool : bool
+var jump_anim_started_bool : bool
 
 @export var JUMP_SPEED := -250.0
 @export var JUMP_GRAVITY := 400.0
@@ -24,31 +30,49 @@ var wall_jump_dir: int
 @export var AIR_SPEED := 140.0 
 
 @export var WALL_JUMP_TIME := 0.2
+@export var JUMP_THEN_FACE_AWAY_JUMP_GRACE_TIME := 0.2
 
 @export var TERMINAL_DOWN_VELOCITY := 260.0
+@export var jump_sound: AudioStream
+@export var wall_jump_sound: AudioStream
+@export var landing_sound: AudioStream
 
 func enter() -> void:
 	#print("jump")
-	if body.has_berry:
-		animated_sprite.play("jump")
-	else:
-		animated_sprite.play("jump")
+	#if body.has_berry:
+		#animated_sprite.play("jump")
+	#else:
+		#animated_sprite.play("jump")
 	state_label.text = "jump"
 	jumping = true
-	if (body.left_wall_cling_ray.is_colliding() || body.right_wall_cling_ray.is_colliding()) and !body.grounded: 
-		jump_from_wall = true
+	pressed_jump_then_away_from_wall_timer = JUMP_THEN_FACE_AWAY_JUMP_GRACE_TIME
+	if (body.left_wall_cling_ray.is_colliding() or body.right_wall_cling_ray.is_colliding() or body.left_wall_cling_top_ray.is_colliding() or body.right_wall_cling_top_ray.is_colliding()) and !body.grounded: 
+		jump_from_wall_upwards = true
+	if input.back_colliding_with_wall(body) != 0 and body.wall_jump_grace_timer:
+		jump_from_wall_backwards = true
+	
 	if attempt_jump:
 		body.grounded = false
-		if jump_from_wall:
-			_wall_jump()
+		if jump_from_wall_backwards:
+			_wall_jump(Vector2(-input.back_colliding_with_wall(body), 0))
+			play_sound(wall_jump_sound, 0.0, 0.0, 0.3)
+		elif jump_from_wall_upwards:
+			_wall_jump(Vector2.UP)
+			play_sound(wall_jump_sound, 0.0, 0.0, 0.3)
 		else:
 			_jump()
+			play_sound(jump_sound, 0.0)
 	
 func do(delta: float) -> void:	
 	_handle_animation()
 	input_x = input.get_movement_direction(body.PLAYER_ID).x
 	input_jump = input.wants_hold_jump(body.PLAYER_ID)
-	wall_jump_timer = max(wall_jump_timer - delta, 0)
+	wall_jump_duration_timer = max(wall_jump_duration_timer - delta, 0)
+	pressed_jump_then_away_from_wall_timer = max(pressed_jump_then_away_from_wall_timer - delta, 0)
+	#
+	#if body.velocity.y >= 0:
+		#animated_sprite.play("fall_loop")
+	
 	if body.grounded or (!body.grounded and !jumping):
 		is_complete = true
 
@@ -58,7 +82,10 @@ func physics_do(delta: float) -> void:
 	# Clamp player's fall
 	body.freeVelocity.y = min(body.freeVelocity.y, TERMINAL_DOWN_VELOCITY)
 	
-	if wall_jump_timer > 0:
+	if pressed_jump_then_away_from_wall_timer > 0 and jump_from_wall_upwards:
+		wall_jump_dir = input_x 
+	
+	if wall_jump_duration_timer > 0:
 		body.freeVelocity.x = move_toward(body.freeVelocity.x, wall_jump_dir * AIR_SPEED, MAX_AIR_ACCELERATION * delta)
 	else:
 		if input_x != 0:
@@ -86,16 +113,25 @@ func physics_do(delta: float) -> void:
 func _jump() -> void:
 	body.freeVelocity.y = JUMP_SPEED
 
-func _wall_jump() -> void:
-	wall_jump_timer = WALL_JUMP_TIME
-	wall_jump_dir = -input.wall_colliding(body)
+func _wall_jump(direction) -> void:
+	wall_jump_duration_timer = WALL_JUMP_TIME
+	#wall_jump_dir = -input.wall_colliding(body)
+	wall_jump_dir = direction.x
 	body.freeVelocity.y = JUMP_SPEED
-	body.freeVelocity.x = wall_jump_dir * AIR_SPEED
+	body.freeVelocity.x = direction.x * AIR_SPEED*2
 
 func exit() -> void:
 	jumping = false
-	jump_from_wall = false
-	wall_jump_timer = 0
+	jump_from_wall_backwards = false
+	jump_from_wall_upwards = false
+	
+	jump_anim_started_bool = false
+	wall_cling_jump_anim_started_bool = false
+	wall_cling_jump_anim_finished_bool = false
+	
+	wall_jump_duration_timer = 0
+	if body.grounded:
+		play_sound(landing_sound, -20.0)
 	
 	
 func gravity() -> float:
@@ -118,8 +154,40 @@ func gravity() -> float:
 		return current_gravity
 			
 func _handle_animation() -> void:
-	var anim_time: float = Helpers.map(body.velocity.y, jump_speed, -jump_speed, 0, 1, true)
-	var total_frames: int = animated_sprite.sprite_frames.get_frame_count("jump")
-	var frame_index = int(anim_time * (total_frames - 1))
-	animated_sprite.play("jump")
-	animated_sprite.frame = frame_index
+	#var anim_time: float = Helpers.map(body.velocity.y, jump_speed, -jump_speed, 0, 1, true)
+	#var total_frames: int = animated_sprite.sprite_frames.get_frame_count("jump")
+	#var frame_index = int(anim_time * (total_frames - 1))
+	#animated_sprite.play("jump")
+	#animated_sprite.frame = frame_index
+	if body.velocity.y <= 0:
+		if (jump_from_wall_upwards or jump_from_wall_backwards) and !wall_cling_jump_anim_started_bool:
+			animated_sprite.play("wall_cling_jump")
+			wall_cling_jump_anim_started_bool = true
+			print("playing wall_cling jump ", animated_sprite.animation)
+		else:
+			if !jump_anim_started_bool and ((wall_cling_jump_anim_finished_bool) or (!jump_from_wall_upwards and !jump_from_wall_backwards)):
+				jump_anim_started_bool = true
+				animated_sprite.play("jump") 
+				print("playing jump ", animated_sprite.animation)
+	else:
+		if animated_sprite.animation == "jump" or animated_sprite.animation == "wall_cling_jump":
+			animated_sprite.play("fall")
+			print("playing fall ", animated_sprite.animation)
+		#if animated_sprite.sprite_frames.get_frame_count("fall")-1 == animated_sprite.frame:
+			#if animated_sprite.animation != "fall_loop":
+				#animated_sprite.play("fall_loop")
+		#
+func _on_animated_sprite_animation_finished() -> void:
+	if body.state.state_label.text == "jump":
+		if animated_sprite.animation == "wall_cling_jump":
+			wall_cling_jump_anim_finished_bool = true
+		if animated_sprite.animation == "jump":
+			animated_sprite.play("fall")
+			print("playing fall ", animated_sprite.animation)
+		if animated_sprite.animation == "fall":
+			animated_sprite.play("fall_loop")
+			print("playing fall_loop ", animated_sprite.animation)
+
+
+func _on_animated_sprite_2d_animation_finished() -> void:
+	pass # Replace with function body.

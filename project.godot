@@ -18,7 +18,6 @@ config/icon="res://icon.svg"
 [autoload]
 
 Global="*res://scripts/global.gd"
-Music="res://scenes/music.tscn"
 MultiplayerInput="*res://addons/multiplayer_input/multiplayer_input.gd"
 
 [debug]

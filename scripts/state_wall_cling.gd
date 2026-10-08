@@ -6,24 +6,29 @@ var input_x: float
 @export var WALL_CLING_GRAVITY_UP := 400
 @export var WALL_CLING_GRAVITY_UP_BUT_LET_GO_OF_JUMP := 2000.0
 @export var WALL_CLING_SPEED_TO_MAX_GRAVITY := 20000.0
+@export var wall_cling_sound: AudioStream
 
 func enter() -> void:
 	#print("wall")
 	state_label.text = "wall_cling"
+	animated_sprite.play("wall_cling")
+	play_sound(wall_cling_sound, -18.0, 0.0, -0.7)
 	
 func do(_delta: float) -> void:	
 	input_x = input.get_movement_direction(body.PLAYER_ID).x
 	input_jump = input.wants_hold_jump(body.PLAYER_ID)
 	if  !body.left_wall_cling_ray.is_colliding() or \
+		!body.left_wall_cling_top_ray.is_colliding() or \
 		!body.right_wall_cling_ray.is_colliding() or \
-		(body.left_wall_cling_ray.is_colliding() and input_x > -0.5) or \
-		 (body.right_wall_cling_ray.is_colliding() and input_x < 0.5):
+		!body.right_wall_cling_top_ray.is_colliding() or \
+		((body.left_wall_cling_ray.is_colliding() or body.left_wall_cling_top_ray.is_colliding()) and input_x > -0.5) or \
+		 ((body.right_wall_cling_ray.is_colliding() or body.right_wall_cling_top_ray.is_colliding() ) and input_x < 0.5):
 		is_complete = true
 	return
 	
 func physics_do(delta: float) -> void:
-	print(gravity())
 	body.freeVelocity.y += gravity() * delta
+	body.freeVelocity.y = min(body.freeVelocity.y, 100)
 
 func gravity() -> float:
 	# check if our character is going up. Godot has UP being negative y.
@@ -50,4 +55,6 @@ func gravity() -> float:
 		#return WALL_CLING_GRAVITY_DOWN
 
 func exit() -> void:
+	stop_sound()
+	body.wall_jump_grace_timer = body.WALL_JUMP_GRACE_TIME
 	return

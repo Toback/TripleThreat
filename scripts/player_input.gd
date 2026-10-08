@@ -27,9 +27,18 @@ func wants_dash(player_id: int) -> bool:
 		
 func wall_colliding(body) -> int:
 	# -1 is left wall colliding, 1 is right wall colliding, 0 is no wall colliding
-	if body.left_wall_cling_ray.is_colliding():
+	if body.left_wall_cling_ray.is_colliding() or body.left_wall_cling_top_ray.is_colliding():
 		return -1
-	elif body.right_wall_cling_ray.is_colliding(): 
+	elif body.right_wall_cling_ray.is_colliding() or body.right_wall_cling_top_ray.is_colliding(): 
+		return 1
+	else:
+		return 0
+		
+func back_colliding_with_wall(body) -> int:
+	# -1 is left wall colliding, 1 is right wall colliding, 0 is no wall colliding
+	if (body.left_wall_check_for_leaving_jump.is_colliding() or body.left_wall_check_for_leaving_jump_top.is_colliding()) and body.current_facing_direction() == Vector2.RIGHT:
+		return -1
+	elif (body.right_wall_check_for_leaving_jump.is_colliding() or body.right_wall_check_for_leaving_jump_top.is_colliding()) and body.current_facing_direction() == Vector2.LEFT: 
 		return 1
 	else:
 		return 0

@@ -22,6 +22,8 @@ class_name FlapState extends State
 
 # Scrape & Stick Constants
 @export var STICK_TIMER := 0.2
+@export var flap_sound: AudioStream
+@export var landing_sound: AudioStream
 
 @onready var ceiling_ray: RayCast2D = %CeilingRay
 
@@ -49,9 +51,10 @@ var just_touched_ceiling_timer: float
 var velocity_before_touching_ceiling: float
 var touching_ceiling: bool = false
 
+
 func enter() -> void:
 	#print("flap")
-	animated_sprite.play("jump")
+	animated_sprite.play("flap")
 	state_label.text = "flapping"
 	internal_velocity = body.freeVelocity
 	if attempt_flap:
@@ -62,6 +65,11 @@ func enter() -> void:
 		internal_velocity.y = 0
 		
 	
+func _on_animated_sprite_animation_finished() -> void:
+	if body.state.state_label.text == "flapping":
+		if animated_sprite.animation == "flap":
+			animated_sprite.play("flap_loop")
+
 func do(delta: float) -> void:
 	maintain_scrape_timer = max(maintain_scrape_timer - delta, 0)
 	stick_timer = max(stick_timer - delta, 0)
@@ -69,6 +77,10 @@ func do(delta: float) -> void:
 	flap_hover_timer = max(flap_hover_timer - delta, 0)
 	scrape_timer = max(scrape_timer - delta, 0)
 	just_touched_ceiling_timer = max(just_touched_ceiling_timer - delta, 0)
+		
+	
+	if internal_velocity.y >= 100:
+		animated_sprite.play("fall_loop")
 		
 	if scrape and maintain_scrape_timer == 0:
 		scrape_bumps = 0
@@ -82,6 +94,7 @@ func do(delta: float) -> void:
 	input_pressed_jump = input.wants_jump(body.PLAYER_ID)
 	
 	if(input_pressed_jump) and not body.has_berry:
+		animated_sprite.play("flap")
 		_flap()
 	
 	if body.grounded:
@@ -137,6 +150,8 @@ func exit() -> void:
 	scrape = false
 	just_touched_ceiling = false
 	attempt_flap = false
+	if body.grounded:
+		play_sound(landing_sound, -20.0)
 
 func gravity() -> float:
 	if scrape:
@@ -172,6 +187,8 @@ func gravity() -> float:
 		return current_gravity
 		
 func _flap() -> void:
+	#play_sound(flap_sound, 15.0)
+	animated_sprite.play("flap")
 	maintain_scrape_timer = MAINTAIN_SCRAPE_RATE
 	# If you're sticking but not EZ Hovering then you're currently sticking
 	# Therefore, if you flap while sticking you should come off the ceiling

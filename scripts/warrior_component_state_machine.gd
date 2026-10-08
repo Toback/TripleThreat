@@ -47,14 +47,14 @@ const screen_boundary = {
 @onready var player_input: InputComponent     = $input_component
 
 func _ready() -> void:
-	bounce_state.setup(self, animated_sprite, player_input, state_label)
-	crouch_state.setup(self, animated_sprite, player_input, state_label)
-	dash_state.setup(self, animated_sprite, player_input, state_label)
-	flap_state.setup(self, animated_sprite, player_input, state_label)
-	idle_state.setup(self, animated_sprite, player_input, state_label)
-	jump_state.setup(self, animated_sprite, player_input, state_label)
-	run_state.setup(self, animated_sprite, player_input, state_label)
-	wall_cling_state.setup(self, animated_sprite, player_input, state_label)
+	#bounce_state.setup(self, animated_sprite, player_input, state_label)
+	#crouch_state.setup(self, animated_sprite, player_input, state_label)
+	#dash_state.setup(self, animated_sprite, player_input, state_label)
+	#flap_state.setup(self, animated_sprite, player_input, state_label)
+	#idle_state.setup(self, animated_sprite, player_input, state_label)
+	#jump_state.setup(self, animated_sprite, player_input, state_label)
+	#run_state.setup(self, animated_sprite, player_input, state_label)
+	#wall_cling_state.setup(self, animated_sprite, player_input, state_label)
 	state = idle_state
 	
 func _process(delta: float) -> void:
@@ -110,7 +110,7 @@ func _select_state() -> void:
 		else:
 			set_state(run_state)
 	elif ((left_wall_cling_ray.is_colliding()  and input_dir.x < -0.5) or
-		  (right_wall_cling_ray.is_colliding() and input_dir.x >  0.5)) and jump_state.wall_jump_timer == 0 and not has_berry:
+		  (right_wall_cling_ray.is_colliding() and input_dir.x >  0.5)) and jump_state.wall_jump_duration_timer == 0 and not has_berry:
 		set_state(wall_cling_state)
 	else:
 		if not jump_state.jumping:

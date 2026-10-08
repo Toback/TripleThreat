@@ -15,19 +15,33 @@ var input_dash: bool
 var grounded: bool = false
 var walled: bool = false
 var has_berry: bool = false
+var wall_jump_grace_timer: float = 0.0
 
 @onready var wrap_bounds: ReferenceRect = get_tree().get_first_node_in_group("WrapBounds")
 
 @export var PLAYER_ID := 0 
 @export var COYOTO_TIME := 0.05 # Always let warriors start with a big jump in the air
 @export var BOUNCE_TIME := 0.5
+@export var WALL_JUMP_GRACE_TIME := 0.15
 
+var audio_index: int = 0
+@onready var audio_streams: Array[AudioStreamPlayer2D] = []
 @onready var berry_sprite: Sprite2D = $BerrySprite
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var platform_collider: CollisionShape2D = $PlatformCollider
 @onready var left_wall_cling_ray: RayCast2D = $left_wall_cling_ray
+@onready var left_ledge_grab_ray: RayCast2D = $left_ledge_grab_ray
+@onready var left_ledge_corner_detector_ray: RayCast2D = $left_ledge_corner_detector_ray
+@onready var left_wall_cling_top_ray: RayCast2D = $left_wall_cling_top_ray
+@onready var left_wall_check_for_leaving_jump: RayCast2D = $left_wall_check_for_leaving_jump
+@onready var left_wall_check_for_leaving_jump_top: RayCast2D = $left_wall_check_for_leaving_jump_top
+@onready var right_wall_cling_top_ray: RayCast2D = $right_wall_cling_top_ray
 @onready var right_wall_cling_ray: RayCast2D = $right_wall_cling_ray
+@onready var right_ledge_grab_ray: RayCast2D = $right_ledge_grab_ray
+@onready var right_ledge_corner_detector_ray: RayCast2D = $right_ledge_corner_detector_ray
+@onready var right_wall_check_for_leaving_jump: RayCast2D = $right_wall_check_for_leaving_jump
+@onready var right_wall_check_for_leaving_jump_top: RayCast2D = $right_wall_check_for_leaving_jump_top
 @onready var state_label: Label = $StateLabel
 @onready var bounce_state: BounceState        = $states/bounce_state 
 @onready var crouch_state: CrouchState        = $states/crouch_state
@@ -37,17 +51,22 @@ var has_berry: bool = false
 @onready var jump_state: JumpState            = $states/jump_state
 @onready var run_state: RunState              = $states/run_state
 @onready var wall_cling_state: WallClingState = $states/wall_cling_state
+@onready var ledge_grab_state: LedgeGrabState = $states/ledge_grab_state
 @onready var player_input: InputComponent     = $input_component
 
 func _ready() -> void:
-	bounce_state.setup(self, animated_sprite, player_input, state_label)
-	crouch_state.setup(self, animated_sprite, player_input, state_label)
-	dash_state.setup(self, animated_sprite, player_input, state_label)
-	flap_state.setup(self, animated_sprite, player_input, state_label)
-	idle_state.setup(self, animated_sprite, player_input, state_label)
-	jump_state.setup(self, animated_sprite, player_input, state_label)
-	run_state.setup(self, animated_sprite, player_input, state_label)
-	wall_cling_state.setup(self, animated_sprite, player_input, state_label)
+	for audio_stream in $AudioStreams.get_children():
+		audio_streams.append(audio_stream as AudioStreamPlayer2D)
+	
+	bounce_state.setup(self, animated_sprite, player_input, state_label, audio_streams)
+	crouch_state.setup(self, animated_sprite, player_input, state_label, audio_streams)
+	dash_state.setup(self, animated_sprite, player_input, state_label, audio_streams)
+	flap_state.setup(self, animated_sprite, player_input, state_label, audio_streams)
+	idle_state.setup(self, animated_sprite, player_input, state_label, audio_streams)
+	jump_state.setup(self, animated_sprite, player_input, state_label, audio_streams)
+	run_state.setup(self, animated_sprite, player_input, state_label, audio_streams)
+	wall_cling_state.setup(self, animated_sprite, player_input, state_label, audio_streams)
+	ledge_grab_state.setup(self, animated_sprite, player_input, state_label, audio_streams)
 	state = idle_state
 	
 func _process(delta: float) -> void:
@@ -72,7 +91,7 @@ func _process(delta: float) -> void:
 	### Handle jump and flapping
 	# Check if we're allowed to jump by seeing if we're 
 	# on the ground or recently left it
-	if grounded || coyote_timer > 0 || dash_coyote_timer > 0 || (left_wall_cling_ray.is_colliding() and not has_berry) || (right_wall_cling_ray.is_colliding() and not has_berry):
+	if grounded || coyote_timer > 0 || dash_coyote_timer > 0 || ((left_wall_cling_ray.is_colliding() or left_wall_cling_top_ray.is_colliding()) and not has_berry) || ((right_wall_cling_ray.is_colliding() or right_wall_cling_top_ray.is_colliding()) and not has_berry):
 		# Jump if the button was pressed or we registered a jump recently
 		if input_jump || jump_buffer_timer > 0: 
 			jump_state.attempt_jump = true
@@ -102,8 +121,34 @@ func _select_state() -> void:
 			set_state(idle_state)
 		else:
 			set_state(run_state)
-	elif ((left_wall_cling_ray.is_colliding()  and input_dir.x < -0.5) or
-		  (right_wall_cling_ray.is_colliding() and input_dir.x >  0.5)) and jump_state.wall_jump_timer == 0 and not has_berry:
+	elif (
+			(
+				(!left_wall_check_for_leaving_jump_top.is_colliding() and left_ledge_grab_ray.is_colliding() and input_dir.x < -0.5) or
+				(!right_wall_check_for_leaving_jump_top.is_colliding() and right_ledge_grab_ray.is_colliding() and input_dir.x >  0.5)  
+			) and not has_berry and !grounded
+			or
+			ledge_grab_state.playing_animation
+		):
+		var corner: Vector2 = Vector2.ZERO
+		if state != ledge_grab_state:
+			if right_ledge_grab_ray.is_colliding():
+				corner = Vector2(
+					right_ledge_grab_ray.get_collision_point().x,
+					right_ledge_corner_detector_ray.get_collision_point().y
+				)
+			elif left_ledge_grab_ray.is_colliding():
+				corner = Vector2(
+					left_ledge_grab_ray.get_collision_point().x,
+					left_ledge_corner_detector_ray.get_collision_point().y
+				)
+			else:
+				print("Corner Detection Error")
+		ledge_grab_state.corner_location = corner
+		set_state(ledge_grab_state)
+	elif (
+			((left_wall_cling_ray.is_colliding() or left_wall_cling_top_ray.is_colliding())  and input_dir.x < -0.5) or
+			((right_wall_cling_ray.is_colliding() or right_wall_cling_top_ray.is_colliding()) and input_dir.x >  0.5)  
+		) and jump_state.wall_jump_duration_timer == 0 and not has_berry and velocity.y > 0 and !grounded:
 		set_state(wall_cling_state)
 	else:
 		if not jump_state.jumping:
@@ -129,6 +174,7 @@ func _handle_timers(delta: float) -> void:
 	dash_coyote_timer = max(dash_coyote_timer - delta, 0)
 	dash_cooldown_timer = max(dash_cooldown_timer - delta, 0)
 	jump_buffer_timer = max(jump_buffer_timer - delta, 0)
+	wall_jump_grace_timer = max(wall_jump_grace_timer - delta, 0)
 	
 func _handle_berry_sprite() -> void:
 	if has_berry:
@@ -156,7 +202,7 @@ func _physics_process(delta: float) -> void:
 	grounded = is_on_floor()
 	walled   = is_on_wall()
 	
-	if grounded and dash_cooldown_timer == 0:
+	if (grounded or state == wall_cling_state ) and dash_cooldown_timer == 0:
 		dash_state.can_dash = true
 
 #func _wrap_character() -> void:

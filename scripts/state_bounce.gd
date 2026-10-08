@@ -1,12 +1,15 @@
 class_name BounceState extends State
 
-@export var BOUNCE_TIME := 0.5
 var bounce_timer: float = 0.0
 var bounce_speed: Vector2
+@export var BOUNCE_TIME := 0.5
+@export var bounce_sound: AudioStream
 
 func enter() -> void:
 	#print("bounce")
 	bounce_timer = BOUNCE_TIME
+	animated_sprite.play("bounce")
+	play_sound(bounce_sound, 10.0)
 	state_label.text = "bouncing"
 	
 func do(_delta: float) -> void:
