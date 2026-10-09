@@ -1,4 +1,4 @@
-[gd_scene load_steps=119 format=3 uid="uid://et6833aeepvd"]
+[gd_scene load_steps=120 format=3 uid="uid://et6833aeepvd"]
 
 [ext_resource type="Script" uid="uid://lcvjfaeyrru7" path="res://scripts/warrior_towerfall.gd" id="1_stw0o"]
 [ext_resource type="Texture2D" uid="uid://bgwy451r2s1e8" path="res://assets/sprites/BerryHoleFilled.png" id="2_stw0o"]
@@ -42,6 +42,7 @@
 [ext_resource type="Material" uid="uid://djwircw3ac42o" path="res://assets/materials/DashMaterial.tres" id="37_6yc7v"]
 [ext_resource type="Script" uid="uid://bgku1uv76kncj" path="res://scripts/state_ledge_grab.gd" id="37_irf6q"]
 [ext_resource type="AudioStream" uid="uid://wtrb08ujv00b" path="res://assets/sounds/FreeSound/grab_2.wav" id="39_mlcvi"]
+[ext_resource type="Script" uid="uid://dpvjhfb1fthcv" path="res://scripts/light_wrap_duplicates.gd" id="40_mptwn"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x06ey"]
 atlas = ExtResource("4_xaayg")
@@ -720,7 +721,7 @@ height = 40
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
-[node name="warriorTowerfall" type="CharacterBody2D" groups=["Player"]]
+[node name="warriorTowerfall" type="CharacterBody2D" groups=["Blue", "Player"]]
 light_mask = 8
 z_index = 5
 collision_layer = 6
@@ -733,6 +734,7 @@ texture = ExtResource("2_stw0o")
 offset = Vector2(-16, 0)
 
 [node name="StateLabel" type="Label" parent="."]
+visible = false
 offset_left = -46.0
 offset_top = -54.0
 offset_right = 44.0
@@ -744,7 +746,7 @@ horizontal_alignment = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_tuyoq")
-animation = &"ledge_grab"
+animation = &"idle"
 autoplay = "idle"
 offset = Vector2(0, -10.5)
 
@@ -889,21 +891,187 @@ wall_cling_sound = ExtResource("34_71uli")
 script = ExtResource("37_irf6q")
 ledge_grab_sound = ExtResource("39_mlcvi")
 
-[node name="ForeGroundLight" type="PointLight2D" parent="."]
+[node name="LightContainer" type="Node2D" parent="."]
+
+[node name="ForeGroundLight" type="PointLight2D" parent="LightContainer"]
 light_mask = 6
 scale = Vector2(2.5464566, 2.5464566)
 color = Color(0.25589257, 0.44156203, 4.813075e-07, 1)
 energy = 1.5
 range_item_cull_mask = 2
 texture = SubResource("GradientTexture2D_1ak2t")
+script = ExtResource("40_mptwn")
+light_name = "CENTER"
 
-[node name="PlatformLight" type="PointLight2D" parent="."]
+[node name="ForeGroundLightLeft" type="PointLight2D" parent="LightContainer"]
+light_mask = 6
+scale = Vector2(2.5464566, 2.5464566)
+color = Color(0.25589257, 0.44156203, 4.813075e-07, 1)
+energy = 1.5
+range_item_cull_mask = 2
+texture = SubResource("GradientTexture2D_1ak2t")
+script = ExtResource("40_mptwn")
+light_name = "LEFT"
+
+[node name="ForeGroundLightRight" type="PointLight2D" parent="LightContainer"]
+light_mask = 6
+scale = Vector2(2.5464566, 2.5464566)
+color = Color(0.25589257, 0.44156203, 4.813075e-07, 1)
+energy = 1.5
+range_item_cull_mask = 2
+texture = SubResource("GradientTexture2D_1ak2t")
+script = ExtResource("40_mptwn")
+light_name = "RIGHT"
+
+[node name="ForeGroundLightUp" type="PointLight2D" parent="LightContainer"]
+light_mask = 6
+scale = Vector2(2.5464566, 2.5464566)
+color = Color(0.25589257, 0.44156203, 4.813075e-07, 1)
+energy = 1.5
+range_item_cull_mask = 2
+texture = SubResource("GradientTexture2D_1ak2t")
+script = ExtResource("40_mptwn")
+light_name = "UP"
+
+[node name="ForeGroundLightDown" type="PointLight2D" parent="LightContainer"]
+light_mask = 6
+scale = Vector2(2.5464566, 2.5464566)
+color = Color(0.25589257, 0.44156203, 4.813075e-07, 1)
+energy = 1.5
+range_item_cull_mask = 2
+texture = SubResource("GradientTexture2D_1ak2t")
+script = ExtResource("40_mptwn")
+light_name = "DOWN"
+
+[node name="ForeGroundLightUpLeft" type="PointLight2D" parent="LightContainer"]
+light_mask = 6
+scale = Vector2(2.5464566, 2.5464566)
+color = Color(0.25589257, 0.44156203, 4.813075e-07, 1)
+energy = 1.5
+range_item_cull_mask = 2
+texture = SubResource("GradientTexture2D_1ak2t")
+script = ExtResource("40_mptwn")
+light_name = "UPLEFT"
+
+[node name="ForeGroundLightUpRight" type="PointLight2D" parent="LightContainer"]
+light_mask = 6
+scale = Vector2(2.5464566, 2.5464566)
+color = Color(0.25589257, 0.44156203, 4.813075e-07, 1)
+energy = 1.5
+range_item_cull_mask = 2
+texture = SubResource("GradientTexture2D_1ak2t")
+script = ExtResource("40_mptwn")
+light_name = "UPRIGHT"
+
+[node name="ForeGroundLightDownLeft" type="PointLight2D" parent="LightContainer"]
+light_mask = 6
+scale = Vector2(2.5464566, 2.5464566)
+color = Color(0.25589257, 0.44156203, 4.813075e-07, 1)
+energy = 1.5
+range_item_cull_mask = 2
+texture = SubResource("GradientTexture2D_1ak2t")
+script = ExtResource("40_mptwn")
+light_name = "DOWNLEFT"
+
+[node name="ForeGroundLightDownRight" type="PointLight2D" parent="LightContainer"]
+light_mask = 6
+scale = Vector2(2.5464566, 2.5464566)
+color = Color(0.25589257, 0.44156203, 4.813075e-07, 1)
+energy = 1.5
+range_item_cull_mask = 2
+texture = SubResource("GradientTexture2D_1ak2t")
+script = ExtResource("40_mptwn")
+light_name = "DOWNRIGHT"
+
+[node name="PlatformLight" type="PointLight2D" parent="LightContainer"]
 light_mask = 6
 scale = Vector2(2.5464566, 2.5464566)
 color = Color(0.25490198, 0.44313726, 0, 1)
 energy = 0.5
 range_item_cull_mask = 4
 texture = SubResource("GradientTexture2D_1ak2t")
+script = ExtResource("40_mptwn")
+light_name = "CENTER"
+
+[node name="PlatformLightLeft" type="PointLight2D" parent="LightContainer"]
+light_mask = 6
+scale = Vector2(2.5464566, 2.5464566)
+color = Color(0.25490198, 0.44313726, 0, 1)
+energy = 0.5
+range_item_cull_mask = 4
+texture = SubResource("GradientTexture2D_1ak2t")
+script = ExtResource("40_mptwn")
+light_name = "LEFT"
+
+[node name="PlatformLightRight" type="PointLight2D" parent="LightContainer"]
+light_mask = 6
+scale = Vector2(2.5464566, 2.5464566)
+color = Color(0.25490198, 0.44313726, 0, 1)
+energy = 0.5
+range_item_cull_mask = 4
+texture = SubResource("GradientTexture2D_1ak2t")
+script = ExtResource("40_mptwn")
+light_name = "RIGHT"
+
+[node name="PlatformLightUp" type="PointLight2D" parent="LightContainer"]
+light_mask = 6
+scale = Vector2(2.5464566, 2.5464566)
+color = Color(0.25490198, 0.44313726, 0, 1)
+energy = 0.5
+range_item_cull_mask = 4
+texture = SubResource("GradientTexture2D_1ak2t")
+script = ExtResource("40_mptwn")
+light_name = "UP"
+
+[node name="PlatformLightDown" type="PointLight2D" parent="LightContainer"]
+light_mask = 6
+scale = Vector2(2.5464566, 2.5464566)
+color = Color(0.25490198, 0.44313726, 0, 1)
+energy = 0.5
+range_item_cull_mask = 4
+texture = SubResource("GradientTexture2D_1ak2t")
+script = ExtResource("40_mptwn")
+light_name = "DOWN"
+
+[node name="PlatformLightUpLeft" type="PointLight2D" parent="LightContainer"]
+light_mask = 6
+scale = Vector2(2.5464566, 2.5464566)
+color = Color(0.25490198, 0.44313726, 0, 1)
+energy = 0.5
+range_item_cull_mask = 4
+texture = SubResource("GradientTexture2D_1ak2t")
+script = ExtResource("40_mptwn")
+light_name = "UPLEFT"
+
+[node name="PlatformLightUpRight" type="PointLight2D" parent="LightContainer"]
+light_mask = 6
+scale = Vector2(2.5464566, 2.5464566)
+color = Color(0.25490198, 0.44313726, 0, 1)
+energy = 0.5
+range_item_cull_mask = 4
+texture = SubResource("GradientTexture2D_1ak2t")
+script = ExtResource("40_mptwn")
+light_name = "UPRIGHT"
+
+[node name="PlatformLightDownLeft" type="PointLight2D" parent="LightContainer"]
+light_mask = 6
+scale = Vector2(2.5464566, 2.5464566)
+color = Color(0.25490198, 0.44313726, 0, 1)
+energy = 0.5
+range_item_cull_mask = 4
+texture = SubResource("GradientTexture2D_1ak2t")
+script = ExtResource("40_mptwn")
+light_name = "DOWNLEFT"
+
+[node name="PlatformLightDownRight" type="PointLight2D" parent="LightContainer"]
+light_mask = 6
+scale = Vector2(2.5464566, 2.5464566)
+color = Color(0.25490198, 0.44313726, 0, 1)
+energy = 0.5
+range_item_cull_mask = 4
+texture = SubResource("GradientTexture2D_1ak2t")
+script = ExtResource("40_mptwn")
+light_name = "DOWNRIGHT"
 
 [node name="RunParticle" type="GPUParticles2D" parent="."]
 unique_name_in_owner = true
