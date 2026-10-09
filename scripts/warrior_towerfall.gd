@@ -224,7 +224,7 @@ var wrap_margin := 20.0
 
 
 func _wrap_character() -> void:
-	var half_width = wrap_bounds.size.x / 2
+	var half_width  = wrap_bounds.size.x / 2
 	var half_height = wrap_bounds.size.y / 2
 
 	var wrap_direction := Vector2i.ZERO

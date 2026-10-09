@@ -1,14 +1,11 @@
-[gd_scene load_steps=34 format=3 uid="uid://dw7bvbdthyevw"]
+[gd_scene load_steps=31 format=3 uid="uid://dw7bvbdthyevw"]
 
 [ext_resource type="Script" uid="uid://cl5g46p6vr4ao" path="res://scripts/game_manager.gd" id="1_bf5ui"]
 [ext_resource type="FontFile" uid="uid://6rxom0gy206u" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="2_52xeq"]
 [ext_resource type="Texture2D" uid="uid://room8vvm4ftg" path="res://assets/sprites/BlankCoin.png" id="3_626ke"]
 [ext_resource type="Texture2D" uid="uid://c543yb0ssfuu" path="res://assets/sprites/coin.png" id="4_b7ge5"]
 [ext_resource type="Texture2D" uid="uid://cpfouaxhcs7he" path="res://assets/sprites/RoundStartAnimation.png" id="5_8f46h"]
-[ext_resource type="PackedScene" uid="uid://d1ms5nbs4c2lb" path="res://scenes/gate.tscn" id="7_a8ehj"]
-[ext_resource type="PackedScene" uid="uid://dchsmkl3426mh" path="res://scenes/snail.tscn" id="8_r8p2v"]
-[ext_resource type="Script" uid="uid://bup4vo18ludle" path="res://scripts/hair.gd" id="9_ao54k"]
-[ext_resource type="PackedScene" uid="uid://et6833aeepvd" path="res://scenes/warrior_towerfall.tscn" id="10_0nmx8"]
+[ext_resource type="PackedScene" uid="uid://dmdfu66ebuujc" path="res://scenes/current_round.tscn" id="6_tqcwa"]
 [ext_resource type="PackedScene" uid="uid://06e4m5v4ad78" path="res://scenes/ForestMap640.tscn" id="14_bf5ui"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_i64fm"]
@@ -181,6 +178,7 @@ unique_name_in_owner = true
 script = ExtResource("1_bf5ui")
 
 [node name="ScoreLabel" type="Label" parent="GameManager"]
+visible = false
 offset_left = 175.0
 offset_top = -73.0
 offset_right = 267.0
@@ -195,6 +193,8 @@ autowrap_mode = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="GameManager"]
+offset = Vector2(-260, -20)
+transform = Transform2D(1, 0, 0, 1, -260, -20)
 
 [node name="FadeToBlackColorRect" type="ColorRect" parent="GameManager/CanvasLayer"]
 offset_left = -15.0
@@ -444,8 +444,8 @@ offset_bottom = 40.0
 
 [node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="GameManager/CanvasLayer/RoundStartUI"]
 z_index = 1
-position = Vector2(1175, 642.00006)
-scale = Vector2(4.7559166, 4.7559166)
+position = Vector2(1090, 621)
+scale = Vector2(4.2924094, 4.2924094)
 sprite_frames = SubResource("SpriteFrames_cpv2x")
 autoplay = "default"
 
@@ -462,9 +462,9 @@ anchor_top = 15.9
 anchor_right = 10.1
 anchor_bottom = 15.9
 offset_left = 175.0
-offset_top = -73.0
+offset_top = -136.0
 offset_right = 267.0
-offset_bottom = -50.0
+offset_bottom = -113.0
 scale = Vector2(12.963367, 12.963367)
 theme_override_colors/font_color = Color(0.0980392, 0.313726, 0.752941, 1)
 theme_override_constants/outline_size = 7
@@ -473,7 +473,6 @@ theme_override_font_sizes/font_size = 8
 text = "Round 1"
 horizontal_alignment = 1
 autowrap_mode = 2
-metadata/_edit_use_anchors_ = true
 
 [node name="GoWordControl" type="Control" parent="GameManager/CanvasLayer/RoundStartUI"]
 layout_mode = 1
@@ -497,9 +496,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = 1096.0
-offset_top = 727.0
+offset_top = 664.0
 offset_right = 1097.0
-offset_bottom = 735.0
+offset_bottom = 672.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(12.963367, 12.963367)
@@ -511,50 +510,64 @@ text = "Go!"
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="CurrentRound" type="Node" parent="."]
+[node name="CurrentRound" parent="." instance=ExtResource("6_tqcwa")]
 
-[node name="Gate" parent="CurrentRound" instance=ExtResource("7_a8ehj")]
+[node name="WarriorTowerfall" parent="CurrentRound/warrior" index="1"]
+position = Vector2(-93, -41)
+
+[node name="ForeGroundLightLeft" parent="CurrentRound/warrior/WarriorTowerfall/LightContainer" index="1"]
 visible = false
-position = Vector2(17, 190)
-scale = Vector2(1.4, 1.4)
 
-[node name="Snail" parent="CurrentRound" instance=ExtResource("8_r8p2v")]
+[node name="ForeGroundLightRight" parent="CurrentRound/warrior/WarriorTowerfall/LightContainer" index="2"]
 visible = false
-position = Vector2(-65, 330)
 
-[node name="warrior" type="Node" parent="CurrentRound"]
-
-[node name="hair" type="Node2D" parent="CurrentRound/warrior"]
+[node name="ForeGroundLightUp" parent="CurrentRound/warrior/WarriorTowerfall/LightContainer" index="3"]
 visible = false
-script = ExtResource("9_ao54k")
 
-[node name="WarriorTowerfall" parent="CurrentRound/warrior" instance=ExtResource("10_0nmx8")]
-position = Vector2(-95, -38)
+[node name="ForeGroundLightDown" parent="CurrentRound/warrior/WarriorTowerfall/LightContainer" index="4"]
+visible = false
 
-[node name="AnimatedSprite2D" parent="CurrentRound/warrior/WarriorTowerfall" index="2"]
-autoplay = "jump"
+[node name="ForeGroundLightUpLeft" parent="CurrentRound/warrior/WarriorTowerfall/LightContainer" index="5"]
+visible = false
 
-[node name="dash_state" parent="CurrentRound/warrior/WarriorTowerfall/states" index="1"]
-DASH_SPEED = 250.0
-CROUCH_DASH_SPEED = 250.0
+[node name="ForeGroundLightUpRight" parent="CurrentRound/warrior/WarriorTowerfall/LightContainer" index="6"]
+visible = false
 
-[node name="flap_state" parent="CurrentRound/warrior/WarriorTowerfall/states" index="2"]
-FLAP_HEIGHT = -20.0
-AIR_SPEED = 90.0
-MAX_AIR_ACCELERATION = 300.0
+[node name="ForeGroundLightDownLeft" parent="CurrentRound/warrior/WarriorTowerfall/LightContainer" index="7"]
+visible = false
 
-[node name="jump_state" parent="CurrentRound/warrior/WarriorTowerfall/states" index="4"]
-JUMP_SPEED = -220.0
-AIR_SPEED = 90.0
+[node name="ForeGroundLightDownRight" parent="CurrentRound/warrior/WarriorTowerfall/LightContainer" index="8"]
+visible = false
 
-[node name="run_state" parent="CurrentRound/warrior/WarriorTowerfall/states" index="5"]
-RUN_SPEED = 110.0
-MAX_ACCELERATION = 500.0
-MAX_TURN_SPEED = 1000.0
+[node name="PlatformLightLeft" parent="CurrentRound/warrior/WarriorTowerfall/LightContainer" index="10"]
+visible = false
+
+[node name="PlatformLightRight" parent="CurrentRound/warrior/WarriorTowerfall/LightContainer" index="11"]
+visible = false
+
+[node name="PlatformLightUp" parent="CurrentRound/warrior/WarriorTowerfall/LightContainer" index="12"]
+visible = false
+
+[node name="PlatformLightDown" parent="CurrentRound/warrior/WarriorTowerfall/LightContainer" index="13"]
+visible = false
+
+[node name="PlatformLightUpLeft" parent="CurrentRound/warrior/WarriorTowerfall/LightContainer" index="14"]
+visible = false
+
+[node name="PlatformLightUpRight" parent="CurrentRound/warrior/WarriorTowerfall/LightContainer" index="15"]
+visible = false
+
+[node name="PlatformLightDownLeft" parent="CurrentRound/warrior/WarriorTowerfall/LightContainer" index="16"]
+visible = false
+
+[node name="PlatformLightDownRight" parent="CurrentRound/warrior/WarriorTowerfall/LightContainer" index="17"]
+visible = false
 
 [node name="Map" parent="." instance=ExtResource("14_bf5ui")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(4, 4)
+scale = Vector2(0.5573248, 0.73255813)
+zoom = Vector2(5, 5)
 
+[editable path="CurrentRound"]
 [editable path="CurrentRound/warrior/WarriorTowerfall"]

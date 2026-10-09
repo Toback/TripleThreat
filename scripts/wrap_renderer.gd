@@ -22,6 +22,7 @@ func _draw() -> void:
 
 	
 	var offset: Vector2 = -texture.get_size() / 2
+	offset += sprite.offset
 
 	# Horizontal ghosts
 	draw_texture(texture, offset + Vector2(wrap_bounds.size.x, 0))
