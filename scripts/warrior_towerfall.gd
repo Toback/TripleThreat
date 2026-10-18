@@ -16,6 +16,7 @@ var grounded: bool = false
 var walled: bool = false
 var has_berry: bool = false
 var wall_jump_grace_timer: float = 0.0
+var award : Award = null
 
 @onready var wrap_bounds: ReferenceRect = get_tree().get_first_node_in_group("WrapBounds")
 
@@ -71,14 +72,17 @@ func _ready() -> void:
 	
 func _process(delta: float) -> void:
 	if Global.game_state != Global.GameState.PLAYING:
-		return
-	input_dir = player_input.get_movement_direction(PLAYER_ID)
-	input_jump = player_input.wants_jump(PLAYER_ID)
-	input_dash = player_input.wants_dash(PLAYER_ID)
+		input_dir = Vector2.ZERO
+		input_jump = false
+		input_dash = false
+	else:
+		input_dir = player_input.get_movement_direction(PLAYER_ID)
+		input_jump = player_input.wants_jump(PLAYER_ID)
+		input_dash = player_input.wants_dash(PLAYER_ID)
 	 
 	#hair.update_hair(global_position, current_facing_direction().x)
 	#print("warrior ",global_position)
-	_handle_berry_sprite()
+	#_handle_be rry_sprite()
 	_handle_timers(delta)
 	
 	if input_dash and dash_state.can_dash:
@@ -177,17 +181,17 @@ func _handle_timers(delta: float) -> void:
 	jump_buffer_timer = max(jump_buffer_timer - delta, 0)
 	wall_jump_grace_timer = max(wall_jump_grace_timer - delta, 0)
 	
-func _handle_berry_sprite() -> void:
-	if has_berry:
-		berry_sprite.visible = true
-		if current_facing_direction() == Vector2.LEFT:
-			berry_sprite.flip_h = true
-			berry_sprite.offset.x = 16 
-		else:
-			berry_sprite.flip_h = false
-			berry_sprite.offset.x = -16
-	else:
-		berry_sprite.visible = false
+#func _handle_berry_sprite() -> void:
+	#if has_berry:
+		#berry_sprite.visible = true
+		#if current_facing_direction() == Vector2.LEFT:
+			#berry_sprite.flip_h = true
+			#berry_sprite.offset.x = 16 
+		#else:
+			#berry_sprite.flip_h = false
+			#berry_sprite.offset.x = -16
+	#else:
+		#berry_sprite.visible = false
 		
 
 

@@ -2,8 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://cqv3tfpemjv5v" path="res://scenes/net.tscn" id="1_ncpjl"]
 [ext_resource type="PackedScene" uid="uid://et6833aeepvd" path="res://scenes/warrior_towerfall.tscn" id="2_dkele"]
+[ext_resource type="PackedScene" uid="uid://cdgnydkvvgixc" path="res://scenes/disco_ball.tscn" id="4_dkele"]
 [ext_resource type="Script" uid="uid://bup4vo18ludle" path="res://scripts/hair.gd" id="5_4mt0l"]
-[ext_resource type="PackedScene" uid="uid://dchsmkl3426mh" path="res://scenes/snail.tscn" id="6_6xet5"]
 
 [node name="CurrentRound" type="Node"]
 
@@ -37,13 +37,10 @@ RUN_SPEED = 110.0
 MAX_ACCELERATION = 500.0
 MAX_TURN_SPEED = 1000.0
 
-[node name="PlatformLight" parent="warrior/WarriorTowerfall" index="24"]
-energy = 1.01
-
-[node name="Snail" parent="." instance=ExtResource("6_6xet5")]
-position = Vector2(-1, 80)
-
 [node name="Net" parent="." groups=["Blue"] instance=ExtResource("1_ncpjl")]
-position = Vector2(-109, 63)
+position = Vector2(-103, 70)
+
+[node name="DiscoBall" parent="." instance=ExtResource("4_dkele")]
+position = Vector2(1, 67)
 
 [editable path="warrior/WarriorTowerfall"]

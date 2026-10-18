@@ -4,6 +4,7 @@ var current_round_number = 1
 var blue_team_score = 0
 var gold_team_score = 0
 var score
+var TIME_SCALE = 0.2
 @onready var current_round = $"../CurrentRound"
 @onready var score_label: Label = $ScoreLabel
 @onready var fade_to_black = $CanvasLayer/FadeToBlackColorRect
@@ -73,6 +74,7 @@ func slam_label(label: Label):
 
 func start_round():
 	# Set up UI to play again. Useful for 2nd round and onwards	
+	Engine.time_scale = 1.0
 	round_label.text = "Round %s" % current_round_number	
 	go_label.modulate.a = 0.0
 	go_control.position = go_control_pos
@@ -121,6 +123,7 @@ func start_round():
 func end_round():
 	# Turn off player input
 	Global.game_state = Global.GameState.BETWEEN_ROUNDS
+	Engine.time_scale = TIME_SCALE
 
 	# Load new Round immeditately
 	var new_round = preload("res://scenes/current_round.tscn").instantiate()
@@ -130,23 +133,25 @@ func end_round():
 	fade_to_black.color = Color.BLACK
 	fade_to_black.modulate = Color(1, 1, 1, 0)
 	var tween_darken = create_tween()
-	tween_darken.tween_property(fade_to_black, "modulate:a", 0.75, 0.4)
+	tween_darken.tween_property(fade_to_black, "modulate:a", 0.75, 0.4 * TIME_SCALE)
 	
 	# Display current score and wait a bit
 	round_end_ui.visible = true
 	round_end_ui.modulate.a = 0.0
 	var tween_show_ui = create_tween()
-	tween_show_ui.tween_property(round_end_ui, "modulate:a", 1.0, 0.4)
-	await get_tree().create_timer(1.1).timeout
+	tween_show_ui.tween_property(round_end_ui, "modulate:a", 1.0, 0.4 * TIME_SCALE)
+	await get_tree().create_timer(1.1 * TIME_SCALE).timeout
 	
 	#Update Score
 	for i in gold_win_icons.size():
 		if i < gold_team_score:
 			gold_win_icons[i].visible = true
+			gold_win_icons[i].get_node("AnimatedSprite2D2").speed_scale = 1 / TIME_SCALE
 	for i in blue_win_icons.size():
 		if i < blue_team_score:
 			blue_win_icons[i].visible = true
-	await get_tree().create_timer(1.75).timeout
+			blue_win_icons[i].get_node("AnimatedSprite2D2").speed_scale = 1 / TIME_SCALE
+	await get_tree().create_timer(1.75 * TIME_SCALE).timeout
 		
 	# Delete current round and instantiate new one
 	current_round.queue_free()

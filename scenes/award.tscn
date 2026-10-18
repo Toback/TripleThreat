@@ -1,0 +1,68 @@
+[gd_scene load_steps=10 format=3 uid="uid://b55l5h8s7mb36"]
+
+[ext_resource type="Script" uid="uid://7u7crtb21ky7" path="res://scripts/award.gd" id="1_k8khj"]
+[ext_resource type="Texture2D" uid="uid://brxocqj46dgaq" path="res://assets/sprites/Throwable/Star-Idle.png" id="2_k8khj"]
+[ext_resource type="Texture2D" uid="uid://cjiyc32381ylu" path="res://assets/sprites/Throwable/Star2-Idle.png" id="3_aboc4"]
+[ext_resource type="AudioStream" uid="uid://sj6cap3iqb0a" path="res://assets/sounds/coin.wav" id="3_wcekv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aboc4"]
+atlas = ExtResource("2_k8khj")
+region = Rect2(0, 0, 23, 51)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w5xa4"]
+atlas = ExtResource("3_aboc4")
+region = Rect2(0, 0, 13, 27)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_w5xa4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aboc4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w5xa4")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k8khj"]
+size = Vector2(12, 1.9999995)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_k8khj"]
+radius = 5.0
+height = 26.0
+
+[node name="Award" type="CharacterBody2D"]
+z_index = 1
+collision_layer = 0
+script = ExtResource("1_k8khj")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-1, -13.5)
+sprite_frames = SubResource("SpriteFrames_w5xa4")
+animation = &"idle"
+
+[node name="FloorCollision" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1.0000002)
+shape = SubResource("RectangleShape2D_k8khj")
+
+[node name="PickUpSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_wcekv")
+bus = &"SFX"
+
+[node name="PickUpArea2D" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 4
+
+[node name="PickupCollision" type="CollisionShape2D" parent="PickUpArea2D"]
+position = Vector2(0, -13)
+shape = SubResource("CapsuleShape2D_k8khj")
+
+[connection signal="body_entered" from="PickUpArea2D" to="." method="_on_pick_up_area_2d_body_entered"]

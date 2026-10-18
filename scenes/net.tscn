@@ -1,19 +1,33 @@
-[gd_scene load_steps=3 format=3 uid="uid://cqv3tfpemjv5v"]
+[gd_scene load_steps=5 format=3 uid="uid://cqv3tfpemjv5v"]
 
-[ext_resource type="Texture2D" uid="uid://urbqfm4bo1md" path="res://assets/sprites/WarriorGate.png" id="2_ekmni"]
+[ext_resource type="Texture2D" uid="uid://3yh0ed8lbk0x" path="res://assets/sprites/DiscoBallNet/DiscoBallNet-Idle.png" id="1_es2g2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xwxio"]
-size = Vector2(59, 50)
+size = Vector2(2, 2)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_es2g2"]
+atlas = ExtResource("1_es2g2")
+region = Rect2(0, 0, 49, 43)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_i41qj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_es2g2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="Net" type="Area2D" groups=["Net"]]
 collision_layer = 4
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["Net"]]
-position = Vector2(2, 0)
+position = Vector2(-17, 0)
 shape = SubResource("RectangleShape2D_xwxio")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(3, 2)
-scale = Vector2(0.0238319, 0.0251082)
-texture = ExtResource("2_ekmni")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_i41qj")
