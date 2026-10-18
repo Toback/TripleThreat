@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://dw7bvbdthyevw"]
+[gd_scene load_steps=33 format=3 uid="uid://dw7bvbdthyevw"]
 
 [ext_resource type="Script" uid="uid://cl5g46p6vr4ao" path="res://scripts/game_manager.gd" id="1_bf5ui"]
 [ext_resource type="FontFile" uid="uid://6rxom0gy206u" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="2_52xeq"]
@@ -6,6 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://c543yb0ssfuu" path="res://assets/sprites/coin.png" id="4_b7ge5"]
 [ext_resource type="Texture2D" uid="uid://cpfouaxhcs7he" path="res://assets/sprites/RoundStartAnimation.png" id="5_8f46h"]
 [ext_resource type="PackedScene" uid="uid://dmdfu66ebuujc" path="res://scenes/current_round.tscn" id="6_tqcwa"]
+[ext_resource type="PackedScene" uid="uid://fsjeby2uveer" path="res://scenes/award_hole.tscn" id="7_l61hr"]
+[ext_resource type="PackedScene" uid="uid://b55l5h8s7mb36" path="res://scenes/award.tscn" id="8_ln8re"]
 [ext_resource type="PackedScene" uid="uid://06e4m5v4ad78" path="res://scenes/ForestMap640.tscn" id="14_bf5ui"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_i64fm"]
@@ -178,6 +180,7 @@ unique_name_in_owner = true
 script = ExtResource("1_bf5ui")
 
 [node name="ScoreLabel" type="Label" parent="GameManager"]
+process_mode = 3
 visible = false
 offset_left = 175.0
 offset_top = -73.0
@@ -193,6 +196,7 @@ autowrap_mode = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="GameManager"]
+process_mode = 3
 offset = Vector2(-260, -20)
 transform = Transform2D(1, 0, 0, 1, -260, -20)
 
@@ -510,64 +514,33 @@ text = "Go!"
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="CurrentRound" parent="." instance=ExtResource("6_tqcwa")]
-
-[node name="WarriorTowerfall" parent="CurrentRound/warrior" index="1"]
-position = Vector2(-93, -41)
-
-[node name="ForeGroundLightLeft" parent="CurrentRound/warrior/WarriorTowerfall/LightContainer" index="1"]
-visible = false
-
-[node name="ForeGroundLightRight" parent="CurrentRound/warrior/WarriorTowerfall/LightContainer" index="2"]
-visible = false
-
-[node name="ForeGroundLightUp" parent="CurrentRound/warrior/WarriorTowerfall/LightContainer" index="3"]
-visible = false
-
-[node name="ForeGroundLightDown" parent="CurrentRound/warrior/WarriorTowerfall/LightContainer" index="4"]
-visible = false
-
-[node name="ForeGroundLightUpLeft" parent="CurrentRound/warrior/WarriorTowerfall/LightContainer" index="5"]
-visible = false
-
-[node name="ForeGroundLightUpRight" parent="CurrentRound/warrior/WarriorTowerfall/LightContainer" index="6"]
-visible = false
-
-[node name="ForeGroundLightDownLeft" parent="CurrentRound/warrior/WarriorTowerfall/LightContainer" index="7"]
-visible = false
-
-[node name="ForeGroundLightDownRight" parent="CurrentRound/warrior/WarriorTowerfall/LightContainer" index="8"]
-visible = false
-
-[node name="PlatformLightLeft" parent="CurrentRound/warrior/WarriorTowerfall/LightContainer" index="10"]
-visible = false
-
-[node name="PlatformLightRight" parent="CurrentRound/warrior/WarriorTowerfall/LightContainer" index="11"]
-visible = false
-
-[node name="PlatformLightUp" parent="CurrentRound/warrior/WarriorTowerfall/LightContainer" index="12"]
-visible = false
-
-[node name="PlatformLightDown" parent="CurrentRound/warrior/WarriorTowerfall/LightContainer" index="13"]
-visible = false
-
-[node name="PlatformLightUpLeft" parent="CurrentRound/warrior/WarriorTowerfall/LightContainer" index="14"]
-visible = false
-
-[node name="PlatformLightUpRight" parent="CurrentRound/warrior/WarriorTowerfall/LightContainer" index="15"]
-visible = false
-
-[node name="PlatformLightDownLeft" parent="CurrentRound/warrior/WarriorTowerfall/LightContainer" index="16"]
-visible = false
-
-[node name="PlatformLightDownRight" parent="CurrentRound/warrior/WarriorTowerfall/LightContainer" index="17"]
-visible = false
-
 [node name="Map" parent="." instance=ExtResource("14_bf5ui")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 scale = Vector2(0.5573248, 0.73255813)
 zoom = Vector2(5, 5)
 
+[node name="CurrentRound" parent="." instance=ExtResource("6_tqcwa")]
+
+[node name="Award" parent="." instance=ExtResource("8_ln8re")]
+position = Vector2(-59, 40)
+
+[node name="Award2" parent="." instance=ExtResource("8_ln8re")]
+position = Vector2(62, 40)
+
+[node name="AwardHole" parent="." groups=["Blue"] instance=ExtResource("7_l61hr")]
+position = Vector2(-26, -60)
+
+[node name="AwardHole2" parent="." groups=["Gold"] instance=ExtResource("7_l61hr")]
+position = Vector2(26, -60)
+
+[node name="AwardHole3" parent="." groups=["Gold"] instance=ExtResource("7_l61hr")]
+position = Vector2(141, -50)
+
+[node name="AwardHole4" parent="." groups=["Blue"] instance=ExtResource("7_l61hr")]
+position = Vector2(-140, -50)
+
 [editable path="CurrentRound"]
 [editable path="CurrentRound/warrior/WarriorTowerfall"]
+[editable path="Award"]
+[editable path="Award2"]

@@ -2,19 +2,20 @@ extends Node2D
 
 const SPEED = 20
 
-@onready var sprite: Sprite2D = $Sprite2D
-
+var sprite: AnimatedSprite2D
 var direction = 1
 var player_near = false
 
 func _ready():
+	sprite = $AnimatedSprite2D
 	$OnSnailCheck.body_entered.connect(_player_rides_snail)
 	$OnSnailCheck.body_exited.connect(_player_leaves_snail)
 	$CrossFinishLineCheck.area_entered.connect(_snail_crossed_finish_line)
+	sprite.play("idle")
 
 func _player_rides_snail(body):
 	if body.is_in_group("Player"):
-		print("player near")
+		#print("player near")
 		player_near = true
 		
 	if body.is_in_group("Net"):
@@ -43,12 +44,15 @@ func _physics_process(delta):
 			gold_count += 1
 
 	if blue_count > gold_count:
+		sprite.play("moving")
 		direction = -1
-		sprite.flip_h = true
+		#sprite.flip_h = true
 	elif gold_count > blue_count:
+		sprite.play("moving")
 		direction = 1
-		sprite.flip_h = false
+		#sprite.flip_h = false
 	else:
+		sprite.play("idle")
 		direction = 0
 	
 	position.x += direction * SPEED * delta
