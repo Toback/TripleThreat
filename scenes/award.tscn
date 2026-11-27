@@ -1,7 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://b55l5h8s7mb36"]
+[gd_scene load_steps=12 format=3 uid="uid://b55l5h8s7mb36"]
 
 [ext_resource type="Script" uid="uid://7u7crtb21ky7" path="res://scripts/award.gd" id="1_k8khj"]
 [ext_resource type="Texture2D" uid="uid://brxocqj46dgaq" path="res://assets/sprites/Throwable/Star-Idle.png" id="2_k8khj"]
+[ext_resource type="AudioStream" uid="uid://uohvclyo3mu5" path="res://assets/sounds/ChipTone/pick_up_2.wav" id="2_w5xa4"]
+[ext_resource type="AudioStream" uid="uid://d2kwswavlcsyc" path="res://assets/sounds/ChipTone/throw.wav" id="3_4t5np"]
 [ext_resource type="Texture2D" uid="uid://cjiyc32381ylu" path="res://assets/sprites/Throwable/Star2-Idle.png" id="3_aboc4"]
 [ext_resource type="AudioStream" uid="uid://sj6cap3iqb0a" path="res://assets/sounds/coin.wav" id="3_wcekv"]
 
@@ -43,6 +45,8 @@ height = 26.0
 z_index = 1
 collision_layer = 0
 script = ExtResource("1_k8khj")
+pick_up_sound = ExtResource("2_w5xa4")
+throw_sound = ExtResource("3_4t5np")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-1, -13.5)
