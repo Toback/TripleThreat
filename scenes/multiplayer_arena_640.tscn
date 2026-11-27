@@ -1,8 +1,11 @@
-[gd_scene load_steps=33 format=3 uid="uid://dw7bvbdthyevw"]
+[gd_scene load_steps=36 format=3 uid="uid://dw7bvbdthyevw"]
 
 [ext_resource type="Script" uid="uid://cl5g46p6vr4ao" path="res://scripts/game_manager.gd" id="1_bf5ui"]
 [ext_resource type="FontFile" uid="uid://6rxom0gy206u" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="2_52xeq"]
+[ext_resource type="AudioStream" uid="uid://u5iom40d5t5a" path="res://assets/sounds/FreeSound/round_win.wav" id="2_rgkvi"]
+[ext_resource type="AudioStream" uid="uid://byxqcjijpix7t" path="res://assets/sounds/FreeSound/round_win_increment.wav" id="3_0k0j2"]
 [ext_resource type="Texture2D" uid="uid://room8vvm4ftg" path="res://assets/sprites/BlankCoin.png" id="3_626ke"]
+[ext_resource type="AudioStream" uid="uid://cda8kkff32ogi" path="res://assets/sounds/FreeSound/round_start.wav" id="3_ikhe4"]
 [ext_resource type="Texture2D" uid="uid://c543yb0ssfuu" path="res://assets/sprites/coin.png" id="4_b7ge5"]
 [ext_resource type="Texture2D" uid="uid://cpfouaxhcs7he" path="res://assets/sprites/RoundStartAnimation.png" id="5_8f46h"]
 [ext_resource type="PackedScene" uid="uid://dmdfu66ebuujc" path="res://scenes/current_round.tscn" id="6_tqcwa"]
@@ -178,6 +181,9 @@ animations = [{
 [node name="GameManager" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("1_bf5ui")
+round_win_sound = ExtResource("2_rgkvi")
+round_win_increment = ExtResource("3_0k0j2")
+round_start_sound = ExtResource("3_ikhe4")
 
 [node name="ScoreLabel" type="Label" parent="GameManager"]
 process_mode = 3
