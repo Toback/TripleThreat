@@ -3,6 +3,9 @@ var team: String
 
 @onready var unfilled: Sprite2D = $UnfilledSlot
 @onready var filled: Sprite2D = $FilledSlot
+@export var fill_sound: AudioStream
+
+var audio_stream: AudioStreamPlayer2D
 
 func _ready() -> void:
 	filled.visible = false
@@ -11,6 +14,8 @@ func _ready() -> void:
 		team = "Blue"
 	elif is_in_group("Gold"):
 		team = "Gold"
+	audio_stream = AudioStreamPlayer2D.new()
+	add_child(audio_stream)
 
 func _on_body_entered(_body: Node2D) -> void:
 	if _body.is_in_group("Player") and _body.is_in_group(team) and unfilled.visible:
@@ -21,5 +26,6 @@ func _on_body_entered(_body: Node2D) -> void:
 			_body.award.visible = false
 			_body.award.active = false
 			_body.award = null
+			Global.play_sound(audio_stream, fill_sound, -40.0)
 			Global.score_berry.emit(team)
 				

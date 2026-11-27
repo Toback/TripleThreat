@@ -1,7 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://cdgnydkvvgixc"]
+[gd_scene load_steps=19 format=3 uid="uid://cdgnydkvvgixc"]
 
 [ext_resource type="Script" uid="uid://46oxnyjqm4v5" path="res://scripts/snail.gd" id="1_bpunw"]
 [ext_resource type="Texture2D" uid="uid://c2py04xnu43s3" path="res://assets/sprites/DiscoBall/DiscoBall-Idle.png" id="2_bpunw"]
+[ext_resource type="AudioStream" uid="uid://c10nfr4v8x72h" path="res://assets/sounds/FreeSound/disco_ball_woop_2.wav" id="2_efm2s"]
 [ext_resource type="Texture2D" uid="uid://cxirchsgru03j" path="res://assets/sprites/DiscoBall/DiscoBall-Moving.png" id="3_2jyvc"]
 [ext_resource type="PackedScene" uid="uid://ctsj3sudabjkf" path="res://scenes/killzone.tscn" id="3_efm2s"]
 
@@ -96,6 +97,7 @@ size = Vector2(33, 33)
 
 [node name="DiscoBall" type="Node2D"]
 script = ExtResource("1_bpunw")
+disco_ball_sound = ExtResource("2_efm2s")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(3, 5)
