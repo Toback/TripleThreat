@@ -5,6 +5,11 @@ var blue_team_score = 0
 var gold_team_score = 0
 var score
 var TIME_SCALE = 0.2
+var audio_stream: AudioStreamPlayer2D
+var audio_stream_2: AudioStreamPlayer2D
+@export var round_win_sound: AudioStream 
+@export var round_win_increment: AudioStream
+@export var round_start_sound: AudioStream
 @onready var current_round = $"../CurrentRound"
 @onready var score_label: Label = $ScoreLabel
 @onready var fade_to_black = $CanvasLayer/FadeToBlackColorRect
@@ -31,6 +36,10 @@ func _ready() -> void:
 	go_control_pos = go_control.position
 	Global.snail_win.connect(round_win)
 	Global.berry_win.connect(round_win)
+	audio_stream = AudioStreamPlayer2D.new()
+	add_child(audio_stream)
+	audio_stream_2 = AudioStreamPlayer2D.new()
+	add_child(audio_stream_2)
 	#Engine.time_scale = 0.3
 	start_round()
 
@@ -75,6 +84,7 @@ func slam_label(label: Label):
 func start_round():
 	# Set up UI to play again. Useful for 2nd round and onwards	
 	Engine.time_scale = 1.0
+	Global.play_sound(audio_stream, round_start_sound, -20)
 	round_label.text = "Round %s" % current_round_number	
 	go_label.modulate.a = 0.0
 	go_control.position = go_control_pos
@@ -124,6 +134,7 @@ func end_round():
 	# Turn off player input
 	Global.game_state = Global.GameState.BETWEEN_ROUNDS
 	Engine.time_scale = TIME_SCALE
+	Global.play_sound(audio_stream, round_win_sound, -14)
 
 	# Load new Round immeditately
 	var new_round = preload("res://scenes/current_round.tscn").instantiate()
@@ -151,6 +162,7 @@ func end_round():
 		if i < blue_team_score:
 			blue_win_icons[i].visible = true
 			blue_win_icons[i].get_node("AnimatedSprite2D2").speed_scale = 1 / TIME_SCALE
+	Global.play_sound(audio_stream_2, round_win_increment, -14)
 	await get_tree().create_timer(1.75 * TIME_SCALE).timeout
 		
 	# Delete current round and instantiate new one
